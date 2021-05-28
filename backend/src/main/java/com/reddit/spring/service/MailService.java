@@ -12,8 +12,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
 @AllArgsConstructor
+@Slf4j
 public class MailService {
     private final JavaMailSender javaMailSender;
     private final MailContentBuild mailContentBuild;
