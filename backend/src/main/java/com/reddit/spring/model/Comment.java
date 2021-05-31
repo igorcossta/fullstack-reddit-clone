@@ -1,9 +1,7 @@
 package com.reddit.spring.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.reddit.spring.dto.CommentDto;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -14,7 +12,8 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -24,11 +23,11 @@ public class Comment {
     private Long id;
     @NotEmpty
     private String text;
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "postId", referencedColumnName = "postId")
+    @ManyToOne
+    @JoinColumn(name = "id_do_post", referencedColumnName = "postId")
     private Post post;
     private Instant createdDate;
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @ManyToOne
+    @JoinColumn(name = "id_do_user", referencedColumnName = "userId")
     private User user;
 }

@@ -24,7 +24,7 @@ public class SubredditService {
     @Transactional
     public SubredditDto save(SubredditDto subredditDto) {
         Subreddit save = subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto));
-        subredditDto.setId(save.getId());
+        subredditDto.setSubredditId(save.getSubredditId());
         return subredditDto;
     }
 

@@ -12,7 +12,8 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,14 +21,15 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Subreddit {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+    private Long subredditId;
     @NotBlank(message = "Community name is required")
     private String name;
     @NotBlank(message = "Description is required")
     private String description;
-    @OneToMany(fetch = LAZY)
+    @OneToMany
     private List<Post> posts;
     private Instant createdDate;
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
+    @JoinColumn(name = "id_do_user", referencedColumnName = "userId")
     private User user;
 }
