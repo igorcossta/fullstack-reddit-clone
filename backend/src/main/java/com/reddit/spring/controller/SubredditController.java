@@ -1,6 +1,7 @@
 package com.reddit.spring.controller;
 
 import com.reddit.spring.dto.SubredditDto;
+import com.reddit.spring.exception.SpringRedditException;
 import com.reddit.spring.service.SubredditService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/subreddit")
 @AllArgsConstructor
 @Slf4j
-public class SubRedditController {
+public class SubredditController {
     private final SubredditService subredditService;
 
     @PostMapping
@@ -31,8 +32,12 @@ public class SubRedditController {
 
     @GetMapping("/{id}")
     public ResponseEntity<SubredditDto> getById(@PathVariable Long id) {
-        SubredditDto obj = subredditService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(obj);
+        try {
+            SubredditDto obj = subredditService.getById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(obj);
+        } catch (SpringRedditException ex) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
     }
 
 }
