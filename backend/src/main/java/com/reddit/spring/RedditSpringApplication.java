@@ -45,7 +45,7 @@ public class RedditSpringApplication {
 
         Subreddit subreddit = new Subreddit();
         subreddit.setUser(user);
-        subreddit.setCreatedDate(Instant.now().plusSeconds(1000));
+        subreddit.setCreatedDate(Instant.now());
         subreddit.setName("Reddit title");
         subreddit.setDescription("Descrição do subreddit");
         subreddit.setPosts(null);
@@ -54,10 +54,10 @@ public class RedditSpringApplication {
         Post post = new Post();
         post.setUser(user);
         post.setSubreddit(subreddit);
-        post.setCreatedDate(Instant.now().plusSeconds(1200));
+        post.setCreatedDate(Instant.now());
         post.setPostName("Post title");
         post.setDescription("Descrição do post");
-        post.setUrl("http://localhost:8080/api/auth/post");
+        post.setUrl("http://localhost:8080/api/post");
         postRepository.save(post);
 
         Comment comment = new Comment();
