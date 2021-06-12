@@ -1,14 +1,17 @@
 package com.reddit.spring.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
-@Data
+@Getter
+@EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor
+@ToString
 public class RegisterRequest {
-    private String email;
-    private String username;
-    private String password;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final String password;
 }

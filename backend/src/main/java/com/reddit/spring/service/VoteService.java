@@ -1,5 +1,6 @@
 package com.reddit.spring.service;
 
+import com.reddit.spring.appuser.AppUserService;
 import com.reddit.spring.dto.VoteDto;
 import com.reddit.spring.exception.SpringRedditException;
 import com.reddit.spring.model.Post;
@@ -17,7 +18,7 @@ import java.util.Optional;
 public class VoteService {
     private final VoteRepository voteRepository;
     private final PostRepository postRepository;
-    private final AuthService authService;
+    private final AppUserService authService;
 
     public void vote(VoteDto voteDto) {
         Post post = postRepository.findById(voteDto.getPostId())

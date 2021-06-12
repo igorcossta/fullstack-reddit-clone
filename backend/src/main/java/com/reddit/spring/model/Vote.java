@@ -1,19 +1,20 @@
 package com.reddit.spring.model;
 
+import com.reddit.spring.appuser.AppUser;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 @Builder
+@Entity
 public class Vote {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -25,5 +26,5 @@ public class Vote {
     private Post post;
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private User user;
+    private AppUser user;
 }

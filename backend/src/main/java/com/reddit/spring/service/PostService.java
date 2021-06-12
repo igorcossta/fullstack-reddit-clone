@@ -1,15 +1,16 @@
 package com.reddit.spring.service;
 
+import com.reddit.spring.appuser.AppUser;
+import com.reddit.spring.appuser.AppUserRepository;
+import com.reddit.spring.appuser.AppUserService;
 import com.reddit.spring.dto.PostRequest;
 import com.reddit.spring.dto.PostResponse;
 import com.reddit.spring.exception.SpringRedditException;
 import com.reddit.spring.mapper.PostMapper;
 import com.reddit.spring.model.Post;
 import com.reddit.spring.model.Subreddit;
-import com.reddit.spring.model.User;
 import com.reddit.spring.repository.PostRepository;
 import com.reddit.spring.repository.SubredditRepository;
-import com.reddit.spring.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,15 +27,15 @@ import static java.util.stream.Collectors.toList;
 @Transactional
 public class PostService {
     private final SubredditRepository subredditRepository;
-    private final UserRepository userRepository;
+    private final AppUserRepository userRepository;
     private final PostRepository postRepository;
-    private final AuthService authService;
+    private final AppUserService authService;
     private final PostMapper postMapper;
 
     public Post save(PostRequest postRequest) {
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
                 .orElseThrow(() -> new SpringRedditException("subreddit not found"));
-        User user = authService.getCurrentUser();
+        AppUser user = authService.getCurrentUser();
         Post post = postMapper.map(postRequest, subreddit, user);
         postRepository.save(post);
         return post;
@@ -63,9 +64,10 @@ public class PostService {
         return posts.stream().map(postMapper::mapToDto).collect(toList());
     }
 
+    // TODO: change find by email to find by name
     @Transactional(readOnly = true)
     public List<PostResponse> getPostsByUsername(String username) {
-        User user = userRepository.findByUsername(username)
+        AppUser user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
         return postRepository.findByUser(user)
                 .stream()

@@ -1,18 +1,21 @@
 package com.reddit.spring.service;
 
+import com.reddit.spring.appuser.AppUser;
+import com.reddit.spring.appuser.AppUserRepository;
+import com.reddit.spring.appuser.AppUserService;
 import com.reddit.spring.dto.CommentDto;
 import com.reddit.spring.exception.SpringRedditException;
 import com.reddit.spring.mapper.CommentMapper;
-import com.reddit.spring.model.*;
+import com.reddit.spring.model.Comment;
+import com.reddit.spring.model.Post;
+import com.reddit.spring.model.Subreddit;
 import com.reddit.spring.repository.CommentRepository;
 import com.reddit.spring.repository.PostRepository;
-import com.reddit.spring.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +24,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CommentService {
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
-    private final AuthService authService;
+    private final AppUserRepository userRepository;
+    private final AppUserService authService;
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
-    private final MailContentBuild mailContentBuild;
-    private final MailService mailService;
 
     public void save(CommentDto commentDTO) {
         Post post = postRepository.findById(commentDTO.getPostId())
@@ -34,23 +35,13 @@ public class CommentService {
         Comment map = commentMapper.map(commentDTO, post, authService.getCurrentUser());
         commentRepository.save(map);
 
-//        String message = mailContentBuild.build(post.getUser().getUsername() + " posted a comment on your post.");
-//        sendCommentNotification(message, post.getUser());
-    }
-
-    private void sendCommentNotification(String msg, User user) {
-        mailService.sendMail(new NotificationEmail(
-                user.getUsername() + " Commented on your post",
-                user.getEmail(),
-                msg
-        ));
     }
 
     public List<CommentDto> getAllCommentForPost(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new SpringRedditException("post not found"));
-        User user = post.getUser();
+        AppUser user = post.getUser();
         Subreddit subreddit = post.getSubreddit();
-        System.out.println(subreddit.getName() + "\n" + user.getUsername());
+        System.out.println(subreddit.getName() + "\n" + user.getEmail());
 
         return commentRepository.findByPost(post)
                 .stream()
@@ -58,8 +49,9 @@ public class CommentService {
                 .collect(Collectors.toUnmodifiableList());
     }
 
+    // TODO: change find by email to find by name
     public List<CommentDto> getAllCommentForUser(String username) {
-        User user = userRepository.findByUsername(username)
+        AppUser user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("username not found"));
         return commentRepository.findAllByUser(user)
                 .stream()
