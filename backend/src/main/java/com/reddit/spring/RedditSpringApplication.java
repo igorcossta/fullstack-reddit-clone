@@ -1,8 +1,7 @@
 package com.reddit.spring;
 
-import com.reddit.spring.appuser.AppUser;
-import com.reddit.spring.appuser.AppUserRepository;
-import lombok.extern.slf4j.Slf4j;
+import com.reddit.spring.model.AppUser;
+import com.reddit.spring.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,12 +9,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
+
 import static com.reddit.spring.model.Role.ADMIN;
 import static com.reddit.spring.model.Role.USER;
 
 @SpringBootApplication
 @EnableAsync
-@Slf4j
 public class RedditSpringApplication {
 
     public static void main(String[] args) {
@@ -24,7 +24,7 @@ public class RedditSpringApplication {
 
     @Bean
     public CommandLineRunner commandLineRunner(
-            AppUserRepository appUserRepository,
+            UserRepository userRepository,
             PasswordEncoder passwordEncoder
     ) {
         AppUser user = new AppUser(
@@ -34,8 +34,16 @@ public class RedditSpringApplication {
                 passwordEncoder.encode("0123"),
                 ADMIN
         );
+        AppUser user2 = new AppUser(
+                "Pamela",
+                "Costa",
+                "trainee@email.com",
+                passwordEncoder.encode("0123"),
+                USER
+        );
         user.setEnabled(true);
-        appUserRepository.save(user);
+        user2.setEnabled(true);
+        userRepository.saveAll(Arrays.asList(user, user2));
 
         return args -> {};
     }

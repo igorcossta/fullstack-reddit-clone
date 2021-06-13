@@ -1,18 +1,15 @@
 package com.reddit.spring.model;
 
-import com.reddit.spring.appuser.AppUser;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Entity(name = "token")
 public class VerificationToken {
     @SequenceGenerator(
@@ -25,7 +22,7 @@ public class VerificationToken {
             strategy = GenerationType.SEQUENCE,
             generator = "token_sequence"
     )
-    private Long id;
+    private Long tokenId;
     @Column(nullable = false)
     private String token;
     private LocalDateTime createdAt;

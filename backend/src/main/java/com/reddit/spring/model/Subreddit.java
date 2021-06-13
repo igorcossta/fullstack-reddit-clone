@@ -1,29 +1,34 @@
 package com.reddit.spring.model;
 
-import com.reddit.spring.appuser.AppUser;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.Instant;
 import java.util.List;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.GenerationType.SEQUENCE;
 
-@Entity
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
+@ToString
+@Builder
+@Entity
 public class Subreddit {
+    @SequenceGenerator(
+            name = "subreddit_sequence",
+            sequenceName = "subreddit_sequence",
+            allocationSize = 1
+    )
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "subreddit_sequence"
+    )
     private Long subredditId;
-    @NotBlank(message = "Community name is required")
     private String name;
-    @NotBlank(message = "Description is required")
     private String description;
     @OneToMany
     private List<Post> posts;

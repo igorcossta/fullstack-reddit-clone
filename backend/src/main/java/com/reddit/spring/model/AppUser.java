@@ -1,15 +1,16 @@
-package com.reddit.spring.appuser;
+package com.reddit.spring.model;
 
-import com.reddit.spring.model.Role;
 import lombok.*;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.*;
+
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Entity(name = "user")
 public class AppUser {
     @SequenceGenerator(
@@ -19,7 +20,7 @@ public class AppUser {
     )
     @Id
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
+            strategy = SEQUENCE,
             generator = "user_sequence"
     )
     private Long userId;

@@ -1,6 +1,6 @@
 package com.reddit.spring.mapper;
 
-import com.reddit.spring.appuser.AppUser;
+import com.reddit.spring.model.AppUser;
 import com.reddit.spring.dto.CommentDto;
 import com.reddit.spring.model.Comment;
 import com.reddit.spring.model.Post;
@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "commentId", ignore = true)
     @Mapping(target = "text", source = "commentDto.text")
     @Mapping(target = "createdDate", expression = "java(java.time.Instant.now())")
     @Mapping(target = "post", source = "post")

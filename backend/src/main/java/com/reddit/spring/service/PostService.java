@@ -1,18 +1,16 @@
 package com.reddit.spring.service;
 
-import com.reddit.spring.appuser.AppUser;
-import com.reddit.spring.appuser.AppUserRepository;
-import com.reddit.spring.appuser.AppUserService;
 import com.reddit.spring.dto.PostRequest;
 import com.reddit.spring.dto.PostResponse;
 import com.reddit.spring.exception.SpringRedditException;
 import com.reddit.spring.mapper.PostMapper;
+import com.reddit.spring.model.AppUser;
 import com.reddit.spring.model.Post;
 import com.reddit.spring.model.Subreddit;
 import com.reddit.spring.repository.PostRepository;
 import com.reddit.spring.repository.SubredditRepository;
+import com.reddit.spring.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,19 +21,18 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 @AllArgsConstructor
-@Slf4j
 @Transactional
 public class PostService {
     private final SubredditRepository subredditRepository;
-    private final AppUserRepository userRepository;
+    private final UserRepository userRepository;
     private final PostRepository postRepository;
-    private final AppUserService authService;
+    private final UserService userService;
     private final PostMapper postMapper;
 
     public Post save(PostRequest postRequest) {
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
                 .orElseThrow(() -> new SpringRedditException("subreddit not found"));
-        AppUser user = authService.getCurrentUser();
+        AppUser user = userService.getCurrentUser();
         Post post = postMapper.map(postRequest, subreddit, user);
         postRepository.save(post);
         return post;

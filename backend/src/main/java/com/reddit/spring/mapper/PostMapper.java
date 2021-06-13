@@ -1,7 +1,7 @@
 package com.reddit.spring.mapper;
 
 import com.github.marlonlom.utilities.timeago.TimeAgo;
-import com.reddit.spring.appuser.AppUser;
+import com.reddit.spring.model.AppUser;
 import com.reddit.spring.dto.PostRequest;
 import com.reddit.spring.dto.PostResponse;
 import com.reddit.spring.model.Post;

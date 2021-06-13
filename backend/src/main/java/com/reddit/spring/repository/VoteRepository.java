@@ -1,6 +1,6 @@
 package com.reddit.spring.repository;
 
-import com.reddit.spring.appuser.AppUser;
+import com.reddit.spring.model.AppUser;
 import com.reddit.spring.model.Post;
 import com.reddit.spring.model.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;

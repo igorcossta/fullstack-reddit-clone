@@ -1,14 +1,14 @@
 package com.reddit.spring.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 @Builder
+@ToString
 public class SubredditDto {
     private Long subredditId;
     private String name;

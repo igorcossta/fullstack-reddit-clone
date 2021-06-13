@@ -1,26 +1,33 @@
 package com.reddit.spring.model;
 
-import com.reddit.spring.appuser.AppUser;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
+@ToString
 @Builder
 @Entity
 public class Vote {
+    @SequenceGenerator(
+            name = "vote_sequence",
+            sequenceName = "vote_sequence",
+            allocationSize = 1
+    )
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "vote_sequence"
+    )
     private Long voteId;
     private VoteType voteType;
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "postId", referencedColumnName = "postId")
     private Post post;

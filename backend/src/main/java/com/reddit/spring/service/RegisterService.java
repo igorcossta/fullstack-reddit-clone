@@ -1,7 +1,7 @@
 package com.reddit.spring.service;
 
-import com.reddit.spring.appuser.AppUser;
-import com.reddit.spring.appuser.AppUserService;
+import com.reddit.spring.exception.SpringRedditException;
+import com.reddit.spring.model.AppUser;
 import com.reddit.spring.dto.RegisterRequest;
 import com.reddit.spring.model.Role;
 import com.reddit.spring.model.VerificationToken;
@@ -15,16 +15,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class RegisterService {
     private final EmailValidator emailValidator;
-    private final AppUserService appUserService;
+    private final UserService userService;
     private final VerificationTokenService verificationTokenService;
     private final EmailSender emailSender;
 
     public String register(RegisterRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
         if (!isValidEmail) {
-            throw new IllegalStateException("email not valid");
+            throw new SpringRedditException("email not valid");
         }
-        String token = appUserService.signUpUser(
+        String token = userService.signUpUser(
                 new AppUser(
                         request.getFirstName(), request.getLastName(),
                         request.getEmail(), request.getPassword(),
@@ -40,20 +40,20 @@ public class RegisterService {
     @Transactional
     public String confirmToken(String token) {
         VerificationToken theToken = verificationTokenService.getVerificationToken(token)
-                .orElseThrow(() -> new IllegalStateException("token not found"));
+                .orElseThrow(() -> new SpringRedditException("token not found"));
 
         if (theToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
+            throw new SpringRedditException("email already confirmed");
         }
 
         LocalDateTime expiredAt = theToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
+            throw new SpringRedditException("token expired");
         }
 
         verificationTokenService.setConfirmedAt(token);
-        appUserService.enableUser(theToken.getAppUser().getEmail());
+        userService.enableUser(theToken.getAppUser().getEmail());
         return "confirmed";
     }
 

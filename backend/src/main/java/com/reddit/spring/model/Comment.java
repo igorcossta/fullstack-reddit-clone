@@ -1,25 +1,32 @@
 package com.reddit.spring.model;
 
-import com.reddit.spring.appuser.AppUser;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
 
 import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.GenerationType.SEQUENCE;
 
-@Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
+@ToString
+@Entity
 public class Comment {
+    @SequenceGenerator(
+            name = "comment_sequence",
+            sequenceName = "comment_sequence",
+            allocationSize = 1
+    )
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;
-    @NotEmpty
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "comment_sequence"
+    )
+    private Long commentId;
     private String text;
     @ManyToOne
     @JoinColumn(name = "id_do_post", referencedColumnName = "postId")
@@ -29,3 +36,7 @@ public class Comment {
     @JoinColumn(name = "id_do_user", referencedColumnName = "userId")
     private AppUser user;
 }
+
+
+
+

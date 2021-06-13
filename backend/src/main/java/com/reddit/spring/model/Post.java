@@ -1,29 +1,35 @@
 package com.reddit.spring.model;
 
-import com.reddit.spring.appuser.AppUser;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.Instant;
 
 import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.GenerationType.SEQUENCE;
 
-@Entity
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
+@ToString
+@Builder
+@Entity
 public class Post {
+    @SequenceGenerator(
+            name = "post_sequence",
+            sequenceName = "post_sequence",
+            allocationSize = 1
+    )
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "post_sequence"
+    )
     private Long postId;
-    @NotBlank(message = "Post Name cannot be empty or Null")
     private String postName;
     private String url;
-    @Lob
     private String description;
     private Integer voteCount = 0;
     @ManyToOne

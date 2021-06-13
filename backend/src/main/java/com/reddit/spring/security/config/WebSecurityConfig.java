@@ -1,6 +1,6 @@
 package com.reddit.spring.security.config;
 
-import com.reddit.spring.appuser.AppUserService;
+import com.reddit.spring.service.UserService;
 import com.reddit.spring.jwt.JwtTokenVerifier;
 import com.reddit.spring.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import lombok.AllArgsConstructor;
@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     );
     private static final String ROLE_ADMIN = "ADMIN";
     private static final String ROLE_USER = "USER";
-    private final AppUserService appUserService;
+    private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(appUserService);
+        provider.setUserDetailsService(userService);
         return provider;
     }
 

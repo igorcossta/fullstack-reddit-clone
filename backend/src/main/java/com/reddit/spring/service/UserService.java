@@ -1,12 +1,12 @@
-package com.reddit.spring.appuser;
+package com.reddit.spring.service;
 
 import com.google.common.collect.Sets;
+import com.reddit.spring.model.AppUser;
 import com.reddit.spring.exception.SpringRedditException;
 import com.reddit.spring.model.VerificationToken;
-import com.reddit.spring.service.VerificationTokenService;
+import com.reddit.spring.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,34 +23,33 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class AppUserService implements UserDetailsService {
+public class UserService implements UserDetailsService {
     private final static String USER_NOT_FOUND = "user with email %s not found";
-    private final AppUserRepository appUserRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final VerificationTokenService verificationTokenService;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        AppUser user = appUserRepository.findByEmail(s)
+        AppUser user = userRepository.findByEmail(s)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, s)));
         User u = new User(
                 user.getEmail(), user.getPassword(),
                 user.getEnabled(), true, true, !user.getLocked(),
                 Sets.newHashSet(new SimpleGrantedAuthority(user.getRole().name()))
         );
-        System.out.println(u.getUsername() + " " + u.getAuthorities() + " " + u.isEnabled() + " " + u.isAccountNonLocked());
+        log.debug(u.getUsername() + " " + u.getAuthorities() + " " + u.isEnabled() + " " + u.isAccountNonLocked());
         return u;
     }
 
     public String signUpUser(AppUser user) {
-        boolean userExists = appUserRepository.findByEmail(user.getEmail())
-                .isPresent();
+        boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
         if (userExists) {
-            throw new IllegalStateException("email already taken");
+            throw new SpringRedditException("email already taken");
         }
         String encode = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encode);
-        appUserRepository.save(user);
+        userRepository.save(user);
 
         // save a verification token for new user
         String token = UUID.randomUUID().toString();
@@ -66,13 +65,13 @@ public class AppUserService implements UserDetailsService {
     }
 
     public int enableUser(String email) {
-        return appUserRepository.enableUser(email);
+        return userRepository.enableUser(email);
     }
 
     public AppUser getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        return appUserRepository.findByEmail(username)
+        return userRepository.findByEmail(username)
                 .orElseThrow(() -> new SpringRedditException("user not found"));
     }
 }
