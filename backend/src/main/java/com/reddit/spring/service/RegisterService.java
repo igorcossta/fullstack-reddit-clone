@@ -1,8 +1,8 @@
 package com.reddit.spring.service;
 
+import com.reddit.spring.dto.RegisterRequest;
 import com.reddit.spring.exception.SpringRedditException;
 import com.reddit.spring.model.AppUser;
-import com.reddit.spring.dto.RegisterRequest;
 import com.reddit.spring.model.Role;
 import com.reddit.spring.model.VerificationToken;
 import lombok.AllArgsConstructor;

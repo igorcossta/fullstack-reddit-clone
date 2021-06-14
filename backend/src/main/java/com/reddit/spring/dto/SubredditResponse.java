@@ -9,7 +9,7 @@ import lombok.*;
 @EqualsAndHashCode
 @Builder
 @ToString
-public class SubredditDto {
+public class SubredditResponse {
     private Long subredditId;
     private String name;
     private String description;

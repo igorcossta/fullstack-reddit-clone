@@ -10,14 +10,14 @@ import lombok.*;
 @ToString
 public class PostResponse {
     private Long id;
-    private String postName;
-    private String url;
-    private String description;
-    private String userName;
     private String subredditName;
+    private String postName;
+    private String description;
+    private String username;
     private Integer voteCount;
     private Integer commentCount;
-    private String duration;
     private boolean upVote;
     private boolean downVote;
+    private String duration;
+    private String url;
 }

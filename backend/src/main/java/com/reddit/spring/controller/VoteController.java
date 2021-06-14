@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/vote")
 @AllArgsConstructor
@@ -20,7 +22,7 @@ public class VoteController {
     private final VoteService voteService;
 
     @PostMapping
-    public ResponseEntity<Void> savePost(@RequestBody VoteDto vote) {
+    public ResponseEntity<Void> savePost(@RequestBody @Valid VoteDto vote) {
         voteService.vote(vote);
         LOGGER.debug("saving new vote: " + vote.toString());
         return new ResponseEntity<>(HttpStatus.CREATED);

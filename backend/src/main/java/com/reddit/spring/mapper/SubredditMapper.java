@@ -1,6 +1,7 @@
 package com.reddit.spring.mapper;
 
-import com.reddit.spring.dto.SubredditDto;
+import com.reddit.spring.dto.SubredditRequest;
+import com.reddit.spring.dto.SubredditResponse;
 import com.reddit.spring.model.Post;
 import com.reddit.spring.model.Subreddit;
 import org.mapstruct.InheritInverseConfiguration;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface SubredditMapper {
 
     @Mapping(target = "numberOfPosts", expression = "java(mapPosts(subreddit.getPosts()))")
-    SubredditDto mapSubredditToDto(Subreddit subreddit);
+    SubredditResponse mapSubredditToDto(Subreddit subreddit);
 
     default Integer mapPosts(List<Post> numberOfPosts) {
         return numberOfPosts.size();
@@ -21,5 +22,5 @@ public interface SubredditMapper {
 
     @InheritInverseConfiguration
     @Mapping(target = "posts", ignore = true)
-    Subreddit mapDtoToSubreddit(SubredditDto subredditDto);
+    Subreddit mapDtoToSubreddit(SubredditRequest subredditDto);
 }

@@ -1,6 +1,7 @@
 package com.reddit.spring.controller;
 
-import com.reddit.spring.dto.SubredditDto;
+import com.reddit.spring.dto.SubredditRequest;
+import com.reddit.spring.dto.SubredditResponse;
 import com.reddit.spring.service.SubredditService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -21,22 +23,22 @@ public class SubredditController {
     private final SubredditService subredditService;
 
     @PostMapping
-    public ResponseEntity<Void> createSubreddit(@RequestBody SubredditDto subreddit) {
+    public ResponseEntity<Void> createSubreddit(@RequestBody @Valid SubredditRequest subreddit) {
         subredditService.save(subreddit);
         LOGGER.debug("creating new subreddit: " + subreddit.toString());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<SubredditDto>> findAll() {
-        List<SubredditDto> subreddit = subredditService.findAll();
+    public ResponseEntity<List<SubredditResponse>> findAll() {
+        List<SubredditResponse> subreddit = subredditService.findAll();
         LOGGER.debug("listing all subreddit");
         return new ResponseEntity<>(subreddit, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubredditDto> findById(@PathVariable Long id) {
-        SubredditDto subreddit = subredditService.findById(id);
+    public ResponseEntity<SubredditResponse> findById(@PathVariable Long id) {
+        SubredditResponse subreddit = subredditService.findById(id);
         LOGGER.debug(format("listing specific subreddit: %s ", id) + subreddit.toString());
         return new ResponseEntity<>(subreddit, HttpStatus.OK);
     }

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/register")
 @AllArgsConstructor
@@ -17,7 +19,7 @@ public class RegisterController {
     private final RegisterService registerService;
 
     @PostMapping
-    public ResponseEntity<Void> register(@RequestBody RegisterRequest account) {
+    public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest account) {
         registerService.register(account);
         LOGGER.debug("registering account: " + account.toString());
         return new ResponseEntity<>(HttpStatus.CREATED);

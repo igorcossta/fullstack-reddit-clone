@@ -11,22 +11,15 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@Builder
 @ToString
-public class PostRequest {
-    @NotNull(message = "field subreddit cannot be null")
-    @NotBlank(message = "field subreddit cannot be empty")
-    private String subredditName;
-
-    @NotNull(message = "field post cannot be null")
-    @NotBlank(message = "field post cannot be empty")
-    private String postName;
+public class SubredditRequest {
+    @NotNull(message = "field name cannot be null")
+    @NotBlank(message = "field name cannot be empty")
+    private String name;
 
     @NotNull(message = "field description cannot be null")
     @NotBlank(message = "field description cannot be empty")
     @Size(min = 30, max = 255, message = "field description must be between 30 and 255 characters")
     private String description;
-
-    @NotNull(message = "field url cannot be null")
-    @NotBlank(message = "field url cannot be empty")
-    private String url;
 }

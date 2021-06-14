@@ -1,6 +1,7 @@
 package com.reddit.spring.service;
 
-import com.reddit.spring.dto.CommentDto;
+import com.reddit.spring.dto.CommentRequest;
+import com.reddit.spring.dto.CommentResponse;
 import com.reddit.spring.exception.SpringRedditException;
 import com.reddit.spring.mapper.CommentMapper;
 import com.reddit.spring.model.AppUser;
@@ -25,14 +26,14 @@ public class CommentService {
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
 
-    public void save(CommentDto commentDTO) {
+    public void save(CommentRequest commentDTO) {
         Post post = postRepository.findById(commentDTO.getPostId())
                 .orElseThrow(() -> new SpringRedditException("post not found"));
         Comment map = commentMapper.map(commentDTO, post, userService.getCurrentUser());
         commentRepository.save(map);
     }
 
-    public List<CommentDto> findAllCommentByPostId(Long id) {
+    public List<CommentResponse> findAllCommentByPostId(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new SpringRedditException("post not found"));
         return commentRepository.findByPost(post)
                 .stream()
@@ -41,7 +42,7 @@ public class CommentService {
     }
 
     // TODO: change find by email to find by name
-    public List<CommentDto> findAllCommentByUsername(String username) {
+    public List<CommentResponse> findAllCommentByUsername(String username) {
         AppUser user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("username not found"));
         return commentRepository.findAllByUser(user)

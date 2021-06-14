@@ -1,6 +1,7 @@
 package com.reddit.spring.service;
 
-import com.reddit.spring.dto.SubredditDto;
+import com.reddit.spring.dto.SubredditRequest;
+import com.reddit.spring.dto.SubredditResponse;
 import com.reddit.spring.exception.SpringRedditException;
 import com.reddit.spring.mapper.SubredditMapper;
 import com.reddit.spring.model.Subreddit;
@@ -20,19 +21,19 @@ public class SubredditService {
     private final SubredditMapper subredditMapper;
 
     @Transactional
-    public void save(SubredditDto subredditDto) {
+    public void save(SubredditRequest subredditDto) {
         subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto));
     }
 
     @Transactional(readOnly = true)
-    public List<SubredditDto> findAll() {
+    public List<SubredditResponse> findAll() {
         return subredditRepository.findAll()
                 .stream().map(subredditMapper::mapSubredditToDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public SubredditDto findById(Long id) {
+    public SubredditResponse findById(Long id) {
         Optional<Subreddit> subreddit = subredditRepository.findById(id);
         subreddit.orElseThrow(() -> new SpringRedditException("Id not found: " + id));
         return subredditMapper.mapSubredditToDto(subreddit.get());

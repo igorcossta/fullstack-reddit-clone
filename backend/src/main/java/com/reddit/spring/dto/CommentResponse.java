@@ -10,11 +10,11 @@ import java.time.Instant;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class CommentDto {
+public class CommentResponse {
     private Long id;
     private Long postId;
     private Instant createdDate;
     private String text;
-    private String userName;
+    private String username;
 }
 

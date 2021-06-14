@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -22,7 +23,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<Void> savePost(@RequestBody PostRequest post) {
+    public ResponseEntity<Void> savePost(@RequestBody @Valid PostRequest post) {
         postService.save(post);
         LOGGER.debug("saving new post: " + post.toString());
         return new ResponseEntity<>(HttpStatus.CREATED);
