@@ -20,21 +20,19 @@ public class SubredditService {
     private final SubredditMapper subredditMapper;
 
     @Transactional
-    public SubredditDto save(SubredditDto subredditDto) {
-        Subreddit save = subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto));
-        subredditDto.setSubredditId(save.getSubredditId());
-        return subredditDto;
+    public void save(SubredditDto subredditDto) {
+        subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto));
     }
 
     @Transactional(readOnly = true)
-    public List<SubredditDto> getAll() {
+    public List<SubredditDto> findAll() {
         return subredditRepository.findAll()
                 .stream().map(subredditMapper::mapSubredditToDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public SubredditDto getById(Long id) {
+    public SubredditDto findById(Long id) {
         Optional<Subreddit> subreddit = subredditRepository.findById(id);
         subreddit.orElseThrow(() -> new SpringRedditException("Id not found: " + id));
         return subredditMapper.mapSubredditToDto(subreddit.get());

@@ -39,14 +39,14 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostResponse getPost(Long id) {
+    public PostResponse findById(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new SpringRedditException("post not found " + id));
         return postMapper.mapToDto(post);
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> getAllPosts() {
+    public List<PostResponse> findAll() {
         return postRepository.findAll()
                 .stream()
                 .map(postMapper::mapToDto)
@@ -54,7 +54,7 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> getPostsBySubreddit(Long subredditId) {
+    public List<PostResponse> findAllBySubredditId(Long subredditId) {
         Subreddit subreddit = subredditRepository.findById(subredditId)
                 .orElseThrow(() -> new SpringRedditException("subreddit not found " + subredditId));
         List<Post> posts = postRepository.findAllBySubreddit(subreddit);
@@ -63,7 +63,7 @@ public class PostService {
 
     // TODO: change find by email to find by name
     @Transactional(readOnly = true)
-    public List<PostResponse> getPostsByUsername(String username) {
+    public List<PostResponse> findAllByUsername(String username) {
         AppUser user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
         return postRepository.findByUser(user)

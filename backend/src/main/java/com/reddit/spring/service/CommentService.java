@@ -6,7 +6,6 @@ import com.reddit.spring.mapper.CommentMapper;
 import com.reddit.spring.model.AppUser;
 import com.reddit.spring.model.Comment;
 import com.reddit.spring.model.Post;
-import com.reddit.spring.model.Subreddit;
 import com.reddit.spring.repository.CommentRepository;
 import com.reddit.spring.repository.PostRepository;
 import com.reddit.spring.repository.UserRepository;
@@ -33,11 +32,8 @@ public class CommentService {
         commentRepository.save(map);
     }
 
-    public List<CommentDto> getAllCommentForPost(Long id) {
+    public List<CommentDto> findAllCommentByPostId(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new SpringRedditException("post not found"));
-        AppUser user = post.getUser();
-        Subreddit subreddit = post.getSubreddit();
-
         return commentRepository.findByPost(post)
                 .stream()
                 .map(commentMapper::mapToDto)
@@ -45,7 +41,7 @@ public class CommentService {
     }
 
     // TODO: change find by email to find by name
-    public List<CommentDto> getAllCommentForUser(String username) {
+    public List<CommentDto> findAllCommentByUsername(String username) {
         AppUser user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("username not found"));
         return commentRepository.findAllByUser(user)

@@ -3,21 +3,30 @@ package com.reddit.spring.controller;
 import com.reddit.spring.dto.RegisterRequest;
 import com.reddit.spring.service.RegisterService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/register")
 @AllArgsConstructor
 public class RegisterController {
+    private final static Logger LOGGER = LoggerFactory.getLogger(RegisterController.class);
     private final RegisterService registerService;
 
     @PostMapping
-    public String register(@RequestBody RegisterRequest request) {
-        return registerService.register(request);
+    public ResponseEntity<Void> register(@RequestBody RegisterRequest account) {
+        registerService.register(account);
+        LOGGER.debug("registering account: " + account.toString());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/confirm")
-    public String confirmToken(@RequestParam("token") String token) {
-        return registerService.confirmToken(token);
+    public ResponseEntity<Void> confirmToken(@RequestParam("token") String token) {
+        registerService.confirmToken(token);
+        LOGGER.debug("confirming token: " + token);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
