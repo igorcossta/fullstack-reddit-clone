@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.lang.String.*;
+
 public class JwtTokenVerifier extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -56,7 +58,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 filterChain.doFilter(request, response); // sempre passar o filtro pra frente (não fique mais de meia hora procurando o erro de novo)
             } catch (JwtException e) {
-                throw new IllegalStateException(String.format("jwt %s cannot be trusted", token));
+                throw new JwtException(format("jwt %s cannot be trusted", token));
             }
         }
     }

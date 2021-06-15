@@ -1,6 +1,7 @@
 package com.reddit.spring.service;
 
 import com.reddit.spring.dto.VoteDto;
+import com.reddit.spring.exception.PostNotFoundException;
 import com.reddit.spring.exception.SpringRedditException;
 import com.reddit.spring.model.Post;
 import com.reddit.spring.model.Vote;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static java.lang.String.format;
+
 @Service
 @AllArgsConstructor
 public class VoteService {
@@ -21,7 +24,7 @@ public class VoteService {
 
     public void vote(VoteDto voteDto) {
         Post post = postRepository.findById(voteDto.getPostId())
-                .orElseThrow(() -> new SpringRedditException("post not found"));
+                .orElseThrow(() -> new PostNotFoundException(format("post %s not found ", voteDto.getPostId())));
         Optional<Vote> vote = voteRepository.findTopByPostAndUserOrderByVoteIdDesc(post, userService.getCurrentUser());
         if (vote.isPresent() && vote.get().getVoteType().equals(voteDto.getVoteType())) {
             throw new SpringRedditException("you have already voted on this post");

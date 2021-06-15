@@ -2,7 +2,7 @@ package com.reddit.spring.service;
 
 import com.reddit.spring.dto.SubredditRequest;
 import com.reddit.spring.dto.SubredditResponse;
-import com.reddit.spring.exception.SpringRedditException;
+import com.reddit.spring.exception.SubredditNotFoundException;
 import com.reddit.spring.mapper.SubredditMapper;
 import com.reddit.spring.model.Subreddit;
 import com.reddit.spring.repository.SubredditRepository;
@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 @Service
 @AllArgsConstructor
@@ -35,7 +37,7 @@ public class SubredditService {
     @Transactional(readOnly = true)
     public SubredditResponse findById(Long id) {
         Optional<Subreddit> subreddit = subredditRepository.findById(id);
-        subreddit.orElseThrow(() -> new SpringRedditException("Id not found: " + id));
+        subreddit.orElseThrow(() -> new SubredditNotFoundException(format("subreddit %s not found", id)));
         return subredditMapper.mapSubredditToDto(subreddit.get());
     }
 }

@@ -2,7 +2,7 @@ package com.reddit.spring.service;
 
 import com.reddit.spring.dto.CommentRequest;
 import com.reddit.spring.dto.CommentResponse;
-import com.reddit.spring.exception.SpringRedditException;
+import com.reddit.spring.exception.PostNotFoundException;
 import com.reddit.spring.mapper.CommentMapper;
 import com.reddit.spring.model.AppUser;
 import com.reddit.spring.model.Comment;
@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 @Service
 @AllArgsConstructor
 public class CommentService {
@@ -28,13 +30,13 @@ public class CommentService {
 
     public void save(CommentRequest commentDTO) {
         Post post = postRepository.findById(commentDTO.getPostId())
-                .orElseThrow(() -> new SpringRedditException("post not found"));
+                .orElseThrow(() -> new PostNotFoundException(format("post %s not found", commentDTO.getPostId())));
         Comment map = commentMapper.map(commentDTO, post, userService.getCurrentUser());
         commentRepository.save(map);
     }
 
     public List<CommentResponse> findAllCommentByPostId(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new SpringRedditException("post not found"));
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(format("post %s not found", id)));
         return commentRepository.findByPost(post)
                 .stream()
                 .map(commentMapper::mapToDto)
@@ -44,7 +46,7 @@ public class CommentService {
     // TODO: change find by email to find by name
     public List<CommentResponse> findAllCommentByUsername(String username) {
         AppUser user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("username not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(format("user %s not found", username)));
         return commentRepository.findAllByUser(user)
                 .stream()
                 .map(commentMapper::mapToDto)

@@ -1,7 +1,10 @@
 package com.reddit.spring.service;
 
 import com.reddit.spring.dto.RegisterRequest;
-import com.reddit.spring.exception.SpringRedditException;
+import com.reddit.spring.exception.InvalidEmailException;
+import com.reddit.spring.exception.TokenConfirmedException;
+import com.reddit.spring.exception.TokenExpiredException;
+import com.reddit.spring.exception.TokenNotFoundException;
 import com.reddit.spring.model.AppUser;
 import com.reddit.spring.model.Role;
 import com.reddit.spring.model.VerificationToken;
@@ -11,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import static java.lang.String.format;
+
 @Service
 @AllArgsConstructor
 public class RegisterService {
@@ -19,10 +24,10 @@ public class RegisterService {
     private final VerificationTokenService verificationTokenService;
     private final EmailSender emailSender;
 
-    public String register(RegisterRequest request) {
+    public void register(RegisterRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
         if (!isValidEmail) {
-            throw new SpringRedditException("email not valid");
+            throw new InvalidEmailException(format("email %s is invalid", request.getEmail()));
         }
         String token = userService.signUpUser(
                 new AppUser(
@@ -34,27 +39,25 @@ public class RegisterService {
         // create and send the email to new user
         String link = "http://localhost:8080/api/register/confirm?token=" + token;
         emailSender.send(request.getEmail(), buildEmail(request.getFirstName(), link));
-        return token;
     }
 
     @Transactional
-    public String confirmToken(String token) {
+    public void confirmToken(String token) {
         VerificationToken theToken = verificationTokenService.getVerificationToken(token)
-                .orElseThrow(() -> new SpringRedditException("token not found"));
+                .orElseThrow(() -> new TokenNotFoundException(format("token %s not found", token)));
 
         if (theToken.getConfirmedAt() != null) {
-            throw new SpringRedditException("email already confirmed");
+            throw new TokenConfirmedException(format("token %s already confirmed", token));
         }
 
         LocalDateTime expiredAt = theToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new SpringRedditException("token expired");
+            throw new TokenExpiredException(format("token %s expired", token));
         }
 
         verificationTokenService.setConfirmedAt(token);
         userService.enableUser(theToken.getAppUser().getEmail());
-        return "confirmed";
     }
 
     private String buildEmail(String name, String link) {
