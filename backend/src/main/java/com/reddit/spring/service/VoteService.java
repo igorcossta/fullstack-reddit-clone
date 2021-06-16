@@ -24,7 +24,7 @@ public class VoteService {
 
     public void vote(VoteDto voteDto) {
         Post post = postRepository.findById(voteDto.getPostId())
-                .orElseThrow(() -> new PostNotFoundException(format("post %s not found ", voteDto.getPostId())));
+                .orElseThrow(() -> new PostNotFoundException(format("post %s not found", voteDto.getPostId())));
         Optional<Vote> vote = voteRepository.findTopByPostAndUserOrderByVoteIdDesc(post, userService.getCurrentUser());
         if (vote.isPresent() && vote.get().getVoteType().equals(voteDto.getVoteType())) {
             throw new SpringRedditException("you have already voted on this post");
