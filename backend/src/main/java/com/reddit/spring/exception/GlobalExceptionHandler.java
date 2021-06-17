@@ -67,7 +67,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private String messageFor(Exception e) {
-        if (e instanceof MethodArgumentNotValidException) return "Validation failed for some argument";
+        if (e instanceof MethodArgumentNotValidException) return "some fields are incorrect";
         else return e.getLocalizedMessage();
     }
 
