@@ -6,7 +6,6 @@ import com.reddit.spring.model.AppUser;
 import com.reddit.spring.model.VerificationToken;
 import com.reddit.spring.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,35 +19,31 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static java.lang.String.format;
-
 @Service
 @AllArgsConstructor
-@Slf4j
 public class UserService implements UserDetailsService {
-    private final static String USER_NOT_FOUND = "user with email %s not found";
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final VerificationTokenService verificationTokenService;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        AppUser user = userRepository.findByEmail(s)
-                .orElseThrow(() -> new UsernameNotFoundException(format(USER_NOT_FOUND, s)));
+        AppUser user = userRepository.findByEmail(s).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
         User u = new User(
                 user.getEmail(), user.getPassword(),
                 user.getEnabled(), true, true, !user.getLocked(),
                 Sets.newHashSet(new SimpleGrantedAuthority(user.getRole().name()))
         );
-        log.debug(u.getUsername() + " " + u.getAuthorities() + " " + u.isEnabled() + " " + u.isAccountNonLocked());
         return u;
     }
 
     public String signUpUser(AppUser user) {
         boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
+
         if (userExists) {
-            throw new EmailExistsException(format("email %s already taken", user.getEmail()));
+            throw new EmailExistsException("email already taken");
         }
+
         String encode = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encode);
         userRepository.save(user);
@@ -61,8 +56,8 @@ public class UserService implements UserDetailsService {
                 LocalDateTime.now().plusMinutes(15),
                 user
         );
+
         verificationTokenService.saveVerificationToken(verificationToken);
-        // send an email for new user to activate the token
         return token;
     }
 
@@ -73,7 +68,6 @@ public class UserService implements UserDetailsService {
     public AppUser getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        return userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(format("user %s not found", username)));
+        return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
     }
 }

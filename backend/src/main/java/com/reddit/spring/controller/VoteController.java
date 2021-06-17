@@ -22,9 +22,9 @@ public class VoteController {
     private final VoteService voteService;
 
     @PostMapping
-    public ResponseEntity<Void> savePost(@RequestBody @Valid VoteDto vote) {
+    public ResponseEntity<Void> vote(@RequestBody @Valid VoteDto vote) {
         voteService.vote(vote);
-        LOGGER.debug("saving new vote: " + vote.toString());
+        LOGGER.debug("método vote executado " + vote.toString());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

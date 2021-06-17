@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static java.lang.String.format;
-
 @RestController
 @RequestMapping("/api/post")
 @AllArgsConstructor
@@ -23,37 +21,37 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<Void> savePost(@RequestBody @Valid PostRequest post) {
+    public ResponseEntity<Void> createPost(@RequestBody @Valid PostRequest post) {
         postService.save(post);
-        LOGGER.debug("saving new post: " + post.toString());
+        LOGGER.debug("método createPost executado" + post.toString());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<PostResponse>> findAll() {
         List<PostResponse> post = postService.findAll();
-        LOGGER.debug("listing all post");
+        LOGGER.debug("método findAll executado");
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PostResponse> findById(@PathVariable Long id) {
         PostResponse post = postService.findById(id);
-        LOGGER.debug(format("listing specific post: %s ", id) + post.toString());
+        LOGGER.debug("método findById executado: " + id);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
     @GetMapping("by-subreddit/{id}")
     public ResponseEntity<List<PostResponse>> findAllBySubredditId(@PathVariable Long id) {
         List<PostResponse> post = postService.findAllBySubredditId(id);
-        LOGGER.debug("listing all post by subreddit id: " + id);
+        LOGGER.debug("método findAllBySubredditId executado: " + id);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
     @GetMapping("by-user/{username}")
     public ResponseEntity<List<PostResponse>> findAllByUsername(@PathVariable String username) {
         List<PostResponse> post = postService.findAllByUsername(username);
-        LOGGER.debug("listing all post by username: " + username);
+        LOGGER.debug("método findAllByUsername executado: " + username);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 }

@@ -12,27 +12,20 @@ import java.time.LocalDateTime;
 @ToString
 @Entity(name = "token")
 public class VerificationToken {
-    @SequenceGenerator(
-            name = "token_sequence",
-            sequenceName = "token_sequence",
-            allocationSize = 1
-    )
+    @SequenceGenerator(name = "token_sequence", sequenceName = "token_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "token_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_sequence")
     private Long tokenId;
+
     @Column(nullable = false)
     private String token;
+
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
     private LocalDateTime confirmedAt;
+
     @ManyToOne
-    @JoinColumn(
-            nullable = false,
-            name = "user_id"
-    )
+    @JoinColumn(nullable = false, name = "user_id")
     private AppUser appUser;
 
     public VerificationToken(String token,

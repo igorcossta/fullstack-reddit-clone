@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-import static java.lang.String.format;
-
 @Service
 @AllArgsConstructor
 public class RegisterService {
@@ -26,9 +24,11 @@ public class RegisterService {
 
     public void register(RegisterRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
+
         if (!isValidEmail) {
-            throw new InvalidEmailException(format("email %s is invalid", request.getEmail()));
+            throw new InvalidEmailException("input email is invalid");
         }
+
         String token = userService.signUpUser(
                 new AppUser(
                         request.getFirstName(), request.getLastName(),
@@ -36,24 +36,23 @@ public class RegisterService {
                         Role.USER
                 )
         );
-        // create and send the email to new user
+
         String link = "http://localhost:8080/api/register/confirm?token=" + token;
         emailSender.send(request.getEmail(), buildEmail(request.getFirstName(), link));
     }
 
     @Transactional
     public void confirmToken(String token) {
-        VerificationToken theToken = verificationTokenService.getVerificationToken(token)
-                .orElseThrow(() -> new TokenNotFoundException(format("token %s not found", token)));
+        VerificationToken theToken = verificationTokenService.getVerificationToken(token).orElseThrow(() -> new TokenNotFoundException("token cannot be found"));
 
         if (theToken.getConfirmedAt() != null) {
-            throw new TokenConfirmedException(format("token %s already confirmed", token));
+            throw new TokenConfirmedException("token already confirmed");
         }
 
         LocalDateTime expiredAt = theToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new TokenExpiredException(format("token %s expired", token));
+            throw new TokenExpiredException("token is expired");
         }
 
         verificationTokenService.setConfirmedAt(token);

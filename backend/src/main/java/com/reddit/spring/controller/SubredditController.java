@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static java.lang.String.format;
-
 @RestController
 @RequestMapping("/api/subreddit")
 @AllArgsConstructor
@@ -25,21 +23,21 @@ public class SubredditController {
     @PostMapping
     public ResponseEntity<Void> createSubreddit(@RequestBody @Valid SubredditRequest subreddit) {
         subredditService.save(subreddit);
-        LOGGER.debug("creating new subreddit: " + subreddit.toString());
+        LOGGER.debug("método createSubreddit executado: " + subreddit.toString());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<SubredditResponse>> findAll() {
         List<SubredditResponse> subreddit = subredditService.findAll();
-        LOGGER.debug("listing all subreddit");
+        LOGGER.debug("método findAll executado");
         return new ResponseEntity<>(subreddit, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<SubredditResponse> findById(@PathVariable Long id) {
         SubredditResponse subreddit = subredditService.findById(id);
-        LOGGER.debug(format("listing specific subreddit: %s ", id) + subreddit.toString());
+        LOGGER.debug("método findById executado: " + id);
         return new ResponseEntity<>(subreddit, HttpStatus.OK);
     }
 

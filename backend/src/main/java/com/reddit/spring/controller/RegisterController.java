@@ -21,14 +21,14 @@ public class RegisterController {
     @PostMapping
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest account) {
         registerService.register(account);
-        LOGGER.debug("registering account: " + account.toString());
+        LOGGER.debug("método register executado: " + account.toString());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/confirm")
     public ResponseEntity<Void> confirmToken(@RequestParam("token") String token) {
         registerService.confirmToken(token);
-        LOGGER.debug("confirming token: " + token);
+        LOGGER.debug("método confirmToken executado: " + token);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

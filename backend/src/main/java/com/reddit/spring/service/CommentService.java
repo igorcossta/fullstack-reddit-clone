@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.lang.String.format;
-
 @Service
 @AllArgsConstructor
 public class CommentService {
@@ -29,27 +27,19 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     public void save(CommentRequest commentDTO) {
-        Post post = postRepository.findById(commentDTO.getPostId())
-                .orElseThrow(() -> new PostNotFoundException(format("post %s not found", commentDTO.getPostId())));
+        Post post = postRepository.findById(commentDTO.getPostId()).orElseThrow(() -> new PostNotFoundException("post cannot be found"));
         Comment map = commentMapper.map(commentDTO, post, userService.getCurrentUser());
         commentRepository.save(map);
     }
 
     public List<CommentResponse> findAllCommentByPostId(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(format("post %s not found", id)));
-        return commentRepository.findByPost(post)
-                .stream()
-                .map(commentMapper::mapToDto)
-                .collect(Collectors.toUnmodifiableList());
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException("post cannot be found"));
+        return commentRepository.findByPost(post).stream().map(commentMapper::mapToDto).collect(Collectors.toUnmodifiableList());
     }
 
     // TODO: change find by email to find by name
     public List<CommentResponse> findAllCommentByUsername(String username) {
-        AppUser user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(format("user %s not found", username)));
-        return commentRepository.findAllByUser(user)
-                .stream()
-                .map(commentMapper::mapToDto)
-                .collect(Collectors.toList());
+        AppUser user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
+        return commentRepository.findAllByUser(user).stream().map(commentMapper::mapToDto).collect(Collectors.toList());
     }
 }

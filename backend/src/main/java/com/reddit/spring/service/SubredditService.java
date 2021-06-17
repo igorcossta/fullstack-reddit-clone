@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.lang.String.format;
 
 @Service
 @AllArgsConstructor
@@ -36,8 +33,7 @@ public class SubredditService {
 
     @Transactional(readOnly = true)
     public SubredditResponse findById(Long id) {
-        Optional<Subreddit> subreddit = subredditRepository.findById(id);
-        subreddit.orElseThrow(() -> new SubredditNotFoundException(format("subreddit %s not found", id)));
-        return subredditMapper.mapSubredditToDto(subreddit.get());
+        Subreddit subreddit = subredditRepository.findById(id).orElseThrow(() -> new SubredditNotFoundException("subreddit cannot be found"));
+        return subredditMapper.mapSubredditToDto(subreddit);
     }
 }

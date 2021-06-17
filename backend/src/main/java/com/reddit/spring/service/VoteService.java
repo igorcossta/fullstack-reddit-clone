@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static java.lang.String.format;
-
 @Service
 @AllArgsConstructor
 public class VoteService {
@@ -23,12 +21,13 @@ public class VoteService {
     private final UserService userService;
 
     public void vote(VoteDto voteDto) {
-        Post post = postRepository.findById(voteDto.getPostId())
-                .orElseThrow(() -> new PostNotFoundException(format("post %s not found", voteDto.getPostId())));
+        Post post = postRepository.findById(voteDto.getPostId()).orElseThrow(() -> new PostNotFoundException("post cannot be found"));
         Optional<Vote> vote = voteRepository.findTopByPostAndUserOrderByVoteIdDesc(post, userService.getCurrentUser());
+
         if (vote.isPresent() && vote.get().getVoteType().equals(voteDto.getVoteType())) {
             throw new SpringRedditException("you have already voted on this post");
         }
+
         if (VoteType.UPVOTE.equals(voteDto.getVoteType())) {
             post.setVoteCount(post.getVoteCount() + 1);
         } else {

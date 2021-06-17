@@ -21,23 +21,23 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<Void> saveComment(@RequestBody @Valid CommentRequest comment) {
+    public ResponseEntity<Void> createComment(@RequestBody @Valid CommentRequest comment) {
         commentService.save(comment);
-        LOGGER.debug("saving new comment: " + comment.toString());
+        LOGGER.debug("método createComment executado: " + comment.toString());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/by-post/{id}")
     public ResponseEntity<List<CommentResponse>> findAllCommentByPostId(@PathVariable Long id) {
         List<CommentResponse> comment = commentService.findAllCommentByPostId(id);
-        LOGGER.debug("listing all comment by post id: " + id);
+        LOGGER.debug("método findAllCommentByPostId executado: " + id);
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
     @GetMapping("/by-user/{username}")
     public ResponseEntity<List<CommentResponse>> findAllCommentByUsername(@PathVariable String username) {
         List<CommentResponse> comment = commentService.findAllCommentByUsername(username);
-        LOGGER.debug("listing all comment by username: " + username);
+        LOGGER.debug("método findAllCommentByUsername executado: " + username);
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 

@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -31,34 +30,26 @@ public class PostService {
     private final UserService userService;
     private final PostMapper postMapper;
 
-    public Post save(PostRequest postRequest) {
-        Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
-                .orElseThrow(() -> new SubredditNotFoundException(format("subreddit %s not found", postRequest.getSubredditName())));
-        AppUser user = userService.getCurrentUser();
-        Post post = postMapper.map(postRequest, subreddit, user);
+    public void save(PostRequest postRequest) {
+        Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName()).orElseThrow(() -> new SubredditNotFoundException("subreddit cannot be found"));
+        Post post = postMapper.map(postRequest, subreddit, userService.getCurrentUser());
         postRepository.save(post);
-        return post;
-    }
-
-    @Transactional(readOnly = true)
-    public PostResponse findById(Long id) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException(format("post %s not found", id)));
-        return postMapper.mapToDto(post);
     }
 
     @Transactional(readOnly = true)
     public List<PostResponse> findAll() {
-        return postRepository.findAll()
-                .stream()
-                .map(postMapper::mapToDto)
-                .collect(toList());
+        return postRepository.findAll().stream().map(postMapper::mapToDto).collect(toList());
+    }
+
+    @Transactional(readOnly = true)
+    public PostResponse findById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException("post cannot be found"));
+        return postMapper.mapToDto(post);
     }
 
     @Transactional(readOnly = true)
     public List<PostResponse> findAllBySubredditId(Long subredditId) {
-        Subreddit subreddit = subredditRepository.findById(subredditId)
-                .orElseThrow(() -> new SubredditNotFoundException(format("subreddit %s not found", subredditId)));
+        Subreddit subreddit = subredditRepository.findById(subredditId).orElseThrow(() -> new SubredditNotFoundException("subreddit cannot be found"));
         List<Post> posts = postRepository.findAllBySubreddit(subreddit);
         return posts.stream().map(postMapper::mapToDto).collect(toList());
     }
@@ -66,11 +57,7 @@ public class PostService {
     // TODO: change find by email to find by name
     @Transactional(readOnly = true)
     public List<PostResponse> findAllByUsername(String username) {
-        AppUser user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(format("user %s not found", username)));
-        return postRepository.findByUser(user)
-                .stream()
-                .map(postMapper::mapToDto)
-                .collect(toList());
+        AppUser user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
+        return postRepository.findByUser(user).stream().map(postMapper::mapToDto).collect(toList());
     }
 }

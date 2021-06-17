@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.*;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Getter
 @Setter
@@ -13,16 +13,9 @@ import static javax.persistence.GenerationType.*;
 @ToString
 @Entity(name = "user")
 public class AppUser {
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
+    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "user_sequence"
-    )
+    @GeneratedValue(strategy = SEQUENCE, generator = "user_sequence")
     private Long userId;
     private String firstName;
     private String lastName;
