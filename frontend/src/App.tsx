@@ -1,8 +1,13 @@
 import React from 'react';
+import Main from './page/Main';
+import Root from './style/Root';
 
 function App() {
   return (
-    <div className="App">...</div>
+    <React.Fragment>
+      <Main />
+      <Root />
+    </React.Fragment>
   );
 }
 
