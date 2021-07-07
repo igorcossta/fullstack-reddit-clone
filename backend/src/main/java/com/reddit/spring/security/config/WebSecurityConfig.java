@@ -1,8 +1,8 @@
 package com.reddit.spring.security.config;
 
-import com.reddit.spring.service.UserService;
 import com.reddit.spring.jwt.JwtTokenVerifier;
 import com.reddit.spring.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import com.reddit.spring.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,12 +23,22 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 @AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final RequestMatcher PROTECT_URL = new OrRequestMatcher(
-            new AntPathRequestMatcher("/api/admin/**")
-    );
+    private static final String[] PROTECT_URL = {
+            "/api/comment/**",
+            "/api/post/**",
+            "/api/subreddit/**",
+            "/api/vote"
+    };
+    private static final String[] PROTECT_ADMIN_URL = {
+            "/api/admin/**"
+    };
     private static final RequestMatcher PUBLIC_URL = new OrRequestMatcher(
             new AntPathRequestMatcher("/api/register/**"),
-            new AntPathRequestMatcher("/api/login")
+            new AntPathRequestMatcher("/api/login"),
+            // swagger
+            new AntPathRequestMatcher("/swagger-ui/**"),
+            new AntPathRequestMatcher("/swagger-resources/**"),
+            new AntPathRequestMatcher("/v2/api-docs")
     );
     private static final String ROLE_ADMIN = "ADMIN";
     private static final String ROLE_USER = "USER";
@@ -36,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
@@ -49,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().requestMatchers(PUBLIC_URL);
     }
 
@@ -71,8 +81,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(jwtUsernameAndPasswordAuthenticationFilter())
                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/api/admin/**").hasAuthority(ROLE_ADMIN)
-                .antMatchers("/api/comment/**", "/api/post/**", "/api/subreddit/**", "/api/vote").hasAnyAuthority(ROLE_ADMIN, ROLE_USER)
+                .antMatchers(PROTECT_ADMIN_URL).hasAuthority(ROLE_ADMIN)
+                .antMatchers(PROTECT_URL).hasAnyAuthority(ROLE_ADMIN, ROLE_USER)
                 .antMatchers("/api/**").authenticated()
                 .anyRequest().authenticated();
     }

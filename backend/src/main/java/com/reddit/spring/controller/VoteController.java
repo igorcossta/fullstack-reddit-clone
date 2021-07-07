@@ -1,7 +1,11 @@
 package com.reddit.spring.controller;
 
+import com.reddit.spring.dto.Error;
 import com.reddit.spring.dto.VoteDto;
 import com.reddit.spring.service.VoteService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +25,13 @@ public class VoteController {
     private final static Logger LOGGER = LoggerFactory.getLogger(VoteController.class);
     private final VoteService voteService;
 
+    @ApiOperation(value = "${VoteController.vote.value}", notes = "${VoteController.vote.notes}", nickname = "${VoteController.vote.nickname}")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "resource created successfully"),
+            @ApiResponse(code = 400, message = "client bad request", response = Error.class),
+            @ApiResponse(code = 401, message = "client bad credentials", response = Error.class),
+            @ApiResponse(code = 403, message = "client does not have permission", response = Error.class),
+            @ApiResponse(code = 404, message = "resource not found", response = Error.class)})
     @PostMapping
     public ResponseEntity<Void> vote(@RequestBody @Valid VoteDto vote) {
         voteService.vote(vote);
