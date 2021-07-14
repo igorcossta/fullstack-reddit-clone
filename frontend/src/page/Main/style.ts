@@ -6,7 +6,7 @@ export const MT = styled.div`
 
 export const Container = styled.div`
   /* min-height: calc(100vh - 51px); */
-  border: 1px solid red;
+  /* border: 1px solid red; */
   margin-top: 49px;
 `;
 
@@ -26,6 +26,6 @@ export const Content = styled.div`
 `;
 
 export const Side = styled.div`
-  border: 1px solid;
+  /* border: 1px solid; */
   grid-area: side;
 `;

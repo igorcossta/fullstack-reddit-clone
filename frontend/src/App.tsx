@@ -1,6 +1,6 @@
 import React from 'react';
 import Main from './page/Main';
-import Root from './style/Root';
+import Root from './_assets/style/Root';
 
 function App() {
   return (

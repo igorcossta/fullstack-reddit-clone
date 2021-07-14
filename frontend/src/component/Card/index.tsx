@@ -1,20 +1,21 @@
-import React from 'react';
 import {
-  Container,
-  CardVote,
   CardBody,
-  CardInformation,
   CardContent,
+  CardInformation,
   CardToolBar,
-  UpVote,
-  DownVote,
-  SubredditIcon,
+  CardVote,
   CommentIcon,
-  ShareIcon,
+  Container,
+  DownVote,
+  SaveButton,
   SaveIcon,
   ShareButton,
-  SaveButton,
+  ShareIcon,
+  SubredditIcon,
+  UpVote,
 } from './style';
+
+import React from 'react';
 
 interface Props {
   comment: number;
@@ -37,7 +38,7 @@ const Card: React.FC<Props> = ({
     <Container>
       <CardVote>
         <UpVote />
-        <small className="vote-count">{vote}k</small>
+        <small className="vote-count">{vote}</small>
         <DownVote />
       </CardVote>
 
@@ -53,7 +54,9 @@ const Card: React.FC<Props> = ({
           </span>
         </CardInformation>
 
-        <CardContent>{content}</CardContent>
+        <CardContent>
+          {content.startsWith('https') ? <img src={content} alt="imagem" style={{ width: "200", height: "300" }} /> : `${content}`}
+        </CardContent>
 
         <CardToolBar>
           <a href="/">
