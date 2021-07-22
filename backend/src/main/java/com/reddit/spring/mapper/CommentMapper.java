@@ -2,7 +2,7 @@ package com.reddit.spring.mapper;
 
 import com.reddit.spring.dto.CommentRequest;
 import com.reddit.spring.dto.CommentResponse;
-import com.reddit.spring.model.AppUser;
+import com.reddit.spring.model.User;
 import com.reddit.spring.model.Comment;
 import com.reddit.spring.model.Post;
 import org.mapstruct.Mapper;
@@ -15,10 +15,10 @@ public interface CommentMapper {
     @Mapping(target = "createdDate", expression = "java(java.time.Instant.now())")
     @Mapping(target = "post", source = "post")
     @Mapping(target = "user", source = "user")
-    Comment map(CommentRequest commentDto, Post post, AppUser user);
+    Comment map(CommentRequest commentDto, Post post, User user);
 
     @Mapping(target = "id", source = "commentId")
     @Mapping(target = "postId", expression = "java(comment.getPost().getPostId())")
-    @Mapping(target = "username", expression = "java(comment.getUser().getEmail())")
+    @Mapping(target = "username", expression = "java(comment.getUser().getUsername())")
     CommentResponse mapToDto(Comment comment);
 }

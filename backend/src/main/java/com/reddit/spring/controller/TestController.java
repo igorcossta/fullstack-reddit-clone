@@ -26,6 +26,6 @@ public class TestController {
     @GetMapping("/principal")
     public ResponseEntity<String> test2() {
         System.out.println("GETTING PRINCIPAL");
-        return new ResponseEntity<>("api/principal access granted " + userService.getCurrentUser().getEmail(), HttpStatus.OK);
+        return new ResponseEntity<>("api/principal access granted " + userService.getCurrentUser().getUsername(), HttpStatus.OK);
     }
 }

@@ -31,7 +31,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "id_do_user", referencedColumnName = "userId")
-    private AppUser user;
+    private User user;
 
     private Instant createdDate;
 

@@ -2,6 +2,7 @@ package com.reddit.spring.dto;
 
 import lombok.*;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,6 +24,7 @@ public class RegisterRequest {
     @Size(min = 3, max = 30, message = "first name must be between 3 and 3 characters")
     private String lastName;
 
+    @Email
     @NotNull(message = "field email cannot be null")
     @NotBlank(message = "field email cannot be empty")
     private String email;

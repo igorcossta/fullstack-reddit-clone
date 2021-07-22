@@ -1,6 +1,6 @@
 package com.reddit.spring;
 
-import com.reddit.spring.model.AppUser;
+import com.reddit.spring.model.User;
 import com.reddit.spring.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,14 +27,14 @@ public class RedditSpringApplication {
             UserRepository userRepository,
             PasswordEncoder passwordEncoder
     ) {
-        AppUser user = new AppUser(
+        User user = new User(
                 "ana",
                 "smith",
                 "pro@email.com",
                 passwordEncoder.encode("0123"),
                 ADMIN
         );
-        AppUser user2 = new AppUser(
+        User user2 = new User(
                 "Pamela",
                 "Costa",
                 "trainee@email.com",

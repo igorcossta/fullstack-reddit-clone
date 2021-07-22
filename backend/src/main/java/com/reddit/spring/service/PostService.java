@@ -5,7 +5,7 @@ import com.reddit.spring.dto.PostResponse;
 import com.reddit.spring.exception.PostNotFoundException;
 import com.reddit.spring.exception.SubredditNotFoundException;
 import com.reddit.spring.mapper.PostMapper;
-import com.reddit.spring.model.AppUser;
+import com.reddit.spring.model.User;
 import com.reddit.spring.model.Post;
 import com.reddit.spring.model.Subreddit;
 import com.reddit.spring.repository.PostRepository;
@@ -57,7 +57,7 @@ public class PostService {
     // TODO: change find by email to find by name
     @Transactional(readOnly = true)
     public List<PostResponse> findAllByUsername(String username) {
-        AppUser user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
         return postRepository.findByUser(user).stream().map(postMapper::mapToDto).collect(toList());
     }
 }

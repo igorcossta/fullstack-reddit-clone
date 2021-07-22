@@ -1,15 +1,12 @@
 package com.reddit.spring.service;
 
-import com.google.common.collect.Sets;
 import com.reddit.spring.exception.EmailExistsException;
-import com.reddit.spring.model.AppUser;
+import com.reddit.spring.model.User;
 import com.reddit.spring.model.VerificationToken;
 import com.reddit.spring.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,17 +25,12 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        AppUser user = userRepository.findByEmail(s).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
-        User u = new User(
-                user.getEmail(), user.getPassword(),
-                user.getEnabled(), true, true, !user.getLocked(),
-                Sets.newHashSet(new SimpleGrantedAuthority(user.getRole().name()))
-        );
-        return u;
+        return userRepository.findByUsername(s)
+                .orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
     }
 
-    public String signUpUser(AppUser user) {
-        boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
+    public String signUpUser(User user) {
+        boolean userExists = userRepository.findByUsername(user.getUsername()).isPresent();
 
         if (userExists) {
             throw new EmailExistsException("email already taken");
@@ -65,9 +57,9 @@ public class UserService implements UserDetailsService {
         return userRepository.enableUser(email);
     }
 
-    public AppUser getCurrentUser() {
+    public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
     }
 }

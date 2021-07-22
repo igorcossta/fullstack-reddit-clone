@@ -28,5 +28,5 @@ public class Vote {
 
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private AppUser user;
+    private User user;
 }

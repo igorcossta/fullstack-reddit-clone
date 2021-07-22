@@ -26,15 +26,15 @@ public class VerificationToken {
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
-    private AppUser appUser;
+    private User user;
 
     public VerificationToken(String token,
                              LocalDateTime createdAt,
                              LocalDateTime expiresAt,
-                             AppUser appUser) {
+                             User user) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
-        this.appUser = appUser;
+        this.user = user;
     }
 }

@@ -4,7 +4,7 @@ import com.reddit.spring.dto.CommentRequest;
 import com.reddit.spring.dto.CommentResponse;
 import com.reddit.spring.exception.PostNotFoundException;
 import com.reddit.spring.mapper.CommentMapper;
-import com.reddit.spring.model.AppUser;
+import com.reddit.spring.model.User;
 import com.reddit.spring.model.Comment;
 import com.reddit.spring.model.Post;
 import com.reddit.spring.repository.CommentRepository;
@@ -39,7 +39,7 @@ public class CommentService {
 
     // TODO: change find by email to find by name
     public List<CommentResponse> findAllCommentByUsername(String username) {
-        AppUser user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
         return commentRepository.findAllByUser(user).stream().map(commentMapper::mapToDto).collect(Collectors.toList());
     }
 }

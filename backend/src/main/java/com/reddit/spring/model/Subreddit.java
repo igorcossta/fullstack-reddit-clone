@@ -33,5 +33,5 @@ public class Subreddit {
 
     @ManyToOne
     @JoinColumn(name = "id_do_user", referencedColumnName = "userId")
-    private AppUser user;
+    private User user;
 }

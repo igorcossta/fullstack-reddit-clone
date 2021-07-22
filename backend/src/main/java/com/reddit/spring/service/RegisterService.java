@@ -5,7 +5,7 @@ import com.reddit.spring.exception.InvalidEmailException;
 import com.reddit.spring.exception.TokenConfirmedException;
 import com.reddit.spring.exception.TokenExpiredException;
 import com.reddit.spring.exception.TokenNotFoundException;
-import com.reddit.spring.model.AppUser;
+import com.reddit.spring.model.User;
 import com.reddit.spring.model.Role;
 import com.reddit.spring.model.VerificationToken;
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ public class RegisterService {
         }
 
         String token = userService.signUpUser(
-                new AppUser(
+                new User(
                         request.getFirstName(), request.getLastName(),
                         request.getEmail(), request.getPassword(),
                         Role.USER
@@ -56,7 +56,7 @@ public class RegisterService {
         }
 
         verificationTokenService.setConfirmedAt(token);
-        userService.enableUser(theToken.getAppUser().getEmail());
+        userService.enableUser(theToken.getUser().getUsername());
     }
 
     private String buildEmail(String name, String link) {

@@ -3,7 +3,7 @@ package com.reddit.spring.mapper;
 import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.reddit.spring.dto.PostRequest;
 import com.reddit.spring.dto.PostResponse;
-import com.reddit.spring.model.AppUser;
+import com.reddit.spring.model.User;
 import com.reddit.spring.model.Post;
 import com.reddit.spring.model.Subreddit;
 import com.reddit.spring.repository.CommentRepository;
@@ -24,11 +24,11 @@ public abstract class PostMapper {
     @Mapping(target = "subreddit", source = "subreddit")
     @Mapping(target = "voteCount", constant = "0")
     @Mapping(target = "user", source = "user")
-    public abstract Post map(PostRequest postRequest, Subreddit subreddit, AppUser user);
+    public abstract Post map(PostRequest postRequest, Subreddit subreddit, User user);
 
     @Mapping(target = "id", source = "postId")
     @Mapping(target = "subredditName", source = "subreddit.name")
-    @Mapping(target = "username", source = "user.email")
+    @Mapping(target = "username", source = "user.username")
     @Mapping(target = "commentCount", expression = "java(commentCount(post))")
     @Mapping(target = "duration", expression = "java(getDuration(post))")
 //    @Mapping(target = "upVote", expression = "java(isPostUpVoted(post))")

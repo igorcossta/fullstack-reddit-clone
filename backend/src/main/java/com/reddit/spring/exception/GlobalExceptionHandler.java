@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +24,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleInternalServerError(Exception exception) {
         Error error = buildErrorResponse(exception, INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(error, INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({BadCredentialsException.class})
+    public ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException exception) {
+        HttpStatus status = httpStatusFor(exception);
+        Error error = buildErrorResponse(exception, status);
+        return new ResponseEntity<>(error, status);
     }
 
     @Override
@@ -72,8 +80,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private HttpStatus httpStatusFor(Exception e) {
-        if (e instanceof TokenNotFoundException || e instanceof PostNotFoundException || e instanceof SubredditNotFoundException) return NOT_FOUND;
-        else if (e instanceof TokenConfirmedException || e instanceof TokenExpiredException || e instanceof InvalidEmailException) return BAD_REQUEST;
+        if (e instanceof TokenNotFoundException || e instanceof PostNotFoundException || e instanceof SubredditNotFoundException)
+            return NOT_FOUND;
+        else if (e instanceof TokenConfirmedException || e instanceof TokenExpiredException || e instanceof InvalidEmailException || e instanceof BadCredentialsException)
+            return BAD_REQUEST;
         else if (e instanceof EmailExistsException) return CONFLICT;
         else return INTERNAL_SERVER_ERROR;
     }
