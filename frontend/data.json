@@ -4,48 +4,54 @@
     {
       "id": 1,
       "subreddit": "Brasil",
-      "user": "johndoe",
-      "createdAt": "10 minutes ago",
+      "user": "bananaComCaramelo",
+      "createdAt": "just now",
       "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      "comment": 15,
-      "vote": 1001
+      "comment": 123,
+      "vote": 854
     },
     {
       "id": 2,
       "subreddit": "Dogs",
-      "user": "mrbanana",
-      "createdAt": "1 hour ago",
+      "user": "puppy",
+      "createdAt": "8 minutes ago",
       "content": "https://picsum.photos/id/237/200/300",
-      "comment": 124,
-      "vote": 564
+      "comment": 666,
+      "vote": 666
     },
     {
       "id": 3,
       "subreddit": "eXe",
       "user": "whoami",
-      "createdAt": "5 minutes ago",
-      "content": "My suspicious script.",
-      "comment": 994,
-      "vote": 1002
+      "createdAt": "15 minutes ago",
+      "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      "comment": 4554,
+      "vote": 21837
     },
     {
       "id": 4,
-      "subreddit": "WorldMeme",
-      "user": "alicia",
+      "subreddit": "Fitness",
+      "user": "eduarda",
       "createdAt": "2 hours ago",
       "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-      "comment": 94,
-      "vote": 954
+      "comment": 49,
+      "vote": 109
     },
     {
       "id": 5,
       "subreddit": "Minecraft",
       "user": "squarehead",
-      "createdAt": "just now",
-      "content": "Something else about minecraft here",
-      "comment": 94,
+      "createdAt": "2 hours ago",
+      "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+      "comment": 981,
       "vote": 2234
     }
   ],
-  "user": []
+  "user": [
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john@email.com"
+    }
+  ]
 }

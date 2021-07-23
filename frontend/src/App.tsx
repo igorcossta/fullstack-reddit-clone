@@ -1,14 +1,14 @@
 import React from 'react';
-import Main from './page/Main';
-import Root from './_assets/style/Root';
+import { BrowserRouter } from 'react-router-dom';
 
-function App() {
-  return (
-    <React.Fragment>
-      <Main />
-      <Root />
-    </React.Fragment>
-  );
-}
+import Root from './assets/style/Root';
+import Routes from './routes/index';
+
+const App: React.FC = () => (
+  <BrowserRouter>
+    <Routes />
+    <Root />
+  </BrowserRouter>
+);
 
 export default App;

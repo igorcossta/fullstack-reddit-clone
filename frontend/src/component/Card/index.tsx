@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   CardBody,
   CardContent,
@@ -15,8 +17,6 @@ import {
   UpVote,
 } from './style';
 
-import React from 'react';
-
 interface Props {
   comment: number;
   content: string;
@@ -26,14 +26,7 @@ interface Props {
   vote: number;
 }
 
-const Card: React.FC<Props> = ({
-  comment,
-  content,
-  subreddit,
-  time,
-  username,
-  vote,
-}) => {
+const Card: React.FC<Props> = ({ comment, content, subreddit, time, username, vote }) => {
   return (
     <Container>
       <CardVote>
@@ -55,7 +48,11 @@ const Card: React.FC<Props> = ({
         </CardInformation>
 
         <CardContent>
-          {content.startsWith('https') ? <img src={content} alt="imagem" style={{ width: "200", height: "300" }} /> : `${content}`}
+          {content.startsWith('https') ? (
+            <img src={content} alt="imagem" style={{ width: '200', height: '300' }} />
+          ) : (
+            `${content}`
+          )}
         </CardContent>
 
         <CardToolBar>

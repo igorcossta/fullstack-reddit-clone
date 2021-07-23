@@ -1,12 +1,8 @@
-import {
-  AiOutlineArrowDown,
-  AiOutlineArrowUp,
-  AiOutlinePushpin,
-} from 'react-icons/ai';
+import { AiOutlineArrowDown, AiOutlineArrowUp, AiOutlinePushpin } from 'react-icons/ai';
 import { BsArrow90DegRight, BsChatSquare } from 'react-icons/bs';
-import styled, { css } from 'styled-components';
-
 import { FcGlobe } from 'react-icons/fc';
+
+import styled, { css } from 'styled-components';
 
 const Icon = css`
   font-size: 16px;
