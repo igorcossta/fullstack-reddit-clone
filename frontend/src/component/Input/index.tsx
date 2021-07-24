@@ -4,11 +4,11 @@ import { useField } from '@unform/core';
 
 import { Container } from './styles';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
 
-const Input: React.FC<InputProps> = ({ name, ...rest }) => {
+const Input: React.FC<Props> = ({ name, ...rest }) => {
   const inputRef = useRef(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
 

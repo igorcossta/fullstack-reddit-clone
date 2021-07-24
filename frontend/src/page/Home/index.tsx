@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import Card from '../../component/Card';
 import api from '../../service/http';
 import { PostResponse } from '../../service/type';
-import { Container, Content, Side } from './style';
+import { Container, Content, Side } from './styles';
 
 const Home: React.FC = () => {
   const [data, setData] = useState<PostResponse[]>([]);
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState(false);
 
   // send request to API to get most popular posts
   useEffect(() => {
@@ -29,8 +29,7 @@ const Home: React.FC = () => {
           if (error) {
             return (
               <span>
-                não foi possível carregar as publicações.
-                <a href="/">tentar novamente</a>
+                Não foi possível carregar as publicações. <a href="/">Tentar novamente</a>
               </span>
             );
           }
@@ -50,7 +49,6 @@ const Home: React.FC = () => {
           ));
         })()}
       </Content>
-
       <Side />
     </Container>
   );
