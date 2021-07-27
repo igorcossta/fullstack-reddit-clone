@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
@@ -71,7 +70,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private Error buildErrorResponse(Exception exception, HttpStatus status) {
         LOGGER.debug("Throwing exception " + exception.getClass().getSimpleName());
-        return new Error(now(), status.value(), status.getReasonPhrase(), messageFor(exception));
+        return new Error(status.value(), status.getReasonPhrase(), messageFor(exception), null);
     }
 
     private String messageFor(Exception e) {

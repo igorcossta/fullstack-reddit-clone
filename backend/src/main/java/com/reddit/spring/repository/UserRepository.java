@@ -13,6 +13,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
+
     @Transactional
     @Modifying
     @Query("UPDATE user a " +

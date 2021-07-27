@@ -30,22 +30,23 @@ public class RedditSpringApplication {
         User user = new User(
                 "ana",
                 "smith",
-                "pro@email.com",
-                passwordEncoder.encode("0123"),
+                "ana@edu.br",
+                passwordEncoder.encode("12"),
                 ADMIN
         );
         User user2 = new User(
                 "Pamela",
                 "Costa",
-                "trainee@email.com",
-                passwordEncoder.encode("0123"),
+                "pam@edu.br",
+                passwordEncoder.encode("12"),
                 USER
         );
         user.setEnabled(true);
         user2.setEnabled(true);
         userRepository.saveAll(Arrays.asList(user, user2));
 
-        return args -> {};
+        return args -> {
+        };
     }
 
 }

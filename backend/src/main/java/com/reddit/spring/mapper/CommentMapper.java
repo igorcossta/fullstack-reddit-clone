@@ -2,9 +2,9 @@ package com.reddit.spring.mapper;
 
 import com.reddit.spring.dto.CommentRequest;
 import com.reddit.spring.dto.CommentResponse;
-import com.reddit.spring.model.User;
 import com.reddit.spring.model.Comment;
 import com.reddit.spring.model.Post;
+import com.reddit.spring.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

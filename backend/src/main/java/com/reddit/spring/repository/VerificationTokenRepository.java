@@ -13,6 +13,7 @@ import java.util.Optional;
 @Repository
 public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Long> {
     Optional<VerificationToken> findByToken(String token);
+
     @Transactional
     @Modifying
     @Query("UPDATE token c " +
