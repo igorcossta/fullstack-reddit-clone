@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { useState } from 'react';
 
-const useWindow = () => {
-  const [isShowing, setIsShowing] = useState(false);
+const useModal = () => {
+  const [isHidden, setState] = useState(false);
 
   function toggle() {
-    setIsShowing(!isShowing);
+    setState(!isHidden);
   }
 
-  return { isShowing, toggle };
+  return { isHidden, toggle };
 };
 
-export default useWindow;
+export default useModal;

@@ -1,55 +1,51 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import Card from '../../component/Card';
-import api from '../../service/http';
-import { PostResponse } from '../../service/type';
+import { Card } from '../../component';
+import { server } from '../../service/server';
 import { Container, Content, Side } from './styles';
 
 const Home: React.FC = () => {
-  const [data, setData] = useState<PostResponse[]>([]);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  // send request to API to get most popular posts
   useEffect(() => {
-    api
-      .get('/post?vote_gte=2000')
-      .then((res) => {
-        setError(false);
-        setData(res.data);
-      })
-      .catch((err) => {
-        setError(true);
-      });
+    async function fetch() {
+      await server
+        .get('/api/subreddit')
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(() => setError(true))
+        .finally(() => setLoading(false));
+    }
+    fetch();
   }, []);
+
+  if (error) {
+    return <h6>ocorreu um erro. Tente novamente!</h6>;
+  }
 
   return (
     <Container>
+      <Side>
+        <h1>side</h1>
+      </Side>
       <Content>
-        {(function hasError() {
-          if (error) {
-            return (
-              <span>
-                Não foi possível carregar as publicações. <a href="/">Tentar novamente</a>
-              </span>
-            );
-          }
-          if (data.length === 0) {
-            return <span>carregando...</span>;
-          }
-          return data.map((i) => (
-            <Card
-              subreddit={i.subreddit}
-              username={i.user}
-              comment={i.comment}
-              vote={i.vote}
-              time={i.createdAt}
-              content={i.content}
-              key={i.id}
-            />
-          ));
-        })()}
+        {loading ? (
+          <h6>carregando</h6>
+        ) : (
+          <Card
+            key="1"
+            subreddit="reddit"
+            username="master"
+            time="just now"
+            comment={10000}
+            vote={20000}
+            content="lorem ipsum dolor sit amet."
+          />
+        )}
       </Content>
-      <Side />
     </Container>
   );
 };

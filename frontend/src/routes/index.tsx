@@ -1,25 +1,36 @@
-import React from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { FaArrowCircleUp } from 'react-icons/fa';
 
-import AppProvider from '../hook';
-import Home from '../page/Home';
+import { useAuth } from '../context/authentication';
+import AppRoutes from './app.routes';
+import AuthRoutes from './auth.routes';
 
-const NoMatch: React.FC = () => {
-  const { pathname } = useLocation();
+const Routes: React.FC = () => {
+  const { signed } = useAuth();
+  const [showScroll, setShowScroll] = useState(false);
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 201) {
+      setShowScroll(true);
+    } else if (showScroll && window.pageYOffset < 200) {
+      setShowScroll(false);
+    }
+  };
+
+  const scrollTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  window.addEventListener('scroll', checkScrollTop);
+
   return (
-    <h3>
-      not match for <code>{pathname}</code>
-    </h3>
+    <>
+      {showScroll && (
+        <FaArrowCircleUp size={38} fill="var(--secondary-color)" className="scrollTop" onClick={() => scrollTop()} />
+      )}
+      {signed ? <AppRoutes /> : <AuthRoutes />}
+    </>
   );
 };
-
-const Routes: React.FC = () => (
-  <AppProvider>
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="*" component={NoMatch} />
-    </Switch>
-  </AppProvider>
-);
 
 export default Routes;

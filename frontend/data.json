@@ -49,9 +49,24 @@
   ],
   "user": [
     {
+      "userId": "12321123",
       "firstName": "John",
       "lastName": "Doe",
-      "email": "john@email.com"
+      "username": "john@edu.br",
+      "password": "0123",
+      "role": "USER",
+      "locked": false,
+      "enabled": true
+    },
+    {
+      "userId": "90932189",
+      "firstName": "Joana",
+      "lastName": "Dark",
+      "username": "joana@edu.br",
+      "password": "0123",
+      "role": "ADMIN",
+      "locked": false,
+      "enabled": true
     }
   ]
 }

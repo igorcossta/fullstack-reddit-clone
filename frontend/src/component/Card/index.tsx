@@ -9,9 +9,7 @@ import {
   CommentIcon,
   Container,
   DownVote,
-  SaveButton,
   SaveIcon,
-  ShareButton,
   ShareIcon,
   SubredditIcon,
   UpVote,
@@ -38,35 +36,27 @@ const Card: React.FC<Props> = ({ comment, content, subreddit, time, username, vo
       <CardBody>
         <CardInformation>
           <SubredditIcon />
-          <a href="/" className="subreddit-name">
-            r/{subreddit}
-          </a>
+          <button type="button">r/{subreddit}</button>
           <span style={{ fontSize: '8px', margin: '0 2.5px 0 2.5px' }}>•</span>
           <span>
             Posted by <span className="username">u/{username}</span> {time}
           </span>
         </CardInformation>
 
-        <CardContent>
-          {content.startsWith('https') ? (
-            <img src={content} alt="imagem" style={{ width: '200', height: '300' }} />
-          ) : (
-            `${content}`
-          )}
-        </CardContent>
+        <CardContent>{content}</CardContent>
 
         <CardToolBar>
-          <a href="/">
+          <button type="button">
             <CommentIcon /> {comment} Comments
-          </a>
+          </button>
 
-          <ShareButton>
+          <button type="button">
             <ShareIcon /> Share
-          </ShareButton>
+          </button>
 
-          <SaveButton>
+          <button type="button">
             <SaveIcon /> Save
-          </SaveButton>
+          </button>
         </CardToolBar>
       </CardBody>
     </Container>

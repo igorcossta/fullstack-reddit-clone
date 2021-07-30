@@ -11,7 +11,7 @@ const Icon = css`
 
 export const UpVote = styled(AiOutlineArrowUp)`
   &:hover {
-    fill: tomato;
+    fill: hsl(9.1, 100%, 63.9%);
   }
 `;
 export const DownVote = styled(AiOutlineArrowDown)`
@@ -19,16 +19,19 @@ export const DownVote = styled(AiOutlineArrowDown)`
     fill: hsl(214, 100%, 50%);
   }
 `;
+
 export const SubredditIcon = styled(FcGlobe)`
   ${Icon}
-  margin-right: 3px;
 `;
+
 export const CommentIcon = styled(BsChatSquare)`
   ${Icon}
 `;
+
 export const ShareIcon = styled(BsArrow90DegRight)`
   ${Icon}
 `;
+
 export const SaveIcon = styled(AiOutlinePushpin)`
   ${Icon}
 `;
@@ -76,21 +79,23 @@ export const CardInformation = styled.div`
   margin-bottom: 6px;
   margin-left: 6px;
 
-  a.subreddit-name {
+  button {
+    background: transparent;
+    border: transparent;
     color: hsl(0, 0%, 10%);
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 500;
     line-height: 20px;
     text-decoration: none;
     vertical-align: baseline;
-
     &:hover {
+      cursor: pointer;
       text-decoration: underline;
     }
   }
 
   .username {
     margin: 0 3px;
-
     &:hover {
       text-decoration: underline;
     }
@@ -100,30 +105,6 @@ export const CardInformation = styled.div`
 export const CardContent = styled.div`
   margin: 0 6px 0 6px;
   text-align: justify;
-`;
-
-export const CardToolBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  font-size: 11.5px;
-  font-weight: 600;
-  margin-top: 3px;
-  padding: 0 8px 0 4px;
-
-  a {
-    align-items: center;
-    color: hsl(0, 0%, 53%);
-    display: flex;
-    margin-bottom: 3px;
-    margin-right: 3px;
-    padding: 8px;
-    text-decoration: none;
-
-    &:hover {
-      background-color: rgba(26, 26, 27, 0.1);
-      border-radius: 3px;
-    }
-  }
 `;
 
 const Button = css`
@@ -137,19 +118,21 @@ const Button = css`
   margin-bottom: 3px;
   margin-right: 3px;
   padding: 8px;
-`;
-
-export const ShareButton = styled.button`
-  ${Button}
   &:hover {
     background-color: rgba(26, 26, 27, 0.1);
     border-radius: 3px;
   }
 `;
-export const SaveButton = styled.button`
-  ${Button}
-  &:hover {
-    background-color: rgba(26, 26, 27, 0.1);
-    border-radius: 3px;
+
+export const CardToolBar = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-size: 11.5px;
+  font-weight: 600;
+  margin-top: 3px;
+  padding: 0 8px 0 4px;
+
+  button {
+    ${Button}
   }
 `;
