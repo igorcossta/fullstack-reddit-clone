@@ -71,7 +71,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         // send the tokens to client
         res.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(res.getOutputStream(), createTokenResponse(token, refresh_token));
+        new ObjectMapper().writeValue(res.getOutputStream(), createTokenResponse(token, refresh_token, user));
     }
 
     /*

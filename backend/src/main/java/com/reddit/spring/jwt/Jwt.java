@@ -5,18 +5,24 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.reddit.spring.dto.LoginResponse;
 import com.reddit.spring.model.User;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Slf4j
+@AllArgsConstructor
 public class Jwt {
     private final static String security = "secret";
     private final static Algorithm algorithm = Algorithm.HMAC256(security.getBytes(UTF_8));
@@ -41,11 +47,16 @@ public class Jwt {
         return token;
     }
 
-    public static Map<String, String> createTokenResponse(String token, String refreshToken) {
-        Map<String, String> tokens = new HashMap<>();
-        tokens.put("access_token", token);
-        tokens.put("refresh_token", refreshToken);
-        return tokens;
+    public static LoginResponse createTokenResponse(String token, String refreshToken, User user) {
+        return new LoginResponse(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getUsername(),
+                !user.isAccountNonLocked(),
+                user.isEnabled(),
+                token,
+                refreshToken
+        );
     }
 
     public static UsernamePasswordAuthenticationToken createCredentialsFromToken(String token) {
