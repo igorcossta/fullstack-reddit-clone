@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FcReddit } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { useAuth } from '../../context/authentication';
-import { SigninPayload } from '../../context/authentication.type';
 import { Container, Tools } from './styles';
 
-const object = {
-  username: 'pam@edu.br',
-  password: '12',
-} as SigninPayload;
-
 const Header: React.FC = () => {
-  const { signed, SignOut, SignIn } = useAuth();
+  const { signed, SignOut } = useAuth();
+  const history = useHistory();
+
+  const signIn = useCallback(() => {
+    history.push('/login');
+  }, [history]);
+
+  const signOut = useCallback(() => {
+    SignOut();
+  }, [SignOut]);
+
   return (
     <Container>
       <Link to="/">
@@ -24,15 +28,17 @@ const Header: React.FC = () => {
         {signed ? (
           // usuario autenticado
           <>
-            <img src="https://avatars.githubusercontent.com/u/65612587?v=4" alt="user" />
-            <button type="button" onClick={() => SignOut()}>
+            <Link to="/dashboard">
+              <img src="https://avatars.githubusercontent.com/u/65612587?v=4" alt="user" />
+            </Link>
+            <button type="button" onClick={signOut}>
               Log Out
             </button>
           </>
         ) : (
           // usuario nao autenticado
           <>
-            <button type="button" onClick={() => SignIn(object)}>
+            <button type="button" onClick={signIn}>
               Log In
             </button>
             <button type="button">Sign Up</button>

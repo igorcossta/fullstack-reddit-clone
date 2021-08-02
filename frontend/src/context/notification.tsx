@@ -21,7 +21,6 @@ const Context = createContext<ContextProps>({} as ContextProps);
 const NotifyProvider: React.FC = ({ children }) => {
   const [notifications, setNotify] = useState<NotifyProps[]>([]);
 
-  // add new notification
   const addNotification = useCallback(({ title, description, type }: Omit<NotifyProps, 'id'>) => {
     const id = uuidv4();
     const notify = {
@@ -32,7 +31,7 @@ const NotifyProvider: React.FC = ({ children }) => {
     };
     setNotify((state) => [...state, notify]);
   }, []);
-  // remove some notification
+
   const removeNotification = useCallback((id: string) => {
     setNotify((state) => state.filter((i) => i.id !== id));
   }, []);

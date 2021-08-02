@@ -11,8 +11,7 @@ export default createGlobalStyle`
 
   body {
     background-color: var(--background);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    height: 1000px;
+    font-family: 'Noto Sans', sans-serif;
   }
 
   :root {

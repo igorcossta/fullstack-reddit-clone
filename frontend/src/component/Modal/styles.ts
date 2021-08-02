@@ -21,7 +21,7 @@ export const Container = styled.div`
   display: grid;
   flex: 1;
   grid-template-columns: 156px 1fr;
-  margin: 0.5rem auto;
+  margin: 0.1rem auto;
   max-height: 850px;
   max-width: 850px;
   position: relative;

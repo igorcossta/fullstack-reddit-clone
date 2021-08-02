@@ -20,7 +20,6 @@ export const Container = styled.div`
     text-decoration: none;
 
     h1 {
-      font-family: 'Roboto', sans-serif;
       font-size: 22px;
       font-weight: 500;
       margin-left: 6px;

@@ -1,13 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { FaArrowCircleUp } from 'react-icons/fa';
+import { Route, Switch } from 'react-router-dom';
 
 import { useAuth } from '../context/authentication';
-import AppRoutes from './app.routes';
-import AuthRoutes from './auth.routes';
+import { Dashboard, Home, Login } from '../page';
+import PrivateRoute from './protect.routes';
 
 const Routes: React.FC = () => {
-  const { signed } = useAuth();
   const [showScroll, setShowScroll] = useState(false);
+  const { signed } = useAuth();
 
   const checkScrollTop = () => {
     if (!showScroll && window.pageYOffset > 201) {
@@ -28,7 +29,12 @@ const Routes: React.FC = () => {
       {showScroll && (
         <FaArrowCircleUp size={38} fill="var(--secondary-color)" className="scrollTop" onClick={() => scrollTop()} />
       )}
-      {signed ? <AppRoutes /> : <AuthRoutes />}
+      <Switch>
+        <Route exact path="/" component={Home} />
+        {!signed && <Route exact path="/login" component={Login} />}
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <Route path="*" component={() => <h6>not found</h6>} />
+      </Switch>
     </>
   );
 };

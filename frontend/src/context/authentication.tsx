@@ -9,88 +9,80 @@ import { useNotification } from './notification';
 interface ContextProps {
   loading: boolean;
   signed: boolean;
-  principal: UserProps | null;
   SignIn(payload: SigninPayload): Promise<void>;
   SignOut(): void;
+  user: UserProps | null;
 }
 
 interface UserProps {
   firstName: string;
   lastName: string;
   username: string; // email
-  locked: string;
-  enabled: string;
-  token: string;
-  refreshToken: string;
 }
 
 const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<UserProps | null>(null);
   const [loading, setLoading] = useState(false);
+  const [signed, setSigned] = useState(false);
+  const [user, setUser] = useState<UserProps | null>(null);
   const { addNotification } = useNotification();
   const history = useHistory();
 
-  // verificar se existe um usuario salvo no localStorage
   useEffect(() => {
     setLoading(true);
-    const guy = window.localStorage.getItem('user');
-    if (guy) {
-      setUser(JSON.parse(guy));
+    const usuario = window.localStorage.getItem('user');
+    const token = window.localStorage.getItem('token');
+    if (usuario && token) {
+      setUser(JSON.parse(usuario));
+      setSigned(true);
     }
     setLoading(false);
   }, []);
 
-  // funcao para efetuar o login
   const SignIn = useCallback(
     async (payload: SigninPayload) => {
       setLoading(true);
-      // envia uma requisicao para o servidor
-      // com os dados de usuario e senha
       await server
         .post('/api/signin', payload)
-        .then((res) => {
-          const { data } = res;
+        .then(({ data, headers }) => {
+          setUser(data);
+          setSigned(true);
 
           window.localStorage.setItem('user', JSON.stringify(data));
-          setUser(data);
+          window.localStorage.setItem('token', headers.authorization);
 
-          // assim que o usuario for autenticado, o mesmo sera
-          // redirecionado para o dashboard
           history.push('/dashboard');
         })
-        // enviar uma notificao caso o usuario e senha
-        // sejam invalidos
-        .catch(() => {
-          addNotification({
-            title: 'Erro',
-            description: 'Aconteceu um erro na autenticacao',
-            type: 'danger',
-          });
+        .catch((err) => {
+          if (err.response) {
+            const { error, message } = err.response.data;
+            addNotification({
+              title: `${error}`,
+              description: `${message}`,
+              type: 'danger',
+            });
+          } else {
+            addNotification({
+              title: 'Internal error',
+              description: 'Contact an administrator',
+              type: 'danger',
+            });
+          }
         })
         .finally(() => setLoading(false));
     },
     [addNotification, history],
   );
 
-  // funcao para efetuar logout
   const SignOut = useCallback(() => {
-    const guy = window.localStorage.getItem('user');
-    if (guy) {
-      window.localStorage.removeItem('user');
-      setUser(null);
-      history.push('/');
-    } else {
-      console.log('voce ja esta deslogado');
-    }
+    window.localStorage.clear();
+    setUser(null);
+    setSigned(false);
+    history.push('/');
   }, [history]);
 
-  return (
-    <Context.Provider value={{ signed: !!user, principal: user, SignIn, SignOut, loading }}>
-      {children}
-    </Context.Provider>
-  );
+  return <Context.Provider value={{ loading, signed, SignIn, SignOut, user }}>{children}</Context.Provider>;
 };
 
 function useAuth(): ContextProps {
