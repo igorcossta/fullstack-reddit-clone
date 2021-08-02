@@ -9,6 +9,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,11 +24,8 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         if (req.getServletPath().equals("/api/signin")) chain.doFilter(req, res);
         else {
             String header = req.getHeader(AUTHORIZATION);
-            // ways to perform an appropriate response
-            // 1 option - let responsibility to spring (default)
+            Cookie[] cookie = req.getCookies();
             if (Strings.isNullOrEmpty(header) || !header.startsWith("Bearer ")) chain.doFilter(req, res);
-                // 2 option - throws an exception and catch on @ControllerAdvice (modify the response)
-//            if (Strings.isNullOrEmpty(header) || !header.startsWith("Bearer ")) throw new RedditException("You must be authenticated to access this resource");
             else {
                 String token = header.replace("Bearer ", "");
                 try {
@@ -35,7 +33,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(credentials);
                     chain.doFilter(req, res);
                 } catch (Exception ex) {
-                    // same options as above
                     chain.doFilter(req, res);
                 }
             }

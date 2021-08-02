@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -47,16 +49,27 @@ public class Jwt {
         return token;
     }
 
-    public static LoginResponse createTokenResponse(String token, String refreshToken, User user) {
+    public static LoginResponse createTokenResponse(User user) {
         return new LoginResponse(
                 user.getFirstName(),
                 user.getLastName(),
-                user.getUsername(),
-                !user.isAccountNonLocked(),
-                user.isEnabled(),
-                token,
-                refreshToken
+                user.getUsername()
         );
+    }
+
+    private static void setCookies(HttpServletResponse res, String token, String refreshToken) {
+        int maxAge = 15;
+        // token cookie
+        Cookie cookieJWT = new Cookie("token", token);
+        cookieJWT.setHttpOnly(true);
+        cookieJWT.setMaxAge(maxAge);
+        // refresh token cookie
+        Cookie refreshJWT = new Cookie("refreshToken", refreshToken);
+        refreshJWT.setHttpOnly(true);
+        refreshJWT.setMaxAge(maxAge);
+        // Set cookies
+        res.addCookie(cookieJWT);
+        res.addCookie(refreshJWT);
     }
 
     public static UsernamePasswordAuthenticationToken createCredentialsFromToken(String token) {
@@ -79,5 +92,15 @@ public class Jwt {
             log.error("verify token throws an exception -> {}", ex.getMessage());
             throw new JWTVerificationException(ex.getMessage());
         }
+    }
+
+    public static String getJwtFromCookie(Cookie[] cookies) {
+        if (cookies == null) return "";
+        for (Cookie cookie : cookies) {
+            if ("token".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+        return "";
     }
 }

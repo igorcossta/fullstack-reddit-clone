@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.reddit.spring.jwt.Jwt.*;
+import static com.reddit.spring.jwt.Jwt.createToken;
+import static com.reddit.spring.jwt.Jwt.createTokenResponse;
 import static java.time.ZonedDateTime.now;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -39,7 +40,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         try {
             UsernameAndPasswordRequest credentials = new ObjectMapper().
                     readValue(req.getInputStream(), UsernameAndPasswordRequest.class);
-
             // verificar os dados enviados do cliente
 
             // ...
@@ -62,16 +62,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException {
         log.info("successful Authentication");
-        User user = (User) auth.getPrincipal();
 
-        // create the tokens
+        User user = (User) auth.getPrincipal();
         String issuer = req.getRequestURI();
         String token = createToken(user, issuer);
-        String refresh_token = createRefreshToken(user.getUsername(), issuer);
 
-        // send the tokens to client
         res.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(res.getOutputStream(), createTokenResponse(token, refresh_token, user));
+        res.setHeader("Authorization", token);
+        new ObjectMapper().writeValue(res.getOutputStream(), createTokenResponse(user));
     }
 
     /*
