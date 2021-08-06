@@ -1,77 +1,58 @@
 import styled from 'styled-components';
 
 export const Container = styled.main`
-  color: hsl(240, 1.9%, 10.4%);
-  font-size: 12px;
-  height: 100%;
-  line-height: 18px;
-  margin: 40px auto 0 auto;
-  width: 50%;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  height: calc(100vh - 50px);
+  justify-content: center;
+  overflow: hidden;
+`;
 
-  button {
-    color: hsl(205.6, 70.7%, 53.1%);
-    background: transparent;
-    border: transparent;
-    &:hover {
-      color: hsl(205.6, 100%, 41.4%);
-      cursor: pointer;
-    }
-  }
+export const Content = styled.div`
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+  padding: 77px 55px 33px;
+  text-align: center;
+  width: 390px;
 
   h1 {
-    font-size: 18px;
-    line-height: 22px;
+    padding-bottom: 50px;
+    font-weight: 700;
+    font-size: 20px;
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
-    button {
-      background: var(--secondary-color);
-      border-radius: 20px;
-      color: hsl(0, 0%, 100%);
-      font-family: 'NotoSans', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      height: 40px;
-      margin-top: 16px;
-      padding: 0 16px;
-      width: 260px;
-      &:hover {
-        background: hsl(205.6, 70.7%, 53.1%);
-        color: hsl(0, 0%, 100%);
-      }
+  p {
+    color: var(--secondary);
+    a {
+      color: var(--gray-dark);
+      text-decoration: none;
     }
   }
 
-  div {
-    // div -> titulo e acordos
-    &:first-child {
-      margin-bottom: 48px;
-      h1 {
-        margin-bottom: 8px;
-      }
+  button {
+    background: var(--primary);
+    border-radius: 16px;
+    border: transparent;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    height: 40px;
+    margin-bottom: 115px;
+    margin-top: 8px;
+    width: 270px;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.9;
     }
-
-    // div -> recuperar conta ou criar uma nova
-    &:last-child {
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-
-      // botao de Sign Up
-      span {
-        &:last-child {
-          margin-top: 28px;
-          button {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            line-height: 24px;
-            text-transform: uppercase;
-            color: hsl(205.6, 100%, 41.4%);
-          }
-        }
-      }
-    }
-  } // fim das divs
+  }
+  @media only screen and (max-width: 768px) {
+    height: 100%;
+    width: 100%;
+    border-top: 1px solid;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-top-color: hsl(340, 88.2%, 96.7%);
+  }
 `;

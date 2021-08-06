@@ -1,4 +1,5 @@
 import React, { useCallback, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
@@ -8,7 +9,7 @@ import { Input } from '../../component';
 import { useAuth } from '../../context/authentication';
 import { SigninPayload } from '../../context/authentication.type';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { Container } from './styles';
+import { Container, Content } from './styles';
 
 const Login: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
@@ -38,34 +39,26 @@ const Login: React.FC = () => {
 
   return (
     <Container>
-      <div>
-        <h1>Login</h1>
-        <span>
-          By continuing, you agree to our <button type="button">User Agreement</button> and{' '}
-          <button type="button"> Privacy Policy</button>.
-        </span>
-      </div>
-
-      <Form ref={formRef} onSubmit={handleSubmit}>
-        <Input name="username" placeholder="username" />
-        <Input name="password" type="password" placeholder="password" />
-        {loading ? (
-          <button type="button" disabled>
-            Loading
-          </button>
-        ) : (
-          <button type="submit">Log In</button>
-        )}
-      </Form>
-
-      <div>
-        <span>
-          Forgot your <button type="button"> username </button> or <button type="button"> password </button> ?
-        </span>
-        <span>
-          New to Reddit? <button type="button"> Sign Up</button>
-        </span>
-      </div>
+      <Content>
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <h1>Login</h1>
+          <Input name="username" placeholder="username" />
+          <Input name="password" type="password" placeholder="password" />
+          {loading ? (
+            <button type="button" disabled>
+              Loading
+            </button>
+          ) : (
+            <button type="submit">Log In</button>
+          )}
+          <p>
+            Forgot your password? <Link to="/recovery">Recovery</Link>
+          </p>
+          <p>
+            Don’t have an account? <Link to="/signup">Sign Up</Link>
+          </p>
+        </Form>
+      </Content>
     </Container>
   );
 };
