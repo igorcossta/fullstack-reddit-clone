@@ -9,7 +9,7 @@ export const Container = styled.main`
   overflow: hidden;
 `;
 
-export const Content = styled.div`
+export const Content = styled.section`
   background: white;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);

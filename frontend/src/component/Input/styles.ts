@@ -20,7 +20,7 @@ export const Container = styled.fieldset<Props>`
   }
 
   svg {
-    margin-left: 16px;
+    margin-right: 16px;
     color: var(--danger);
   }
 
@@ -47,6 +47,7 @@ export const Container = styled.fieldset<Props>`
     border: 0;
     padding: 10px;
     outline: 0;
+    width: 100%;
 
     &::placeholder {
       color: var(--secondary);

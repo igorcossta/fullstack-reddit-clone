@@ -36,7 +36,7 @@ export const SaveIcon = styled(AiOutlinePushpin)`
   ${Icon}
 `;
 
-export const Container = styled.div`
+export const Container = styled.article`
   border: 1px solid rgba(26, 26, 27, 0.1);
   cursor: pointer;
   display: grid;

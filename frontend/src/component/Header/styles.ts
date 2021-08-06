@@ -4,7 +4,7 @@ interface ToolsProps {
   signed: boolean;
 }
 
-export const Container = styled.div`
+export const Container = styled.header`
   align-items: center;
   background: white;
   display: flex;
