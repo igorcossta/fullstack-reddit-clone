@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer, Slide } from 'react-toastify';
 
 import WebFont from 'webfontloader';
 
 import Root from './assets/style/Root';
 import { Header } from './component';
 import { AuthProvider } from './context/authentication';
-import { NotifyProvider } from './context/notification';
 import Routes from './routes';
 
 const App: React.FC = () => {
@@ -20,13 +20,12 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <NotifyProvider>
-        <AuthProvider>
-          <Header />
-          <Routes />
-        </AuthProvider>
-      </NotifyProvider>
+      <AuthProvider>
+        <Header />
+        <Routes />
+      </AuthProvider>
       <Root />
+      <ToastContainer transition={Slide} />
     </BrowserRouter>
   );
 };

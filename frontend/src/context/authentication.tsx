@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 
 import { server } from '../service/server';
 import { SigninPayload } from './authentication.type';
-import { useNotification } from './notification';
 
 interface ContextProps {
   loading: boolean;
@@ -26,7 +25,6 @@ const AuthProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [signed, setSigned] = useState(false);
   const [user, setUser] = useState<UserProps | null>(null);
-  const { addNotification } = useNotification();
   const history = useHistory();
 
   useEffect(() => {
@@ -54,25 +52,9 @@ const AuthProvider: React.FC = ({ children }) => {
 
           history.push('/dashboard');
         })
-        .catch((err) => {
-          if (err.response) {
-            const { error, message } = err.response.data;
-            addNotification({
-              title: `${error}`,
-              description: `${message}`,
-              type: 'danger',
-            });
-          } else {
-            addNotification({
-              title: 'Internal error',
-              description: 'Contact an administrator',
-              type: 'danger',
-            });
-          }
-        })
         .finally(() => setLoading(false));
     },
-    [addNotification, history],
+    [history],
   );
 
   const SignOut = useCallback(() => {
