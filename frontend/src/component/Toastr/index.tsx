@@ -2,7 +2,7 @@
 import React from 'react';
 import {
   IoAlertOutline,
-  IoBanOutline,
+  IoSadOutline,
   IoCheckmarkDoneOutline,
   IoInformationOutline,
   IoWarningOutline,
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const icons = {
-  danger: <IoBanOutline size={20} />,
+  danger: <IoSadOutline size={20} />,
   default: <IoAlertOutline size={20} />,
   info: <IoInformationOutline size={20} />,
   success: <IoCheckmarkDoneOutline size={20} />,

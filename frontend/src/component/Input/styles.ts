@@ -13,10 +13,9 @@ export const Container = styled.fieldset<Props>`
   border: 1px solid;
   border-color: var(--secondary);
   outline: none;
-  width: 100%;
 
   & + fieldset {
-    margin-top: 8px;
+    margin-top: 10px;
   }
 
   svg {
@@ -46,11 +45,8 @@ export const Container = styled.fieldset<Props>`
     background: transparent;
     border: 0;
     padding: 10px;
-    outline: 0;
+    outline: none;
     width: 100%;
-
-    &::placeholder {
-      color: var(--secondary);
-    }
+    font-weight: 500;
   }
 `;

@@ -2,15 +2,15 @@ import React, { useCallback } from 'react';
 import { FcReddit } from 'react-icons/fc';
 import { Link, useHistory } from 'react-router-dom';
 
-import { useAuth } from '../../context/authentication';
+import { useAuth } from '../../context/account';
 import { Container, Tools } from './styles';
 
 const Header: React.FC = () => {
   const { signed, SignOut } = useAuth();
   const history = useHistory();
 
-  const signIn = useCallback(() => {
-    history.push('/login');
+  const account = useCallback(() => {
+    history.push('/account');
   }, [history]);
 
   const signOut = useCallback(() => {
@@ -28,7 +28,7 @@ const Header: React.FC = () => {
         {signed ? (
           // usuario autenticado
           <>
-            <Link to="/dashboard">
+            <Link to="/account">
               <img src="https://avatars.githubusercontent.com/u/65612587?v=4" alt="user" />
             </Link>
             <button type="button" onClick={signOut}>
@@ -38,10 +38,12 @@ const Header: React.FC = () => {
         ) : (
           // usuario nao autenticado
           <>
-            <button type="button" onClick={signIn}>
+            <button type="button" onClick={account}>
               Log In
             </button>
-            <button type="button">Sign Up</button>
+            <button type="button" onClick={account}>
+              Sign Up
+            </button>
           </>
         )}
       </Tools>

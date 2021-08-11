@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Card } from '../../component';
-import { browser } from '../../service/server';
+import { RedditAPI } from '../../service/reddit.api';
 import { Container, Content, Side } from './styles';
 
 const Home: React.FC = () => {
@@ -11,10 +11,9 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     async function fetch() {
-      await browser
-        .get('/api/subreddit')
-        .then((res) => {
-          setPosts(res.data);
+      await RedditAPI.get('/api/subreddit')
+        .then(({ data }) => {
+          setPosts(data);
         })
         .catch(() => setError(true))
         .finally(() => setLoading(false));

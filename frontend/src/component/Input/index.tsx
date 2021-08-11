@@ -1,5 +1,6 @@
 import React, { InputHTMLAttributes, useEffect, useRef, useState, useCallback } from 'react';
 import { FiAlertCircle } from 'react-icons/fi';
+import ReactTooltip from 'react-tooltip';
 
 import { useField } from '@unform/core';
 
@@ -34,14 +35,13 @@ const Input: React.FC<Props> = ({ name, ...rest }) => {
 
   return (
     <Container isFocus={isFocus} isFill={isFill} isError={!!error}>
-      <input
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        ref={inputRef}
-        {...rest}
-        placeholder={error || rest.placeholder}
-      />
-      {error && <FiAlertCircle size={16} />}
+      <input onFocus={handleFocus} onBlur={handleBlur} ref={inputRef} {...rest} placeholder={rest.placeholder} />
+      {error && (
+        <>
+          <FiAlertCircle data-tip={error} size={16} />
+          <ReactTooltip multiline />
+        </>
+      )}
     </Container>
   );
 };

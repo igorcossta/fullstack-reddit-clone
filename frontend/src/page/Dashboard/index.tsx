@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useAuth } from '../../context/authentication';
+import { useAuth } from '../../context/account';
 import { Container } from './styles';
 
 const Dashboard: React.FC = () => {
