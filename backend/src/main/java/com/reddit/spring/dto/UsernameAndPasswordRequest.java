@@ -21,6 +21,6 @@ public class UsernameAndPasswordRequest {
 
     @NotNull(message = "field password cannot be null")
     @NotBlank(message = "field password cannot be empty")
-    @Size(min = 6, max = 120, message = "field password must be between 30 and 120 characters")
+    @Size(min = 6, max = 20, message = "field password must be between 6 and 20 characters")
     private String password;
 }

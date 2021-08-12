@@ -21,15 +21,16 @@ public class RegisterRequest {
 
     @NotNull(message = "field lastName cannot be null")
     @NotBlank(message = "field lastName cannot be empty")
-    @Size(min = 3, max = 30, message = "first name must be between 3 and 3 characters")
+    @Size(min = 3, max = 30, message = "first name must be between 3 and 30 characters")
     private String lastName;
 
-    @Email
+    @Email(message = "field email must be a valid email address")
     @NotNull(message = "field email cannot be null")
     @NotBlank(message = "field email cannot be empty")
     private String email;
 
     @NotNull(message = "field password cannot be null")
     @NotBlank(message = "field password cannot be empty")
+    @Size(min = 6, max = 20, message = "password must be between 6 and 20 characters")
     private String password;
 }

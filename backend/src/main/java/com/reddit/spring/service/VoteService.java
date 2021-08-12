@@ -2,7 +2,7 @@ package com.reddit.spring.service;
 
 import com.reddit.spring.dto.VoteDto;
 import com.reddit.spring.exception.PostNotFoundException;
-import com.reddit.spring.exception.SpringRedditException;
+import com.reddit.spring.exception.RedditException;
 import com.reddit.spring.model.Post;
 import com.reddit.spring.model.Vote;
 import com.reddit.spring.model.VoteType;
@@ -25,7 +25,7 @@ public class VoteService {
         Optional<Vote> vote = voteRepository.findTopByPostAndUserOrderByVoteIdDesc(post, userService.getCurrentUser());
 
         if (vote.isPresent() && vote.get().getVoteType().equals(voteDto.getVoteType())) {
-            throw new SpringRedditException("you have already voted on this post");
+            throw new RedditException("you have already voted on this post");
         }
 
         if (VoteType.UPVOTE.equals(voteDto.getVoteType())) {

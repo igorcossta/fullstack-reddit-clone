@@ -18,10 +18,11 @@ import java.util.stream.Collectors;
 public class SubredditService {
     private final SubredditRepository subredditRepository;
     private final SubredditMapper subredditMapper;
+    private final UserService userService;
 
     @Transactional
     public void save(SubredditRequest subredditDto) {
-        subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto));
+        subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto, userService.getCurrentUser()));
     }
 
     @Transactional(readOnly = true)

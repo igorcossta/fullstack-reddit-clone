@@ -19,7 +19,6 @@ import java.io.IOException;
 
 import static com.reddit.spring.jwt.Jwt.createToken;
 import static com.reddit.spring.jwt.Jwt.createTokenResponse;
-import static java.time.ZonedDateTime.now;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -81,7 +80,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         log.info("unsuccessful Authentication");
         res.setStatus(SC_UNAUTHORIZED);
         res.setContentType(APPLICATION_JSON_VALUE);
-        var error = new Error(now(), SC_UNAUTHORIZED, "Unauthorized", "Maybe your credentials are invalid", req.getServletPath());
+        var error = new Error(SC_UNAUTHORIZED, "Unauthorized", "Invalid email or password", req.getServletPath());
         new ObjectMapper().writeValue(res.getOutputStream(), error);
     }
 }

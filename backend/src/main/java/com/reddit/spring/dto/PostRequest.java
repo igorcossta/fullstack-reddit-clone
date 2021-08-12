@@ -23,7 +23,7 @@ public class PostRequest {
 
     @NotNull(message = "field description cannot be null")
     @NotBlank(message = "field description cannot be empty")
-    @Size(min = 30, max = 255, message = "field description must be between 30 and 255 characters")
+    @Size(min = 10, max = 255, message = "field description must be between 10 and 255 characters")
     private String description;
 
     @NotNull(message = "field url cannot be null")

@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
         boolean userExists = userRepository.findByUsername(user.getUsername()).isPresent();
 
         if (userExists) {
-            throw new EmailExistsException("email already taken");
+            throw new EmailExistsException("the email already taken");
         }
 
         String encode = bCryptPasswordEncoder.encode(user.getPassword());

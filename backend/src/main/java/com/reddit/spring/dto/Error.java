@@ -9,42 +9,47 @@ import lombok.*;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static java.time.ZonedDateTime.now;
+
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Error {
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private ZonedDateTime timestamp;
     private int status;
     private String error;
     private String message;
     private String path;
-    private List<Field> field;
+    private List<Field> fields;
 
-    public Error(ZonedDateTime timestamp, int status, String error, String message, String path) {
-        this.timestamp = timestamp;
+    public Error(int status, String error, String message, String path, List<Field> fields) {
+        this.timestamp = now();
         this.status = status;
         this.error = error;
         this.message = message;
         this.path = path;
-        this.field = null;
+        this.fields = fields;
     }
 
     public Error(int status, String error, String message, String path) {
+        this.timestamp = now();
         this.status = status;
         this.error = error;
         this.message = message;
         this.path = path;
-        this.field = null;
+        this.fields = null;
     }
 
     @Getter
     @Setter
-    private static class Field {
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString
+    public static class Field {
         private String field;
         private String message;
     }

@@ -1,6 +1,6 @@
 package com.reddit.spring.service;
 
-import com.reddit.spring.exception.SpringRedditException;
+import com.reddit.spring.exception.RedditException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class EmailService implements EmailSender {
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);
-            throw new SpringRedditException("failed to send email");
+            throw new RedditException("failed to send email");
         }
     }
 }

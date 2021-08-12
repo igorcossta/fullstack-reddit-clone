@@ -31,14 +31,14 @@ public class RedditSpringApplication {
                 "ana",
                 "smith",
                 "ana@edu.br",
-                passwordEncoder.encode("12"),
+                passwordEncoder.encode("Ana@1234"),
                 ADMIN
         );
         User user2 = new User(
                 "Pamela",
                 "Costa",
                 "pam@edu.br",
-                passwordEncoder.encode("12"),
+                passwordEncoder.encode("Pam@1234"),
                 USER
         );
         user.setEnabled(true);

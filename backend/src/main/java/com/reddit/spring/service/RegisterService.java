@@ -1,7 +1,7 @@
 package com.reddit.spring.service;
 
 import com.reddit.spring.dto.RegisterRequest;
-import com.reddit.spring.exception.InvalidEmailException;
+import com.reddit.spring.exception.PasswordException;
 import com.reddit.spring.exception.TokenConfirmedException;
 import com.reddit.spring.exception.TokenExpiredException;
 import com.reddit.spring.exception.TokenNotFoundException;
@@ -14,19 +14,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import static com.reddit.spring.utils.PasswordValidator.testPassword;
+
 @Service
 @AllArgsConstructor
 public class RegisterService {
-    private final EmailValidator emailValidator;
     private final UserService userService;
     private final VerificationTokenService verificationTokenService;
     private final EmailSender emailSender;
 
     public void register(RegisterRequest request) {
-        boolean isValidEmail = emailValidator.test(request.getEmail());
+        boolean isValidPassword = testPassword(request.getPassword());
 
-        if (!isValidEmail) {
-            throw new InvalidEmailException("input email is invalid");
+        if (!isValidPassword) {
+            throw new PasswordException("the password is very bad");
         }
 
         String token = userService.signUpUser(
@@ -37,7 +38,7 @@ public class RegisterService {
                 )
         );
 
-        String link = "http://localhost:8080/api/register/confirm?token=" + token;
+        String link = "http://localhost:3000/account?token=" + token;
         emailSender.send(request.getEmail(), buildEmail(request.getFirstName(), link));
     }
 
@@ -46,13 +47,13 @@ public class RegisterService {
         VerificationToken theToken = verificationTokenService.getVerificationToken(token).orElseThrow(() -> new TokenNotFoundException("token cannot be found"));
 
         if (theToken.getConfirmedAt() != null) {
-            throw new TokenConfirmedException("token already confirmed");
+            throw new TokenConfirmedException("the token already confirmed");
         }
 
         LocalDateTime expiredAt = theToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new TokenExpiredException("token is expired");
+            throw new TokenExpiredException("the token is expired");
         }
 
         verificationTokenService.setConfirmedAt(token);

@@ -52,9 +52,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // open endpoints
         http.authorizeRequests()
                 .antMatchers(POST, "/api/signin/**").permitAll()
-                .antMatchers(GET, "/api/subreddit/**").permitAll();
+                .antMatchers("/api/register/**").permitAll()
+                .antMatchers(GET, "/api/subreddit/**").permitAll()
+                .antMatchers(GET, "/api/post/**").permitAll();
 
         // user endpoints
+        http.authorizeRequests()
+                .antMatchers(POST, "/api/subreddit/**").hasAnyAuthority("USER", "ADMIN");
+
 
         // admin endpoints
         http.authorizeRequests()

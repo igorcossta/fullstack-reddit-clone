@@ -1,6 +1,6 @@
 package com.reddit.spring.model;
 
-import com.reddit.spring.exception.SpringRedditException;
+import com.reddit.spring.exception.RedditException;
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ public enum VoteType {
         return Arrays.stream(VoteType.values())
                 .filter(value -> value.getDirection().equals(direction))
                 .findAny()
-                .orElseThrow(() -> new SpringRedditException("vote cannot be found"));
+                .orElseThrow(() -> new RedditException("vote cannot be found"));
     }
 
     public Integer getDirection() {
