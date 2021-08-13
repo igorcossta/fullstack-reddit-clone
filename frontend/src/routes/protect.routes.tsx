@@ -1,13 +1,15 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 
+import { storage } from '../service/storage.manager';
+
 interface PrivateRouteProps extends RouteProps {
   // tslint:disable-next-line:no-any
   component: any;
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...rest }) => {
-  const signed = window.localStorage.getItem('user');
+  const signed = storage.getUser();
   return (
     <Route
       {...rest}
@@ -15,7 +17,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...re
         return signed ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+          <Redirect to={{ pathname: '/account', state: { from: props.location } }} />
         );
       }}
     />

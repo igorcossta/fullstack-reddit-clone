@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
+import { PostProps } from '../../@types/subreddit.type';
+import { RedditAPI } from '../../axios/reddit.api';
 import { Card } from '../../component';
-import { RedditAPI } from '../../service/reddit.api';
 import { Container, Content, Side } from './styles';
 
 const Home: React.FC = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<PostProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -34,15 +35,17 @@ const Home: React.FC = () => {
         {loading ? (
           <h6>carregando</h6>
         ) : (
-          <Card
-            key="1"
-            subreddit="reddit"
-            username="master"
-            time="just now"
-            comment={10000}
-            vote={20000}
-            content="lorem ipsum dolor sit amet."
-          />
+          posts.map((x) => (
+            <Card
+              key={x.subreddit}
+              subreddit={x.subreddit}
+              username={x.username}
+              time={x.time}
+              comment={x.comment}
+              vote={x.vote}
+              content={x.content}
+            />
+          ))
         )}
       </Content>
     </Container>

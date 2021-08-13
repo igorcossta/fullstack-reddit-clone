@@ -1,10 +1,10 @@
 import React, { createContext, useCallback, useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { AuthAPI } from '../service/auth.api';
+import { ContextProps, SigninPayload, SignupPayload, UserProps } from '../@types/account.type';
+import { AuthAPI } from '../axios/auth.api';
+import { handleError, handleSuccess } from '../service/account.service';
 import { storage } from '../service/storage.manager';
-import { handleError, handleSuccess } from './account.handler';
-import { ContextProps, SigninPayload, SignupPayload, UserProps } from './account.type';
 
 const Context = createContext<ContextProps>({} as ContextProps);
 

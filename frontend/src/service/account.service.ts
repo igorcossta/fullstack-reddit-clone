@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
 import { Toastr } from '../component';
-import { storage } from '../service/storage.manager';
+import { storage } from './storage.manager';
 
 function handleError(error: AxiosError): void {
   if (error.response) {

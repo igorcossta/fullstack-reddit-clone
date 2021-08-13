@@ -1,4 +1,4 @@
-import { UserProps } from '../context/account.type';
+import { UserProps } from '../@types/account.type';
 
 function clearData(): void {
   window.localStorage.clear();

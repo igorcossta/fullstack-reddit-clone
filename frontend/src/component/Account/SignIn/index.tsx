@@ -6,8 +6,8 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
 import { Input } from '../..';
+import { SigninPayload } from '../../../@types/account.type';
 import { useAuth } from '../../../context/account';
-import { SigninPayload } from '../../../context/account.type';
 import getValidationErrors from '../../../utils/getValidationErrors';
 import { Container } from './styles';
 
