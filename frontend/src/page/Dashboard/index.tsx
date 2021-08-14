@@ -12,10 +12,10 @@ const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    RedditAPI.get('/api/subreddit')
+    RedditAPI.get(`/api/subreddit/user/${user?.username}`)
       .then(({ data }) => setSubreddit(data))
       .catch(() => Toastr.info('Maybe your data has not been loaded.'));
-  }, []);
+  }, [user]);
 
   return (
     <Wrapper>
@@ -23,7 +23,12 @@ const Dashboard: React.FC = () => {
         <div className="subreddit">
           {subreddit.length !== 0 ? (
             subreddit.map((x) => (
-              <SubredditCard key={x.name} name={x.name} description={x.description} numberOfPosts={x.numberOfPosts} />
+              <SubredditCard
+                key={x.subredditId}
+                name={x.name}
+                description={x.description}
+                numberOfPosts={x.numberOfPosts}
+              />
             ))
           ) : (
             <>
@@ -43,7 +48,7 @@ const Dashboard: React.FC = () => {
           </div>
 
           <div>
-            <Link className="user__crSubreddit" to="/account/crSubreddit">
+            <Link className="user__crSubreddit" to="/account/create-subreddit">
               Create new Subreddit
             </Link>
           </div>

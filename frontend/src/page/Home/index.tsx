@@ -12,7 +12,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     async function fetch() {
-      await RedditAPI.get('/api/subreddit')
+      await RedditAPI.get('/api/post?size_gt=500')
         .then(({ data }) => {
           setPosts(data);
         })

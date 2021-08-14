@@ -10,7 +10,7 @@ const Routes: React.FC = () => {
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/account" component={Account} />
-      <PrivateRoute exact path="/account/crSubreddit" component={CrSubreddit} />
+      <PrivateRoute exact path="/account/create-subreddit" component={CrSubreddit} />
       <Route path="*" component={() => <h6>not found</h6>} />
     </Switch>
   );

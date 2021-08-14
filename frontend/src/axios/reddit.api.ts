@@ -12,7 +12,7 @@ RedditAPI.interceptors.request.use(
     const conf = config;
 
     const { url, method } = conf;
-    if (url === '/api/subreddit' && method === 'post') {
+    if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
       const token = storage.getToken();
       if (token) conf.headers.Authorization = `Bearer ${token}`;
     }

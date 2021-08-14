@@ -34,7 +34,7 @@ const CrSubreddit: React.FC = () => {
           abortEarly: false,
         });
 
-        RedditAPI.post('/api/post', payload)
+        RedditAPI.post('/api/subreddit', payload)
           .then(() => {
             Toastr.success('Subreddit created!');
             history.replace({ pathname: '/account', state: {} });

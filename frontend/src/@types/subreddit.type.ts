@@ -4,6 +4,7 @@ interface SubredditPayLoad {
 }
 
 interface SubredditProps {
+  subredditId?: number;
   name: string;
   description: string;
   numberOfPosts: number;
