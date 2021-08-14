@@ -5,6 +5,7 @@ import com.reddit.spring.dto.SubredditResponse;
 import com.reddit.spring.exception.SubredditNotFoundException;
 import com.reddit.spring.mapper.SubredditMapper;
 import com.reddit.spring.model.Subreddit;
+import com.reddit.spring.model.User;
 import com.reddit.spring.repository.SubredditRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @Service
 @AllArgsConstructor
@@ -29,12 +32,18 @@ public class SubredditService {
     public List<SubredditResponse> findAll() {
         return subredditRepository.findAll()
                 .stream().map(subredditMapper::mapSubredditToDto)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Transactional(readOnly = true)
     public SubredditResponse findById(Long id) {
         Subreddit subreddit = subredditRepository.findById(id).orElseThrow(() -> new SubredditNotFoundException("subreddit cannot be found"));
         return subredditMapper.mapSubredditToDto(subreddit);
+    }
+
+    @Transactional(readOnly = true)
+    public List<SubredditResponse> findByUser(String username) {
+        User user = userService.findByUsername(username);
+        return subredditRepository.findAllByUser(user).stream().map(subredditMapper::mapSubredditToDto).collect(toList());
     }
 }

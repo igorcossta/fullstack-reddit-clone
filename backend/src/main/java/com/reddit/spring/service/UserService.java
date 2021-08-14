@@ -62,4 +62,8 @@ public class UserService implements UserDetailsService {
         String username = authentication.getName();
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
     }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
+    }
 }
