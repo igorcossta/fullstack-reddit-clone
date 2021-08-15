@@ -52,7 +52,6 @@ export const Buttons = styled.div`
   width: 50%;
 
   img {
-    cursor: pointer;
     flex-shrink: 0;
     font-size: 12px;
     height: 36px;

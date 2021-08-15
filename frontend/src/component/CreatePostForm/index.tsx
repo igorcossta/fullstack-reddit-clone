@@ -1,20 +1,28 @@
 import React, { useCallback, useRef } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { PostPayLoad } from '../../../@types/subreddit.type';
-import { RedditAPI } from '../../../axios/reddit.api';
-import { Input, Toastr } from '../../../component';
-import getValidationErrors from '../../../utils/getValidationErrors';
-import { Container, Wrapper } from './styles';
+import { PostPayLoad, SubredditPayLoad } from '../../@types/subreddit.type';
+import { RedditAPI } from '../../axios/reddit.api';
 
-const CreatePost: React.FC = () => {
+import { Input, Toastr } from '..';
+
+import getValidationErrors from '../../utils/getValidationErrors';
+import Button from '../Button';
+import { Container } from './styles';
+
+interface Props {
+  close: () => void;
+}
+
+const CreatePostForm: React.FC<Props> = ({ close }) => {
+  const { subredditName } = useParams<{ subredditName: string }>();
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
-  const { subredditName } = useParams<{ subredditName: string }>();
 
   const handleSubmit = useCallback(
     async (payload: PostPayLoad) => {
@@ -36,36 +44,35 @@ const CreatePost: React.FC = () => {
         });
 
         const newPayLoad = { ...payload, subredditName: `${subredditName}`, url: `/r/${subredditName}/p/IDHERE` };
-        console.log(newPayLoad);
 
         RedditAPI.post('/api/post', newPayLoad)
           .then(() => {
             Toastr.success('Post created!');
-            history.replace({ pathname: `/r/${subredditName}`, state: {} });
+            history.replace({ pathname: '/dashboard', state: {} });
           })
           .catch(() => {
             Toastr.danger('Error when trying to create a new post. Try later!');
-          });
+          })
+          .finally(() => close());
       } catch (err) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
       }
     },
-    [history, subredditName],
+    [history, subredditName, close],
   );
 
   return (
-    <Wrapper>
-      <Container>
-        <h3>Create new Post for {subredditName}</h3>
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input name="postName" type="text" placeholder="Post name" />
-          <Input name="description" type="text" placeholder="Post description" />
-          <button type="submit">Create</button>
-        </Form>
-      </Container>
-    </Wrapper>
+    <Container>
+      <h3>Create new Post for {subredditName}</h3>
+      <AiOutlineClose onClick={close} />
+      <Form ref={formRef} onSubmit={handleSubmit}>
+        <Input name="postName" type="text" placeholder="Post name" />
+        <Input name="description" type="text" placeholder="Post description" />
+        <Button type="submit">Create</Button>
+      </Form>
+    </Container>
   );
 };
 
-export default CreatePost;
+export default CreatePostForm;

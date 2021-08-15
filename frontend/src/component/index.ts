@@ -7,3 +7,5 @@ export { default as SignInForm } from './SignIn';
 export { default as SignUpForm } from './SignUp';
 export { default as SubredditCard } from './SubredditCard';
 export { default as Toastr } from './Toastr';
+export { default as CreateSRForm } from './CreateSubredditForm';
+export { default as CreatePostForm } from './CreatePostForm';

@@ -10,16 +10,16 @@ export const Container = styled.fieldset<Props>`
   align-items: center;
   display: flex;
 
-  border: 1px solid;
   border-color: var(--secondary);
+  border: 1px solid;
   outline: none;
+  position: relative;
 
   & + fieldset {
     margin-top: 10px;
   }
 
   svg {
-    margin-right: 16px;
     color: var(--danger);
   }
 
@@ -46,7 +46,7 @@ export const Container = styled.fieldset<Props>`
     border: 0;
     padding: 10px;
     outline: none;
-    width: 100%;
+    width: 90%;
     font-weight: 500;
   }
 `;

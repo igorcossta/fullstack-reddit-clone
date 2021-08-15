@@ -17,6 +17,10 @@ const Header: React.FC = () => {
     history.push('/account');
   }, [history]);
 
+  const dashboard = useCallback(() => {
+    history.push('/dashboard');
+  }, [history]);
+
   const signOut = useCallback(() => {
     SignOut();
   }, [SignOut]);
@@ -30,7 +34,9 @@ const Header: React.FC = () => {
       <Buttons>
         {signed ? (
           <>
-            <img src={user} alt="user" />
+            <Link to="/dashboard" onClick={dashboard}>
+              <img src={user} alt="user" />
+            </Link>
             <Button type="button" design="SignOut" onClick={signOut}>
               Sign Out
             </Button>

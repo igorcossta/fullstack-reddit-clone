@@ -1,17 +1,25 @@
 import React, { useCallback, useRef } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { SubredditPayLoad } from '../../../@types/subreddit.type';
-import { RedditAPI } from '../../../axios/reddit.api';
-import { Input, Toastr } from '../../../component';
-import getValidationErrors from '../../../utils/getValidationErrors';
-import { Container, Wrapper } from './styles';
+import { SubredditPayLoad } from '../../@types/subreddit.type';
+import { RedditAPI } from '../../axios/reddit.api';
 
-const CrSubreddit: React.FC = () => {
+import { Input, Toastr } from '..';
+
+import getValidationErrors from '../../utils/getValidationErrors';
+import Button from '../Button';
+import { Container } from './styles';
+
+interface Props {
+  close: () => void;
+}
+
+const CreateSubredditForm: React.FC<Props> = ({ close }) => {
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
@@ -37,31 +45,31 @@ const CrSubreddit: React.FC = () => {
         RedditAPI.post('/api/subreddit', payload)
           .then(() => {
             Toastr.success('Subreddit created!');
-            history.replace({ pathname: '/account', state: {} });
+            history.replace({ pathname: '/dashboard', state: {} });
           })
           .catch(() => {
             Toastr.danger('Error when trying to create a new subreddit. Try later!');
-          });
+          })
+          .finally(() => close());
       } catch (err) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
       }
     },
-    [history],
+    [history, close],
   );
 
   return (
-    <Wrapper>
-      <Container>
-        <h3>Create new Subreddit</h3>
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input name="name" type="text" placeholder="Subreddit name" />
-          <Input name="description" type="text" placeholder="Subreddit description" />
-          <button type="submit">Create</button>
-        </Form>
-      </Container>
-    </Wrapper>
+    <Container>
+      <h3>Create new Subreddit</h3>
+      <AiOutlineClose onClick={close} />
+      <Form ref={formRef} onSubmit={handleSubmit}>
+        <Input name="name" type="text" placeholder="Subreddit name" />
+        <Input name="description" type="text" placeholder="Subreddit description" />
+        <Button type="submit">Create</Button>
+      </Form>
+    </Container>
   );
 };
 
-export default CrSubreddit;
+export default CreateSubredditForm;

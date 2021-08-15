@@ -1,17 +1,34 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import Modal from 'react-modal';
 import { useParams } from 'react-router-dom';
 
 import { PostProps, SubredditProps } from '../../@types/subreddit.type';
 import { RedditAPI } from '../../axios/reddit.api';
-import { Button, Card } from '../../component';
+import { Button, Card, CreatePostForm } from '../../component';
 import { useAuth } from '../../context/account';
 import { Container, Banner, Posts } from './styles';
 
+const style = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
 const Subreddit: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [subreddit, setSubreddit] = useState<SubredditProps>();
   const { signed } = useAuth();
   const { subredditName } = useParams<{ subredditName: string }>();
+
+  const toggle = useCallback(() => {
+    setIsOpen(!isOpen);
+  }, [isOpen]);
 
   const fetchPosts = useCallback((id: number | undefined) => {
     RedditAPI.get(`/api/post/by-subreddit/${id}`)
@@ -36,12 +53,19 @@ const Subreddit: React.FC = () => {
 
   return (
     <Container>
+      <Modal isOpen={isOpen} style={style}>
+        <CreatePostForm close={toggle} />
+      </Modal>
       <Banner>
         <div>
           <h3>{subreddit?.name}</h3>
           <h5>{subreddit?.description}</h5>
         </div>
-        {signed && <Button type="button">Create new Post</Button>}
+        {signed && (
+          <Button type="button" onClick={toggle}>
+            Create new Post
+          </Button>
+        )}
       </Banner>
       <Posts>
         {posts.length !== 0 ? (

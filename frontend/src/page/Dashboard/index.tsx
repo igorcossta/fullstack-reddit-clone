@@ -1,15 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import Modal from 'react-modal';
 
 import { SubredditProps } from '../../@types/subreddit.type';
 import userPhoto from '../../assets/svg/female_avatar.svg';
 import { RedditAPI } from '../../axios/reddit.api';
 import { Button, SubredditCard, Toastr } from '../../component';
+import CreateSubredditForm from '../../component/CreateSubredditForm';
 import { useAuth } from '../../context/account';
 import { Container, Banner, Subreddit } from './styles';
 
+const style = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
 const Dashboard: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [subreddit, setSubreddit] = useState<SubredditProps[]>([]);
   const { user } = useAuth();
+
+  const toggle = useCallback(() => {
+    setIsOpen(!isOpen);
+  }, [isOpen]);
 
   useEffect(() => {
     if (user?.username) {
@@ -21,6 +39,9 @@ const Dashboard: React.FC = () => {
 
   return (
     <Container>
+      <Modal isOpen={isOpen} style={style}>
+        <CreateSubredditForm close={toggle} />
+      </Modal>
       <Banner>
         <div>
           <img src={userPhoto} alt="user" />
@@ -29,7 +50,9 @@ const Dashboard: React.FC = () => {
           </h3>
           <h5>{user?.username}</h5>
         </div>
-        <Button type="button">Create new Subreddit</Button>
+        <Button type="button" onClick={toggle}>
+          Create new Subreddit
+        </Button>
       </Banner>
       <Subreddit>
         {subreddit.length !== 0 ? (
