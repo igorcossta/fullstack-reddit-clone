@@ -37,13 +37,13 @@ const Home: React.FC = () => {
         ) : (
           posts.map((x) => (
             <Card
-              key={x.subreddit}
-              subreddit={x.subreddit}
+              key={x.id}
+              subreddit={x.subredditName}
               username={x.username}
-              time={x.time}
-              comment={x.comment}
-              vote={x.vote}
-              content={x.content}
+              time={x.duration}
+              comment={x.commentCount}
+              vote={x.voteCount}
+              content={x.description}
             />
           ))
         )}

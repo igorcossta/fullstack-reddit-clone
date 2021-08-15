@@ -12,7 +12,7 @@ const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    RedditAPI.get(`/api/subreddit/user/${user?.username}`)
+    RedditAPI.get(`/api/subreddit/by-user/${user?.username}`)
       .then(({ data }) => setSubreddit(data))
       .catch(() => Toastr.info('Maybe your data has not been loaded.'));
   }, [user]);

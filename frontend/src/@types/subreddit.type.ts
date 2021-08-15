@@ -3,6 +3,13 @@ interface SubredditPayLoad {
   description: string;
 }
 
+interface PostPayLoad {
+  description: string;
+  postName: string;
+  subredditName?: string;
+  url?: string;
+}
+
 interface SubredditProps {
   subredditId?: number;
   name: string;
@@ -11,12 +18,17 @@ interface SubredditProps {
 }
 
 interface PostProps {
-  subreddit: string;
+  id: number;
+  subredditName: string;
+  postName: string;
+  description: string;
   username: string;
-  time: string;
-  comment: number;
-  vote: number;
-  content: string;
+  voteCount: number;
+  commentCount: number;
+  upVote: boolean;
+  downVote: boolean;
+  duration: string;
+  url: string;
 }
 
-export type { SubredditProps, SubredditPayLoad, PostProps };
+export type { SubredditProps, SubredditPayLoad, PostProps, PostPayLoad };

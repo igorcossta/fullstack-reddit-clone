@@ -11,8 +11,8 @@ RedditAPI.interceptors.request.use(
     // Do something before request is sent
     const conf = config;
 
-    const { url, method } = conf;
-    if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
+    const { method } = conf;
+    if (method === 'post' || method === 'put' || method === 'delete') {
       const token = storage.getToken();
       if (token) conf.headers.Authorization = `Bearer ${token}`;
     }
