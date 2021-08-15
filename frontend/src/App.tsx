@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Header } from './component';
+import { Header, Layout } from './component';
 import Routes from './routes';
 import Providers from './utils/provider';
 
@@ -8,7 +8,9 @@ const App: React.FC = () => {
   return (
     <Providers>
       <Header />
-      <Routes />
+      <Layout>
+        <Routes />
+      </Layout>
     </Providers>
   );
 };

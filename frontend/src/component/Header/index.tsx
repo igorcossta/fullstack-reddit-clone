@@ -1,9 +1,13 @@
 import React, { useCallback } from 'react';
 import { FcReddit } from 'react-icons/fc';
+import { FiMenu } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 
+import { Button } from '..';
+
+import user from '../../assets/svg/female_avatar.svg';
 import { useAuth } from '../../context/account';
-import { Container, Tools } from './styles';
+import { Container, Logo, Buttons } from './styles';
 
 const Header: React.FC = () => {
   const { signed, SignOut } = useAuth();
@@ -19,34 +23,30 @@ const Header: React.FC = () => {
 
   return (
     <Container>
-      <Link to="/">
-        <FcReddit size={38} />
-        <h1>reddit</h1>
-      </Link>
-
-      <Tools signed={signed}>
+      <Logo>
+        <FcReddit />
+        <Link to="/">reddit</Link>
+      </Logo>
+      <Buttons>
         {signed ? (
-          // usuario autenticado
           <>
-            <Link to="/account">
-              <img src="https://avatars.githubusercontent.com/u/65612587?v=4" alt="user" />
-            </Link>
-            <button type="button" onClick={signOut}>
-              Log Out
-            </button>
+            <img src={user} alt="user" />
+            <Button type="button" design="SignOut" onClick={signOut}>
+              Sign Out
+            </Button>
           </>
         ) : (
-          // usuario nao autenticado
           <>
-            <button type="button" onClick={account}>
-              Log In
-            </button>
-            <button type="button" onClick={account}>
+            <Button type="button" design="signIn" onClick={account}>
+              Sign In
+            </Button>
+            <Button type="button" design="signUp" onClick={account}>
               Sign Up
-            </button>
+            </Button>
           </>
         )}
-      </Tools>
+      </Buttons>
+      <FiMenu className="hamburguer" />
     </Container>
   );
 };

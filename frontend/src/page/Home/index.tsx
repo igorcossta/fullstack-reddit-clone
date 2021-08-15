@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { PostProps } from '../../@types/subreddit.type';
 import { RedditAPI } from '../../axios/reddit.api';
 import { Card } from '../../component';
-import { Container, Content, Side } from './styles';
+import { Container, Section, Aside } from './styles';
 
 const Home: React.FC = () => {
   const [posts, setPosts] = useState<PostProps[]>([]);
@@ -28,10 +28,10 @@ const Home: React.FC = () => {
 
   return (
     <Container>
-      <Side>
-        <h1>side</h1>
-      </Side>
-      <Content>
+      <Aside>
+        <h1>top subreddits</h1>
+      </Aside>
+      <Section>
         {loading ? (
           <h6>carregando</h6>
         ) : (
@@ -47,7 +47,7 @@ const Home: React.FC = () => {
             />
           ))
         )}
-      </Content>
+      </Section>
     </Container>
   );
 };

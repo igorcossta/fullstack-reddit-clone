@@ -1,24 +1,23 @@
 import styled from 'styled-components';
 
-export const Container = styled.main`
-  column-gap: 20px;
+export const Container = styled.div`
   display: grid;
-  grid-template-areas: 'section side';
+  grid-gap: 20px;
+  grid-template-areas: 'section aside';
   grid-template-columns: 2fr 1fr;
-  margin: 25px auto 0 auto;
-  max-width: 968px;
 
-  @media only screen and (max-width: 500px) {
-    display: block;
+  @media only screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
   }
 `;
 
-export const Content = styled.section`
-  border: 1px dashed;
+export const Section = styled.section`
   grid-area: section;
 `;
 
-export const Side = styled.aside`
-  border: 1px dashed;
-  grid-area: side;
+export const Aside = styled.aside`
+  grid-area: aside;
+  height: 150px;
+  text-align: center;
 `;

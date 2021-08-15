@@ -7,15 +7,13 @@ import { Container } from './styles';
 const SubredditCard: React.FC<SubredditProps> = ({ name, description, numberOfPosts }) => {
   return (
     <Container>
+      <h1>{name}</h1>
+      <p>{description}</p>
+      <span>
+        Number of Posts <strong>{numberOfPosts}</strong>
+      </span>
       <div>
-        <h1>{name}</h1>
-        <p>{description}</p>
-        <span>
-          Number of Posts <strong>{numberOfPosts}</strong>
-        </span>
-        <div>
-          <Link to={`/r/${name}`}>Go to</Link>
-        </div>
+        <Link to={`/r/${name}`}>Go to</Link>
       </div>
     </Container>
   );

@@ -11,13 +11,36 @@ export default createGlobalStyle`
 
   body {
     background-color: whitesmoke;
+    color: var(--black);
     font-family: 'Noto Sans', sans-serif;
+
+    @media only screen and (max-width: 768px) {
+      h1 {
+        font-size: 20px;
+      }
+      h2 {
+        font-size: 18px;
+      }
+      h3 {
+        font-size: 16px;
+      }
+      h4 {
+        font-size: 14px;
+      }
+      h5 {
+        font-size: 12px;
+      }
+      h6 {
+        font-size: 10px;
+      }
+    }
   }
 
   :root {
     --secondary-color: hsl(205.6, 100%, 41.4%);
     --background: hsl(210, 19%, 88%);
     
+    --black: hsl(0, 0%, 0%);
     --blue: hsl(211.1, 100%, 50%);
     --cyan: hsl(188.2, 77.8%, 40.6%);
     --dark: hsl(210, 10.3%, 22.7%);
@@ -47,6 +70,8 @@ export default createGlobalStyle`
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
+
+    --box-shadow: 0px 6px 5px 1px rgba(0, 0, 0, 0.2);
   }
 
   .scrollTop {

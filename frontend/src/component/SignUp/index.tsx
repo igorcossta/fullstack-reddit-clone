@@ -1,16 +1,22 @@
 import React, { useCallback, useRef } from 'react';
+import { FiCornerUpLeft } from 'react-icons/fi';
 
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { Input } from '../..';
-import { SignupPayload } from '../../../@types/account.type';
-import { useAuth } from '../../../context/account';
-import getValidationErrors from '../../../utils/getValidationErrors';
+import { Button, Input } from '..';
+
+import { SignupPayload } from '../../@types/account.type';
+import { useAuth } from '../../context/account';
+import getValidationErrors from '../../utils/getValidationErrors';
 import { Container } from './styles';
 
-const SignUpForm: React.FC = () => {
+interface Props {
+  back: () => void;
+}
+
+const SignUpForm: React.FC<Props> = ({ back }) => {
   const formRef = useRef<FormHandles>(null);
   const { SignUp } = useAuth();
 
@@ -57,8 +63,9 @@ const SignUpForm: React.FC = () => {
         <Input name="lastName" type="text" placeholder="Last Name" />
         <Input name="email" type="email" placeholder="john@doe.com" />
         <Input name="password" type="password" placeholder="**********" />
-        <button type="submit">Sign Up</button>
+        <Button type="submit">Sign Up</Button>
       </Form>
+      <FiCornerUpLeft onClick={back} />
     </Container>
   );
 };

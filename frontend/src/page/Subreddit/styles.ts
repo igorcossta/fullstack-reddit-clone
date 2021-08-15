@@ -1,46 +1,48 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.main`
-  display: flex;
-  justify-content: center;
-  min-height: calc(100vh - 50px);
+export const Container = styled.div`
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 300px;
+  grid-template-areas: 'Posts banner';
+
+  @media only screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
-export const Container = styled.section`
-  width: 968px;
-  padding: 20px 20px 0 20px;
+export const Banner = styled.div`
+  grid-area: banner;
 
-  .subreddit__bg {
+  > div {
     align-items: center;
     background: var(--blue);
+    box-shadow: var(--box-shadow);
     color: var(--white);
     display: flex;
+    flex-direction: column;
     height: 100px;
     justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 25px;
-  }
+    overflow: hidden;
 
-  .subreddit__content {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 25px;
-  }
+    h3 {
+      text-transform: uppercase;
+    }
 
-  .subreddit__tools {
-    display: flex;
-    justify-content: center;
-    height: 500px;
-
-    a {
-      background-color: var(--blue);
-      color: var(--white);
-      font-weight: 500;
-      height: fit-content;
-      padding: 14px;
-      text-decoration: none;
-      width: 50%;
+    img {
+      height: 50px;
+      width: 50px;
     }
   }
+
+  button {
+    margin-top: 15px;
+    width: 100%;
+  }
+`;
+
+export const Posts = styled.div`
+  grid-area: Posts;
+  overflow: hidden;
 `;

@@ -8,7 +8,7 @@ export const Container = styled.div`
   transition: 0.5s;
 
   h3 {
-    color: #333;
+    color: var(--gray-dark);
     font-weight: 500;
     font-size: 1.5em;
     margin-bottom: 20px;
@@ -21,10 +21,9 @@ export const Container = styled.div`
 
     button {
       background: #03a9f4;
+      border-radius: 0;
       border: none;
-      color: #fff;
-      cursor: pointer;
-      font-weight: 500;
+      color: var(--white);
       margin-bottom: 10px;
       margin-top: 10px;
       max-width: 100px;
@@ -33,7 +32,21 @@ export const Container = styled.div`
   }
 
   a {
-    color: #333;
+    color: var(--gray-dark);
     text-decoration: none;
+  }
+
+  svg {
+    cursor: pointer;
+    display: none;
+    flex-shrink: 0;
+    float: right;
+    font-size: 20px;
+  }
+
+  @media only screen and (max-width: 803px) {
+    svg {
+      display: block;
+    }
   }
 `;

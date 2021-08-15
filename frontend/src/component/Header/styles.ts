@@ -1,93 +1,66 @@
-import styled, { css } from 'styled-components';
-
-interface ToolsProps {
-  signed: boolean;
-}
+import styled from 'styled-components';
 
 export const Container = styled.header`
   align-items: center;
-  background: white;
+  box-shadow: var(--box-shadow);
   display: flex;
+  height: 50px;
   justify-content: space-between;
-  padding: 6px 16px;
-  position: relative;
   width: 100%;
+  padding: 0 20px;
 
-  > a {
-    align-items: center;
-    color: black;
-    display: flex;
-    text-decoration: none;
-
-    h1 {
-      font-size: 22px;
-      font-weight: 500;
-      margin-left: 6px;
-    }
+  .hamburguer {
+    color: var(--black);
+    cursor: pointer;
+    display: none;
+    flex-shrink: 0;
+    font-size: 32px;
   }
 
-  @media only screen and (max-width: 500px) {
-    h1 {
-      display: none;
+  @media only screen and (max-width: 400px) {
+    .hamburguer {
+      display: block;
     }
   }
 `;
 
-export const Tools = styled.div<ToolsProps>`
+export const Logo = styled.div`
   align-items: center;
   display: flex;
-  max-width: 280px;
+  flex-shrink: 0;
+  height: 100%;
+  width: fit-content;
+  grid-gap: 8px;
 
-  img {
-    background: #c1c1c1;
-    border-radius: 50%;
-    margin-right: 10px;
-    height: 32px;
-    width: 32px;
-    &:hover {
-      cursor: pointer;
-    }
+  svg {
+    font-size: 36px;
   }
 
-  button {
-    &:nth-child(2) {
-      background: hsl(205.6, 100%, 41.4%);
-      border: 1px solid hsl(205.6, 100%, 41.4%);
-      color: white;
-      margin-left: 5px;
+  a {
+    color: var(--black);
+    font-size: 18px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+`;
 
-      &:hover {
-        background: hsla(205.6, 100%, 41.4%, 0.9);
-        border: 1px solid hsla(205.6, 100%, 41.4%, 0.9);
-      }
+export const Buttons = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
 
-      ${(props) =>
-        props.signed &&
-        css`
-          background: transparent;
-          border: 1px solid hsl(205.7, 100%, 32.9%);
-          color: hsl(205.6, 100%, 41.4%);
-          font-size: 12px;
-          padding: 4px 16px;
-          width: 80px;
+  img {
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 12px;
+    height: 36px;
+    margin-right: 20px;
+    width: 36px;
+  }
 
-          &:hover {
-            background: transparent;
-            border: 1px solid hsl(205.7, 100%, 32.9%);
-          }
-        `}
-    }
-
-    background: transparent;
-    border-radius: 20px;
-    border: 1px solid hsl(205.7, 100%, 32.9%);
-    color: hsl(205.6, 100%, 41.4%);
-    font-size: 14px;
-    font-weight: 700;
-    padding: 8px 16px;
-    width: 100px;
-    &:hover {
-      cursor: pointer;
-    }
+  @media only screen and (max-width: 400px) {
+    display: none;
   }
 `;
