@@ -1,8 +1,6 @@
 package com.reddit.spring.exception.handler;
 
-import com.reddit.spring.exception.SubredditExistsException;
-import com.reddit.spring.exception.SubredditNotFoundException;
-import com.reddit.spring.exception.ValidationException;
+import com.reddit.spring.exception.*;
 import com.reddit.spring.exception.types.BadRequestException;
 import com.reddit.spring.exception.types.ForbiddenException;
 import com.reddit.spring.exception.types.NotFoundException;
@@ -23,7 +21,9 @@ import static org.springframework.http.HttpStatus.*;
 @Slf4j
 public class Master extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({ValidationException.class, SubredditExistsException.class, SubredditNotFoundException.class})
+    @ExceptionHandler({Exception.class, ValidationException.class, SubredditExistsException.class,
+            SubredditNotFoundException.class, TokenConfirmedException.class, TokenExpiredException.class,
+            TokenNotFoundException.class, PostNotFoundException.class})
     public ResponseEntity<Object> handle(Exception ex) {
         log.info("throwing exception: {} | message -> {}", ex.getClass().getSimpleName(), ex.getMessage());
         HttpHeaders headers = new HttpHeaders();

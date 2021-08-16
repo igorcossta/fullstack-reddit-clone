@@ -3,6 +3,7 @@ package com.reddit.spring.security.config;
 import com.reddit.spring.filter.CustomAccessDeniedHandler;
 import com.reddit.spring.filter.CustomAuthenticationFilter;
 import com.reddit.spring.filter.CustomAuthorizationFilter;
+import com.reddit.spring.filter.CustomForbiddenEntryPoint;
 import com.reddit.spring.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -73,7 +74,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // exception handler
-        http.exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler());
+        http.exceptionHandling()
+                .accessDeniedHandler(new CustomAccessDeniedHandler())
+                .authenticationEntryPoint(new CustomForbiddenEntryPoint());
     }
 
     @Bean

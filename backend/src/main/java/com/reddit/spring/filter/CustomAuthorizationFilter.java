@@ -9,11 +9,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.reddit.spring.dto.Error.createResponse;
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
@@ -24,7 +25,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         if (req.getServletPath().equals("/api/signin")) chain.doFilter(req, res);
         else {
             String header = req.getHeader(AUTHORIZATION);
-            Cookie[] cookie = req.getCookies();
             if (Strings.isNullOrEmpty(header) || !header.startsWith("Bearer ")) chain.doFilter(req, res);
             else {
                 String token = header.replace("Bearer ", "");
@@ -33,7 +33,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(credentials);
                     chain.doFilter(req, res);
                 } catch (Exception ex) {
-                    chain.doFilter(req, res);
+                    createResponse(res, SC_FORBIDDEN, ex.getMessage());
                 }
             }
         }
