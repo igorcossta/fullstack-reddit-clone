@@ -58,7 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // user endpoints
         http.authorizeRequests()
-                .antMatchers(POST, "/api/subreddit/**").hasAnyAuthority("USER", "ADMIN");
+                .antMatchers(POST, "/api/subreddit/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(POST, "/api/post/**").hasAnyAuthority("USER", "ADMIN");
 
 
         // admin endpoints

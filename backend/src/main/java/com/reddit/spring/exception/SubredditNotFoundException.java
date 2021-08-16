@@ -1,6 +1,9 @@
 package com.reddit.spring.exception;
 
-public class SubredditNotFoundException extends RuntimeException {
+import com.reddit.spring.exception.types.NotFoundException;
+
+public class SubredditNotFoundException extends NotFoundException {
+
     public SubredditNotFoundException(String message) {
         super(message);
     }
@@ -9,7 +12,4 @@ public class SubredditNotFoundException extends RuntimeException {
         super(message, cause);
     }
 
-    public SubredditNotFoundException(Throwable cause) {
-        super(cause);
-    }
 }

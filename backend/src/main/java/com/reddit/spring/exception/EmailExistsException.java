@@ -1,6 +1,8 @@
 package com.reddit.spring.exception;
 
-public class EmailExistsException extends RedditException {
+import com.reddit.spring.exception.types.BadRequestException;
+
+public class EmailExistsException extends BadRequestException {
 
     public EmailExistsException(String message) {
         super(message);

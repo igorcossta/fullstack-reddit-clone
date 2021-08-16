@@ -1,6 +1,9 @@
 package com.reddit.spring.exception;
 
-public class PostNotFoundException extends RuntimeException {
+import com.reddit.spring.exception.types.NotFoundException;
+
+public class PostNotFoundException extends NotFoundException {
+
     public PostNotFoundException(String message) {
         super(message);
     }
@@ -9,7 +12,4 @@ public class PostNotFoundException extends RuntimeException {
         super(message, cause);
     }
 
-    public PostNotFoundException(Throwable cause) {
-        super(cause);
-    }
 }

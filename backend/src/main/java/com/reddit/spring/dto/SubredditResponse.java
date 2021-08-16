@@ -14,4 +14,5 @@ public class SubredditResponse {
     private String name;
     private String description;
     private Integer numberOfPosts;
+    private String createdDate;
 }

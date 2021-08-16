@@ -1,9 +1,8 @@
 package com.reddit.spring.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reddit.spring.dto.Error;
 import com.reddit.spring.dto.UsernameAndPasswordRequest;
-import com.reddit.spring.exception.RedditException;
+import com.reddit.spring.exception.types.RedditException;
 import com.reddit.spring.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.reddit.spring.dto.Error.createResponse;
 import static com.reddit.spring.jwt.Jwt.createToken;
 import static com.reddit.spring.jwt.Jwt.createTokenResponse;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
@@ -60,8 +60,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException {
-        log.info("successful Authentication");
-
         User user = (User) auth.getPrincipal();
         String issuer = req.getRequestURI();
         String token = createToken(user, issuer);
@@ -77,10 +75,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res, AuthenticationException failed) throws IOException {
-        log.info("unsuccessful Authentication");
-        res.setStatus(SC_UNAUTHORIZED);
-        res.setContentType(APPLICATION_JSON_VALUE);
-        var error = new Error(SC_UNAUTHORIZED, "Unauthorized", "Invalid email or password", req.getServletPath());
-        new ObjectMapper().writeValue(res.getOutputStream(), error);
+        createResponse(res, SC_UNAUTHORIZED, "invalid credentials");
     }
 }

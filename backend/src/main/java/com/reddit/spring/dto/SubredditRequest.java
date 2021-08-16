@@ -16,11 +16,11 @@ import javax.validation.constraints.Size;
 public class SubredditRequest {
     @NotNull(message = "field name cannot be null")
     @NotBlank(message = "field name cannot be empty")
-    @Size(min = 10, max = 255, message = "field name must be between 10 and 255 characters")
+    @Size(min = 5, max = 30, message = "field name must be between 5 and 30 characters")
     private String name;
 
     @NotNull(message = "field description cannot be null")
     @NotBlank(message = "field description cannot be empty")
-    @Size(min = 10, max = 255, message = "field description must be between 10 and 255 characters")
+    @Size(min = 10, max = 120, message = "field description must be between 10 and 120 characters")
     private String description;
 }

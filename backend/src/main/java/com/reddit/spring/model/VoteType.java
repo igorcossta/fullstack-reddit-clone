@@ -1,6 +1,6 @@
 package com.reddit.spring.model;
 
-import com.reddit.spring.exception.RedditException;
+import com.reddit.spring.exception.types.RedditException;
 
 import java.util.Arrays;
 

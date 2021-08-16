@@ -1,10 +1,10 @@
 package com.reddit.spring.service;
 
 import com.reddit.spring.dto.RegisterRequest;
-import com.reddit.spring.exception.PasswordException;
 import com.reddit.spring.exception.TokenConfirmedException;
 import com.reddit.spring.exception.TokenExpiredException;
 import com.reddit.spring.exception.TokenNotFoundException;
+import com.reddit.spring.exception.ValidationException;
 import com.reddit.spring.model.Role;
 import com.reddit.spring.model.User;
 import com.reddit.spring.model.VerificationToken;
@@ -27,7 +27,7 @@ public class RegisterService {
         boolean isValidPassword = testPassword(request.getPassword());
 
         if (!isValidPassword) {
-            throw new PasswordException("the password is very bad");
+            throw new ValidationException("the password is very bad");
         }
 
         String token = userService.signUpUser(

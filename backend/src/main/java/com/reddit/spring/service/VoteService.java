@@ -2,7 +2,7 @@ package com.reddit.spring.service;
 
 import com.reddit.spring.dto.VoteDto;
 import com.reddit.spring.exception.PostNotFoundException;
-import com.reddit.spring.exception.RedditException;
+import com.reddit.spring.exception.types.RedditException;
 import com.reddit.spring.model.Post;
 import com.reddit.spring.model.Vote;
 import com.reddit.spring.model.VoteType;

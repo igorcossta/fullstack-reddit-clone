@@ -48,7 +48,7 @@ public class PostController {
     }
 
     @ApiOperation(value = "find all post by subreddit id", notes = "this endpoint find all post by subreddit id", nickname = "findAllBySubredditId")
-    @GetMapping("by-subreddit/{id}")
+    @GetMapping("/by-subreddit/{id}")
     public ResponseEntity<List<PostResponse>> findAllBySubredditId(@PathVariable Long id) {
         List<PostResponse> post = postService.findAllBySubredditId(id);
         LOGGER.debug("método findAllBySubredditId executado: " + id);
@@ -56,7 +56,7 @@ public class PostController {
     }
 
     @ApiOperation(value = "find all post by username", notes = "this endpoint find all post by username", nickname = "findAllByUsername")
-    @GetMapping("by-user/{username}")
+    @GetMapping("/by-user/{username}")
     public ResponseEntity<List<PostResponse>> findAllByUsername(@PathVariable String username) {
         List<PostResponse> post = postService.findAllByUsername(username);
         LOGGER.debug("método findAllByUsername executado: " + username);

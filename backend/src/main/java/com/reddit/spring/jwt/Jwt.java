@@ -32,7 +32,7 @@ public class Jwt {
     public static String createToken(User user, String issuer) {
         String token = JWT.create()
                 .withIssuer(issuer)
-                .withExpiresAt(new Date(System.currentTimeMillis() + 5000 * 60))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 20000 * 60))
                 .withSubject(user.getUsername())
                 .withClaim("authority", user.getAuthorities()
                         .stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))

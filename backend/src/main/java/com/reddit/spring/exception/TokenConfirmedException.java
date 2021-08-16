@@ -1,6 +1,8 @@
 package com.reddit.spring.exception;
 
-public class TokenConfirmedException extends TokenException {
+import com.reddit.spring.exception.types.BadRequestException;
+
+public class TokenConfirmedException extends BadRequestException {
 
     public TokenConfirmedException(String message) {
         super(message);

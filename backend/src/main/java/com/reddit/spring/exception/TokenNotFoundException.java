@@ -1,6 +1,8 @@
 package com.reddit.spring.exception;
 
-public class TokenNotFoundException extends TokenException {
+import com.reddit.spring.exception.types.NotFoundException;
+
+public class TokenNotFoundException extends NotFoundException {
 
     public TokenNotFoundException(String message) {
         super(message);

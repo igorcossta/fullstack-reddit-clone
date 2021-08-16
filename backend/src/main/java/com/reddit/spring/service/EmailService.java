@@ -1,6 +1,6 @@
 package com.reddit.spring.service;
 
-import com.reddit.spring.exception.RedditException;
+import com.reddit.spring.exception.types.RedditException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

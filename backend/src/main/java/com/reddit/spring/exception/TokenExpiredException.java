@@ -1,6 +1,8 @@
 package com.reddit.spring.exception;
 
-public class TokenExpiredException extends TokenException {
+import com.reddit.spring.exception.types.BadRequestException;
+
+public class TokenExpiredException extends BadRequestException {
 
     public TokenExpiredException(String message) {
         super(message);

@@ -1,4 +1,4 @@
-package com.reddit.spring.exception;
+package com.reddit.spring.exception.types;
 
 public class RedditException extends RuntimeException {
 

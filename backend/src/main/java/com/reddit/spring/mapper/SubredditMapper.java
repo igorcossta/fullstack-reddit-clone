@@ -1,28 +1,35 @@
 package com.reddit.spring.mapper;
 
+import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.reddit.spring.dto.SubredditRequest;
 import com.reddit.spring.dto.SubredditResponse;
-import com.reddit.spring.model.Post;
 import com.reddit.spring.model.Subreddit;
-import com.reddit.spring.model.User;
+import com.reddit.spring.repository.PostRepository;
+import com.reddit.spring.service.UserService;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
-public interface SubredditMapper {
-    @Mapping(target = "numberOfPosts", expression = "java(mapPosts(subreddit.getPosts()))")
-    SubredditResponse mapSubredditToDto(Subreddit subreddit);
+public abstract class SubredditMapper {
+    @Autowired
+    protected UserService userService;
+    @Autowired
+    protected PostRepository postRepository;
 
-    default Integer mapPosts(List<Post> numberOfPosts) {
-        return numberOfPosts.size();
+    @Mapping(target = "numberOfPosts", expression = "java(postRepository.countAllBySubreddit(subreddit))")
+    @Mapping(target = "createdDate", expression = "java(getDuration(subreddit))")
+    public abstract SubredditResponse mapSubredditToDto(Subreddit subreddit);
+
+    String getDuration(Subreddit subreddit) {
+        return TimeAgo.using(subreddit.getCreatedDate().toEpochMilli());
     }
 
     @InheritInverseConfiguration
     @Mapping(target = "posts", ignore = true)
     @Mapping(target = "createdDate", expression = "java(java.time.Instant.now())")
-    @Mapping(target = "user", source = "user")
-    Subreddit mapDtoToSubreddit(SubredditRequest subredditDto, User user);
+    @Mapping(target = "user", expression = "java(userService.getCurrentUser())")
+    public abstract Subreddit mapDtoToSubreddit(SubredditRequest dto);
+
 }
