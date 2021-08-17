@@ -22,17 +22,31 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = SEQUENCE, generator = "user_sequence")
     private Long userId;
+
+    @Column(nullable = false, length = 16)
     private String firstName;
+
+    @Column(nullable = false, length = 16)
     private String lastName;
-    private String username; // email
+
+    @Column(name = "email", nullable = false, unique = true, updatable = false)
+    private String username;
+
+    @Column(nullable = false)
     private String password;
+
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
+
     @Getter(AccessLevel.NONE)
+    @Column(nullable = false)
     private Boolean locked = false;
+
     @Getter(AccessLevel.NONE)
+    @Column(nullable = false)
     private Boolean enabled = false;
 
     public User(String firstName,

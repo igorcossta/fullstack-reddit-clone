@@ -1,6 +1,9 @@
 package com.reddit.spring.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -8,7 +11,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode
 @ToString
 @Entity(name = "token")
 public class VerificationToken {
@@ -20,12 +22,14 @@ public class VerificationToken {
     @Column(nullable = false)
     private String token;
 
+    @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
+    @Column(updatable = false, nullable = false)
     private LocalDateTime expiresAt;
     private LocalDateTime confirmedAt;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "user_id")
+    @JoinColumn(name = "userId", referencedColumnName = "userId", nullable = false)
     private User user;
 
     public VerificationToken(String token,
