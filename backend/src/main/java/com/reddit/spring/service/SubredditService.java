@@ -4,7 +4,6 @@ import com.reddit.spring.dto.SubredditRequest;
 import com.reddit.spring.dto.SubredditResponse;
 import com.reddit.spring.exception.SubredditExistsException;
 import com.reddit.spring.exception.SubredditNotFoundException;
-import com.reddit.spring.exception.ValidationException;
 import com.reddit.spring.mapper.SubredditMapper;
 import com.reddit.spring.model.Subreddit;
 import com.reddit.spring.model.User;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.reddit.spring.utils.StringValidator.onlyChar;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -27,9 +25,6 @@ public class SubredditService {
 
     @Transactional
     public void save(SubredditRequest dto) {
-        boolean onlyChar = onlyChar(dto.getName());
-        if (!onlyChar) throw new ValidationException("the subreddit name must contain only letters");
-
         boolean present = subredditRepository.existsSubredditByName(dto.getName());
         if (present) throw new SubredditExistsException("the subreddit already exists");
 

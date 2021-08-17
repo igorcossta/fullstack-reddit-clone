@@ -3,8 +3,8 @@ package com.reddit.spring.dto;
 import lombok.*;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -15,12 +15,11 @@ import javax.validation.constraints.Size;
 @ToString
 public class UsernameAndPasswordRequest {
     @Email
-    @NotNull(message = "field username cannot be null")
-    @NotBlank(message = "field username cannot be empty")
+    @NotEmpty(message = "username must not be null or empty")
     private String username;
 
-    @NotNull(message = "field password cannot be null")
-    @NotBlank(message = "field password cannot be empty")
-    @Size(min = 6, max = 20, message = "field password must be between 6 and 20 characters")
+    @NotEmpty(message = "password must not be null or empty")
+    @Size(min = 6, max = 20, message = "password must be between {min} and {max} characters")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&]).{6,20}$", message = "password must contain letters (upper and lower case), numbers and special chars without space")
     private String password;
 }

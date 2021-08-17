@@ -1,9 +1,10 @@
 package com.reddit.spring.dto;
 
 import lombok.*;
+import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -13,20 +14,22 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 @ToString
 public class PostRequest {
-    @NotNull(message = "field subreddit cannot be null")
-    @NotBlank(message = "field subreddit cannot be empty")
+    @NotEmpty(message = "subreddit name must not be null or empty")
+    @Size(min = 5, max = 30, message = "subreddit name must be between {min} and {max} characters")
+    @Pattern(regexp = "^[a-zA-Z]{5,30}$", message = "subreddit name must contain only letters without space")
     private String subredditName;
 
-    @NotNull(message = "field post cannot be null")
-    @NotBlank(message = "field post cannot be empty")
+    @NotEmpty(message = "post name must not be null or empty")
+    @Size(min = 5, max = 30, message = "post name must be between {min} and {max} characters")
+    @Pattern(regexp = "^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", message = "post name must contain only letters (upper and lower case), numbers and space")
     private String postName;
 
-    @NotNull(message = "field description cannot be null")
-    @NotBlank(message = "field description cannot be empty")
-    @Size(min = 10, max = 255, message = "field description must be between 10 and 255 characters")
+    @NotEmpty(message = "description must not be null or empty")
+    @Size(min = 5, max = 120, message = "description must be between {min} and {max} characters")
+    @Pattern(regexp = "^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", message = "description must contain only letters (upper and lower case), numbers and space")
     private String description;
 
-    @NotNull(message = "field url cannot be null")
-    @NotBlank(message = "field url cannot be empty")
+    @NotEmpty(message = "url must not be null or empty")
+    @URL(message = "URL must be a URL")
     private String url;
 }

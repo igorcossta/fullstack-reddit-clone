@@ -3,8 +3,8 @@ package com.reddit.spring.dto;
 import lombok.*;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -14,23 +14,22 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 @ToString
 public class RegisterRequest {
-    @NotNull(message = "field firstName cannot be null")
-    @NotBlank(message = "field firstName cannot be empty")
-    @Size(min = 3, max = 30, message = "first name must be between 3 and 30 characters")
+    @NotEmpty(message = "first name must not be null or empty")
+    @Size(min = 3, max = 16, message = "first name must be between {min} and {max} characters")
+    @Pattern(regexp = "^[a-zA-Z]{3,16}$", message = "first name must contain only letters without space")
     private String firstName;
 
-    @NotNull(message = "field lastName cannot be null")
-    @NotBlank(message = "field lastName cannot be empty")
-    @Size(min = 3, max = 30, message = "first name must be between 3 and 30 characters")
+    @NotEmpty(message = "last name must not be null or empty")
+    @Size(min = 3, max = 16, message = "last name must be between {min} and {max} characters")
+    @Pattern(regexp = "^[a-zA-Z]{3,16}$", message = "last name must contain only letters without space")
     private String lastName;
 
-    @Email(message = "field email must be a valid email address")
-    @NotNull(message = "field email cannot be null")
-    @NotBlank(message = "field email cannot be empty")
+    @Email(message = "email must be a valid email address")
+    @NotEmpty(message = "email must not be null or empty")
     private String email;
 
-    @NotNull(message = "field password cannot be null")
-    @NotBlank(message = "field password cannot be empty")
-    @Size(min = 6, max = 20, message = "password must be between 6 and 20 characters")
+    @NotEmpty(message = "password must not be null or empty")
+    @Size(min = 6, max = 20, message = "password must be between {min} and {max} characters")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&]).{6,20}$", message = "password must contain letters (upper and lower case), numbers and special chars without space")
     private String password;
 }

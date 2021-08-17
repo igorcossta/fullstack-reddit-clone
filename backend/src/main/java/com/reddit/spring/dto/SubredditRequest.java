@@ -2,8 +2,8 @@ package com.reddit.spring.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -14,13 +14,13 @@ import javax.validation.constraints.Size;
 @Builder
 @ToString
 public class SubredditRequest {
-    @NotNull(message = "field name cannot be null")
-    @NotBlank(message = "field name cannot be empty")
-    @Size(min = 5, max = 30, message = "field name must be between 5 and 30 characters")
+    @NotEmpty(message = "name must not be null or empty")
+    @Size(min = 5, max = 30, message = "name must be between {min} and {max} characters")
+    @Pattern(regexp = "^[a-zA-Z]{5,30}$", message = "name must contain only letters without space")
     private String name;
 
-    @NotNull(message = "field description cannot be null")
-    @NotBlank(message = "field description cannot be empty")
-    @Size(min = 10, max = 120, message = "field description must be between 10 and 120 characters")
+    @NotEmpty(message = "description must not be null or empty")
+    @Size(min = 10, max = 120, message = "description must be between {min} and {max} characters")
+    @Pattern(regexp = "^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", message = "description must contain only letters (upper and lower case), numbers and space")
     private String description;
 }

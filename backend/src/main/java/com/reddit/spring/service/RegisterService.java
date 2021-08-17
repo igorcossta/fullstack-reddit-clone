@@ -4,7 +4,6 @@ import com.reddit.spring.dto.RegisterRequest;
 import com.reddit.spring.exception.TokenConfirmedException;
 import com.reddit.spring.exception.TokenExpiredException;
 import com.reddit.spring.exception.TokenNotFoundException;
-import com.reddit.spring.exception.ValidationException;
 import com.reddit.spring.model.Role;
 import com.reddit.spring.model.User;
 import com.reddit.spring.model.VerificationToken;
@@ -14,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-import static com.reddit.spring.utils.PasswordValidator.testPassword;
-
 @Service
 @AllArgsConstructor
 public class RegisterService {
@@ -24,12 +21,6 @@ public class RegisterService {
     private final EmailSender emailSender;
 
     public void register(RegisterRequest request) {
-        boolean isValidPassword = testPassword(request.getPassword());
-
-        if (!isValidPassword) {
-            throw new ValidationException("the password is very bad");
-        }
-
         String token = userService.signUpUser(
                 new User(
                         request.getFirstName(), request.getLastName(),
