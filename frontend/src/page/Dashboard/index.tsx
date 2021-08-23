@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 
 import { SubredditProps } from '../../@types/subreddit.type';
@@ -7,6 +7,7 @@ import { axios as RedditAPI } from '../../axios/axios.config';
 import { Button, SubredditCard, Toastr } from '../../component';
 import CreateSubredditForm from '../../component/CreateSubredditForm';
 import { useAuth } from '../../context/account';
+import { useToggle } from '../../hook';
 import { Container, Banner, Subreddit } from './styles';
 
 const style = {
@@ -21,13 +22,9 @@ const style = {
 };
 
 const Dashboard: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, toggle] = useToggle(false);
   const [subreddit, setSubreddit] = useState<SubredditProps[]>([]);
   const { user } = useAuth();
-
-  const toggle = useCallback(() => {
-    setIsOpen(!isOpen);
-  }, [isOpen]);
 
   useEffect(() => {
     if (user?.username) {

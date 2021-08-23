@@ -7,6 +7,7 @@ import { SubredditProps } from '../../@types/subreddit.type';
 import { axios as RedditAPI } from '../../axios/axios.config';
 import { Button, Card, CreatePostForm } from '../../component';
 import { useAuth } from '../../context/account';
+import { useToggle } from '../../hook';
 import { Container, Banner, Posts } from './styles';
 
 const style = {
@@ -21,15 +22,11 @@ const style = {
 };
 
 const Subreddit: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, toggle] = useToggle(false);
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [subreddit, setSubreddit] = useState<SubredditProps>();
   const { signed } = useAuth();
   const { subredditName } = useParams<{ subredditName: string }>();
-
-  const toggle = useCallback(() => {
-    setIsOpen(!isOpen);
-  }, [isOpen]);
 
   const fetchPosts = useCallback((id: number | undefined) => {
     RedditAPI.get(`/api/post/by-subreddit/${id}`)
