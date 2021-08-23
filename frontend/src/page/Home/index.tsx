@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { PostProps } from '../../@types/subreddit.type';
-import { RedditAPI } from '../../axios/reddit.api';
+import { PostProps } from '../../@types/post.type';
+import { axios as RedditAPI } from '../../axios/axios.config';
 import { Card } from '../../component';
 import { Container, Section, Aside } from './styles';
 

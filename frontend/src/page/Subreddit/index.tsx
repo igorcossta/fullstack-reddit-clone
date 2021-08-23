@@ -2,8 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useParams } from 'react-router-dom';
 
-import { PostProps, SubredditProps } from '../../@types/subreddit.type';
-import { RedditAPI } from '../../axios/reddit.api';
+import { PostProps } from '../../@types/post.type';
+import { SubredditProps } from '../../@types/subreddit.type';
+import { axios as RedditAPI } from '../../axios/axios.config';
 import { Button, Card, CreatePostForm } from '../../component';
 import { useAuth } from '../../context/account';
 import { Container, Banner, Posts } from './styles';

@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 
 import { SubredditProps } from '../../@types/subreddit.type';
 import userPhoto from '../../assets/svg/female_avatar.svg';
-import { RedditAPI } from '../../axios/reddit.api';
+import { axios as RedditAPI } from '../../axios/axios.config';
 import { Button, SubredditCard, Toastr } from '../../component';
 import CreateSubredditForm from '../../component/CreateSubredditForm';
 import { useAuth } from '../../context/account';
