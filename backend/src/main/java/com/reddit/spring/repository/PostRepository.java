@@ -16,4 +16,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     int countAllBySubreddit(Subreddit subreddit);
 
     List<Post> findByUser(User user);
+
+    boolean existsPostByPostName(String postName);
 }

@@ -39,7 +39,7 @@ public class SubredditController {
         return new ResponseEntity<>(subreddit, OK);
     }
 
-    @ApiOperation(value = "find subreddit by id", notes = "this endpoint find one subreddit by id", nickname = "findSubredditById")
+    @ApiOperation(value = "find subreddit by id", notes = "this endpoint find subreddit by id", nickname = "findByIdSubreddit")
     @GetMapping("/by-id/{id}")
     public ResponseEntity<SubredditResponse> findById(@PathVariable Long id) {
         SubredditResponse subreddit = subredditService.findById(id);
@@ -47,7 +47,7 @@ public class SubredditController {
         return new ResponseEntity<>(subreddit, OK);
     }
 
-    @ApiOperation(value = "find subreddit by name", notes = "this endpoint find one subreddit by name", nickname = "findSubredditByName")
+    @ApiOperation(value = "find subreddit by name", notes = "this endpoint find subreddit by name", nickname = "findByNameSubreddit")
     @GetMapping("/by-name/{name}")
     public ResponseEntity<SubredditResponse> findByName(@PathVariable String name) {
         SubredditResponse subreddit = subredditService.findByName(name);
@@ -55,7 +55,7 @@ public class SubredditController {
         return new ResponseEntity<>(subreddit, OK);
     }
 
-    @ApiOperation(value = "find all subreddit by username", notes = "this endpoint find all subreddit by username", nickname = "findAllSubredditByUsername")
+    @ApiOperation(value = "find all subreddit by username", notes = "this endpoint find all subreddit by username", nickname = "findByUserSubreddit")
     @GetMapping("/by-user/{username}")
     public ResponseEntity<List<SubredditResponse>> findByUser(@PathVariable String username) {
         List<SubredditResponse> subreddit = subredditService.findByUser(username);

@@ -2,6 +2,7 @@ package com.reddit.spring.service;
 
 import com.reddit.spring.dto.PostRequest;
 import com.reddit.spring.dto.PostResponse;
+import com.reddit.spring.exception.PostExistsException;
 import com.reddit.spring.exception.PostNotFoundException;
 import com.reddit.spring.exception.SubredditNotFoundException;
 import com.reddit.spring.mapper.PostMapper;
@@ -31,6 +32,9 @@ public class PostService {
     private final PostMapper postMapper;
 
     public void save(PostRequest postRequest) {
+        boolean present = postRepository.existsPostByPostName(postRequest.getPostName());
+        if (present) throw new PostExistsException("the post already exists");
+
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName()).orElseThrow(() -> new SubredditNotFoundException("subreddit cannot be found"));
         Post post = postMapper.map(postRequest, subreddit, userService.getCurrentUser());
         postRepository.save(post);

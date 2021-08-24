@@ -21,9 +21,7 @@ public class RegisterController {
     private final static Logger LOGGER = LoggerFactory.getLogger(RegisterController.class);
     private final RegisterService registerService;
 
-    @ApiOperation(value = "create account",
-            notes = "this endpoint create a new account",
-            nickname = "createNewAccount")
+    @ApiOperation(value = "create account", notes = "this endpoint create a new account", nickname = "register")
     @PostMapping
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest account) {
         registerService.register(account);
@@ -31,9 +29,7 @@ public class RegisterController {
         return new ResponseEntity<>(CREATED);
     }
 
-    @ApiOperation(value = "confirm account",
-            notes = "this endpoint confirm an account previously registered",
-            nickname = "confirmAccount")
+    @ApiOperation(value = "confirm account", notes = "this endpoint confirm an account previously registered", nickname = "confirmToken")
     @GetMapping("/confirm")
     public ResponseEntity<Void> confirmToken(@RequestParam("token") String token) {
         registerService.confirmToken(token);

@@ -21,9 +21,7 @@ public class PostController {
     private final static Logger LOGGER = LoggerFactory.getLogger(PostController.class);
     private final PostService postService;
 
-    @ApiOperation(value = "create post",
-            notes = "this endpoint create a new post",
-            nickname = "createNewPost")
+    @ApiOperation(value = "create post", notes = "this endpoint create a new post", nickname = "createPost")
     @PostMapping
     public ResponseEntity<Void> createPost(@RequestBody @Valid PostRequest post) {
         postService.save(post);
@@ -31,7 +29,7 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "find all post", notes = "this endpoint find all post of whole subreddit", nickname = "findAllPost")
+    @ApiOperation(value = "find all post", notes = "this endpoint find all post", nickname = "findAllPost")
     @GetMapping
     public ResponseEntity<List<PostResponse>> findAll() {
         List<PostResponse> post = postService.findAll();
@@ -40,7 +38,7 @@ public class PostController {
     }
 
     @ApiOperation(value = "find post by id", notes = "this endpoint find post by id", nickname = "findByIdPost")
-    @GetMapping("/{id}")
+    @GetMapping("/by-id/{id}")
     public ResponseEntity<PostResponse> findById(@PathVariable Long id) {
         PostResponse post = postService.findById(id);
         LOGGER.debug("método findById executado: " + id);
