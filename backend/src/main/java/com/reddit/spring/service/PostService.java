@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static org.springframework.data.domain.PageRequest.of;
 
 @Service
 @AllArgsConstructor
@@ -41,8 +42,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> findAll() {
-        return postRepository.findAll().stream().map(postMapper::mapToDto).collect(toList());
+    public List<PostResponse> findAll(Integer page) {
+        return postRepository.findAll(of(page, 10)).stream().map(postMapper::mapToDto).collect(toList());
     }
 
     @Transactional(readOnly = true)
@@ -52,16 +53,16 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> findAllBySubredditId(Long subredditId) {
+    public List<PostResponse> findAllBySubredditId(Long subredditId, Integer page) {
         Subreddit subreddit = subredditRepository.findById(subredditId).orElseThrow(() -> new SubredditNotFoundException("subreddit cannot be found"));
-        List<Post> posts = postRepository.findAllBySubreddit(subreddit);
+        List<Post> posts = postRepository.findAllBySubreddit(of(page, 10), subreddit).stream().collect(toList());
         return posts.stream().map(postMapper::mapToDto).collect(toList());
     }
 
     // TODO: change find by email to find by name
     @Transactional(readOnly = true)
-    public List<PostResponse> findAllByUsername(String username) {
+    public List<PostResponse> findAllByUsername(String username, Integer page) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username cannot be found"));
-        return postRepository.findByUser(user).stream().map(postMapper::mapToDto).collect(toList());
+        return postRepository.findAllByUser(of(page, 10), user).stream().map(postMapper::mapToDto).collect(toList());
     }
 }
