@@ -11,3 +11,4 @@
 - [ ] Verificar se a requisição foi feita por um navegador, caso seja exibir uma pagina html personalizada com o erro
 - [X] Retornar apenas 10 entidades em chamadas GET
     - [ ] retornar o total de paginas na resposta
+- [ ] Melhorar o regex dos endpoints na classe WebSecurity

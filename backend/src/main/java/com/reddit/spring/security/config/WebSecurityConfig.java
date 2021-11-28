@@ -55,8 +55,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(POST, "/api/signin/**").permitAll()
                 .antMatchers("/api/register/**").permitAll()
+                // subreddit endpoint
                 .antMatchers(GET, "/api/subreddit/**").permitAll()
+                // post endpoint
                 .antMatchers(GET, "/api/post/**").permitAll()
+                // comment endpoint
                 .antMatchers(GET, "/api/comment/**").permitAll();
 
         // user endpoints
