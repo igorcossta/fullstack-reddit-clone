@@ -22,7 +22,7 @@ export const Banner = styled.div`
     color: var(--white);
     display: flex;
     flex-direction: column;
-    height: 100px;
+    height: 200px;
     justify-content: center;
     overflow: hidden;
 

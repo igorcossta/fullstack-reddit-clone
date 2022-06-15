@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Modal from 'react-modal';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import { SubredditProps } from '../../@types/subreddit.type';
 import userPhoto from '../../assets/svg/female_avatar.svg';
@@ -7,22 +6,9 @@ import { axios as RedditAPI } from '../../axios/axios.config';
 import { Button, SubredditCard, Toastr } from '../../component';
 import CreateSubredditForm from '../../component/CreateSubredditForm';
 import { useAuth } from '../../context/account';
-import { useToggle } from '../../hook';
 import { Container, Banner, Subreddit } from './styles';
 
-const style = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-};
-
 const Dashboard: React.FC = () => {
-  const [isOpen, toggle] = useToggle(false);
   const [subreddit, setSubreddit] = useState<SubredditProps[]>([]);
   const { user } = useAuth();
 
@@ -36,9 +22,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <Container>
-      <Modal isOpen={isOpen} style={style}>
-        <CreateSubredditForm close={toggle} />
-      </Modal>
       <Banner>
         <div>
           <img src={userPhoto} alt="user" />
@@ -47,9 +30,9 @@ const Dashboard: React.FC = () => {
           </h3>
           <h5>{user?.username}</h5>
         </div>
-        <Button type="button" onClick={toggle}>
-          Create new Subreddit
-        </Button>
+        <div>
+          <CreateSubredditForm />
+        </div>
       </Banner>
       <Subreddit>
         {subreddit.length !== 0 ? (

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 600px;
+  width: 100%;
+  background-color: white;
 
   svg {
     cursor: pointer;
@@ -13,6 +14,7 @@ export const Container = styled.div`
   }
 
   h3 {
+    color: black;
     padding-bottom: 10px;
     text-align: center;
   }

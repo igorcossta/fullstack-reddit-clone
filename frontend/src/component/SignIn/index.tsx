@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { FiCornerUpLeft } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
@@ -20,34 +20,32 @@ interface Props {
 
 const SignInForm: React.FC<Props> = ({ back }) => {
   const formRef = useRef<FormHandles>(null);
-  const { SignIn } = useAuth();
+  const { signIn } = useAuth();
+  const history = useHistory();
 
-  const handleSubmit = useCallback(
-    async (payload: SigninPayload) => {
-      try {
-        formRef.current?.setErrors({});
-        const schema = Yup.object().shape({
-          username: Yup.string().required('email is required').email('enter a valid email'),
-          password: Yup.string()
-            .required('password is required')
-            .matches(
-              /^.*(?=.{8,20})((?=.*[!@#$%&]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-              'Password must contain at least one digit<br /> one lowercase and uppercase Latin character<br /> one special character<br /> and length of at least 8 characters<br /> and a maximum of 20 characters.',
-            ),
-        });
+  const handleSubmit = useCallback(async (payload: SigninPayload) => {
+    try {
+      formRef.current?.setErrors({});
+      const schema = Yup.object().shape({
+        username: Yup.string().required('email is required').email('enter a valid email'),
+        password: Yup.string()
+          .required('password is required')
+          .matches(
+            /^.*(?=.{8,20})((?=.*[!@#$%&]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+            'Password must contain at least one digit<br /> one lowercase and uppercase Latin character<br /> one special character<br /> and length of at least 8 characters<br /> and a maximum of 20 characters.',
+          ),
+      });
 
-        await schema.validate(payload, {
-          abortEarly: false,
-        });
+      await schema.validate(payload, {
+        abortEarly: false,
+      });
 
-        SignIn(payload);
-      } catch (err) {
-        const errors = getValidationErrors(err);
-        formRef.current?.setErrors(errors);
-      }
-    },
-    [SignIn],
-  );
+      await signIn(payload);
+    } catch (err) {
+      const errors = getValidationErrors(err as Yup.ValidationError);
+      formRef.current?.setErrors(errors);
+    }
+  }, []);
 
   return (
     <Container>

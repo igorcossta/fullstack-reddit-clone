@@ -10,7 +10,7 @@ import { useAuth } from '../../context/account';
 import { Container, Logo, Buttons } from './styles';
 
 const Header: React.FC = () => {
-  const { signed, SignOut } = useAuth();
+  const { signed, signOut } = useAuth();
   const history = useHistory();
 
   const account = useCallback(() => {
@@ -21,9 +21,10 @@ const Header: React.FC = () => {
     history.push('/dashboard');
   }, [history]);
 
-  const signOut = useCallback(() => {
-    SignOut();
-  }, [SignOut]);
+  const logout = useCallback(() => {
+    signOut();
+    history.replace({ pathname: '/', state: {} });
+  }, [history]);
 
   return (
     <Container>
@@ -37,7 +38,7 @@ const Header: React.FC = () => {
             <Link to="/dashboard" onClick={dashboard}>
               <img src={user} alt="user" />
             </Link>
-            <Button type="button" design="SignOut" onClick={signOut}>
+            <Button type="button" design="SignOut" onClick={logout}>
               Sign Out
             </Button>
           </>

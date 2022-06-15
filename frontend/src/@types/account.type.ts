@@ -19,10 +19,10 @@ interface UserProps {
 interface ContextProps {
   loading: boolean;
   signed: boolean;
-  ConfirmToken(token: string): void;
-  SignIn(payload: SigninPayload): Promise<void>;
-  SignOut(): void;
-  SignUp(payload: SignupPayload): Promise<void>;
+  confirmToken(token: string): void;
+  signIn(payload: SigninPayload): Promise<void>;
+  signOut(): void;
+  signUp(payload: SignupPayload): Promise<void>;
   user: UserProps | null;
 }
 

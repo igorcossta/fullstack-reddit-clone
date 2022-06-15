@@ -1,9 +1,8 @@
+import { AxiosResponse } from 'axios';
 import React, { createContext, useCallback, useContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { ContextProps, SigninPayload, SignupPayload, UserProps } from '../@types/account.type';
 import { axios as AuthAPI } from '../axios/axios.config';
-import { handleError, handleSuccess } from '../service/account.service';
 import { storage } from '../service/storage.manager';
 
 const Context = createContext<ContextProps>({} as ContextProps);
@@ -12,7 +11,6 @@ const AuthProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [signed, setSigned] = useState(false);
   const [user, setUser] = useState<UserProps | null>(null);
-  const history = useHistory();
 
   useEffect(() => {
     setLoading(true);
@@ -25,59 +23,68 @@ const AuthProvider: React.FC = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const ConfirmToken = useCallback(
-    async (token: string) => {
-      setLoading(true);
-      await AuthAPI.get(`/api/register/confirm?token=${token}`)
-        .then((res) => {
-          handleSuccess(res, 'confirm');
-          history.replace({ pathname: '/', state: {} });
-        })
-        .catch((error) => handleError(error))
-        .finally(() => setLoading(false));
-    },
-    [history],
-  );
+  const confirmToken = useCallback(async (token: string) => {
+    setLoading(true);
 
-  const SignUp = useCallback(
-    async (payload: SignupPayload) => {
-      setLoading(true);
-      await AuthAPI.post('/api/register', payload)
-        .then((res) => {
-          handleSuccess(res, 'signup');
-          history.replace({ pathname: '/', state: {} });
-        })
-        .catch((error) => handleError(error))
-        .finally(() => setLoading(false));
-    },
-    [history],
-  );
+    try {
+      const res = await AuthAPI.get(`/api/register/confirm?token=${token}`);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
 
-  const SignIn = useCallback(
-    async (payload: SigninPayload) => {
-      setLoading(true);
-      await AuthAPI.post('/api/signin', payload)
-        .then((res) => {
-          handleSuccess(res, 'signin');
-          setSigned(true);
-          setUser(res.data);
-          history.replace({ pathname: '/', state: {} });
-        })
-        .catch((error) => handleError(error))
-        .finally(() => setLoading(false));
-    },
-    [history],
-  );
+    setLoading(false);
+  }, []);
 
-  const SignOut = useCallback(() => {
+  const signUp = useCallback(async (payload: SignupPayload) => {
+    setLoading(true);
+
+    try {
+      const res = await AuthAPI.post('/api/register', payload);
+      console.log('check your email to activate your account');
+    } catch (err) {
+      console.log(err);
+    }
+
+    setLoading(false);
+  }, []);
+
+  const signIn = useCallback(async (payload: SigninPayload) => {
+    setLoading(true);
+
+    try {
+      const res = await AuthAPI.post('/api/signin', payload);
+      authenticateUser(res);
+    } catch (err) {
+      console.log(err);
+    }
+
+    setLoading(false);
+  }, []);
+
+  const authenticateUser = (res: AxiosResponse) => {
+    if (!res.headers.authorization) return;
+
+    const {
+      headers: { authorization },
+      data,
+    } = res;
+
+    storage.saveUser(data);
+    storage.saveToken(authorization);
+
+    setUser(data);
+    setSigned(true);
+  };
+
+  const signOut = useCallback(() => {
     storage.clearData();
     setSigned(false);
     setUser(null);
-    history.replace({ pathname: '/', state: {} });
-  }, [history]);
+  }, []);
 
   return (
-    <Context.Provider value={{ loading, signed, ConfirmToken, SignIn, SignOut, SignUp, user }}>
+    <Context.Provider value={{ loading, signed, confirmToken, signIn, signOut, signUp, user }}>
       {children}
     </Context.Provider>
   );

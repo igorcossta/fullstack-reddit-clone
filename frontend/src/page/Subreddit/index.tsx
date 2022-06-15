@@ -1,28 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Modal from 'react-modal';
 import { useParams } from 'react-router-dom';
 
 import { PostProps } from '../../@types/post.type';
 import { SubredditProps } from '../../@types/subreddit.type';
 import { axios as RedditAPI } from '../../axios/axios.config';
-import { Button, Card, CreatePostForm } from '../../component';
+import { Card, CreatePostForm } from '../../component';
 import { useAuth } from '../../context/account';
-import { useToggle } from '../../hook';
 import { Container, Banner, Posts } from './styles';
 
-const style = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-};
-
 const Subreddit: React.FC = () => {
-  const [isOpen, toggle] = useToggle(false);
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [subreddit, setSubreddit] = useState<SubredditProps>();
   const { signed } = useAuth();
@@ -51,18 +37,15 @@ const Subreddit: React.FC = () => {
 
   return (
     <Container>
-      <Modal isOpen={isOpen} style={style}>
-        <CreatePostForm close={toggle} />
-      </Modal>
       <Banner>
         <div>
           <h3>{subreddit?.name}</h3>
           <h5>{subreddit?.description}</h5>
         </div>
         {signed && (
-          <Button type="button" onClick={toggle}>
-            Create new Post
-          </Button>
+          <div>
+            <CreatePostForm />
+          </div>
         )}
       </Banner>
       <Posts>

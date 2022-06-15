@@ -7,7 +7,7 @@ import { Container, Background, Window, Box, FormBox } from './styles';
 
 const Account: React.FC = () => {
   const [formState, setFormState] = useState('signIn');
-  const { signed, ConfirmToken } = useAuth();
+  const { signed, confirmToken } = useAuth();
   const query = new URLSearchParams(useLocation().search);
 
   const signUpBox = useCallback(() => {
@@ -21,9 +21,9 @@ const Account: React.FC = () => {
   useEffect(() => {
     const token = query.get('token');
     if (token && !signed) {
-      ConfirmToken(token);
+      confirmToken(token);
     }
-  }, [ConfirmToken, signed]);
+  }, []);
 
   return (
     <Container formState={formState}>

@@ -22,8 +22,7 @@ export const Banner = styled.div`
     color: var(--white);
     display: flex;
     flex-direction: column;
-    height: 100px;
-    justify-content: flex-end;
+    height: 180px;
 
     h3 {
       text-transform: uppercase;

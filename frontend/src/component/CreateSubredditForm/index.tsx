@@ -15,11 +15,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import Button from '../Button';
 import { Container } from './styles';
 
-interface Props {
-  close: () => void;
-}
-
-const CreateSubredditForm: React.FC<Props> = ({ close }) => {
+const CreateSubredditForm: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
@@ -49,20 +45,18 @@ const CreateSubredditForm: React.FC<Props> = ({ close }) => {
           })
           .catch(() => {
             Toastr.danger('Error when trying to create a new subreddit. Try later!');
-          })
-          .finally(() => close());
+          });
       } catch (err) {
-        const errors = getValidationErrors(err);
+        const errors = getValidationErrors(err as Yup.ValidationError);
         formRef.current?.setErrors(errors);
       }
     },
-    [history, close],
+    [history],
   );
 
   return (
     <Container>
       <h3>Create new Subreddit</h3>
-      <AiOutlineClose onClick={close} />
       <Form ref={formRef} onSubmit={handleSubmit}>
         <Input name="name" type="text" placeholder="Subreddit name" />
         <Input name="description" type="text" placeholder="Subreddit description" />
