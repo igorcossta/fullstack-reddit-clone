@@ -21,9 +21,7 @@ public class PostController {
     private final static Logger LOGGER = LoggerFactory.getLogger(PostController.class);
     private final PostService postService;
 
-    @ApiOperation(value = "create post",
-            notes = "this endpoint create a new post",
-            nickname = "createNewPost")
+    @ApiOperation(value = "create post", notes = "this endpoint create a new post", nickname = "createPost")
     @PostMapping
     public ResponseEntity<Void> createPost(@RequestBody @Valid PostRequest post) {
         postService.save(post);
@@ -31,16 +29,16 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "find all post", notes = "this endpoint find all post of whole subreddit", nickname = "findAllPost")
+    @ApiOperation(value = "find all post", notes = "this endpoint find all post", nickname = "findAll")
     @GetMapping
-    public ResponseEntity<List<PostResponse>> findAll() {
-        List<PostResponse> post = postService.findAll();
+    public ResponseEntity<List<PostResponse>> findAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+        List<PostResponse> post = postService.findAll(page);
         LOGGER.debug("método findAll executado");
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "find post by id", notes = "this endpoint find post by id", nickname = "findByIdPost")
-    @GetMapping("/{id}")
+    @ApiOperation(value = "find post by id", notes = "this endpoint find post by id", nickname = "findById")
+    @GetMapping("/by-id/{id}")
     public ResponseEntity<PostResponse> findById(@PathVariable Long id) {
         PostResponse post = postService.findById(id);
         LOGGER.debug("método findById executado: " + id);
@@ -49,16 +47,18 @@ public class PostController {
 
     @ApiOperation(value = "find all post by subreddit id", notes = "this endpoint find all post by subreddit id", nickname = "findAllBySubredditId")
     @GetMapping("/by-subreddit/{id}")
-    public ResponseEntity<List<PostResponse>> findAllBySubredditId(@PathVariable Long id) {
-        List<PostResponse> post = postService.findAllBySubredditId(id);
+    public ResponseEntity<List<PostResponse>> findAllBySubredditId(@PathVariable Long id,
+                                                                   @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+        List<PostResponse> post = postService.findAllBySubredditId(id, page);
         LOGGER.debug("método findAllBySubredditId executado: " + id);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
     @ApiOperation(value = "find all post by username", notes = "this endpoint find all post by username", nickname = "findAllByUsername")
     @GetMapping("/by-user/{username}")
-    public ResponseEntity<List<PostResponse>> findAllByUsername(@PathVariable String username) {
-        List<PostResponse> post = postService.findAllByUsername(username);
+    public ResponseEntity<List<PostResponse>> findAllByUsername(@PathVariable String username,
+                                                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+        List<PostResponse> post = postService.findAllByUsername(username, page);
         LOGGER.debug("método findAllByUsername executado: " + username);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }

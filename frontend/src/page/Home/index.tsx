@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-import { PostProps } from '../../@types/subreddit.type';
-import { RedditAPI } from '../../axios/reddit.api';
+import { PostProps } from '../../@types/post.type';
+import { axios as RedditAPI } from '../../axios/axios.config';
 import { Card } from '../../component';
+
+import { ErrorPage } from '..';
+
 import { Container, Section, Aside } from './styles';
 
 const Home: React.FC = () => {
@@ -23,7 +26,7 @@ const Home: React.FC = () => {
   }, []);
 
   if (error) {
-    return <h6>ocorreu um erro. Tente novamente!</h6>;
+    return <ErrorPage />;
   }
 
   return (

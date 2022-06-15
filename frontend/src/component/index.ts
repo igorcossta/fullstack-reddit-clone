@@ -9,3 +9,4 @@ export { default as SubredditCard } from './SubredditCard';
 export { default as Toastr } from './Toastr';
 export { default as CreateSRForm } from './CreateSubredditForm';
 export { default as CreatePostForm } from './CreatePostForm';
+export { default as BackToTop } from './BackToTop';

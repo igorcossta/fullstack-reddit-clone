@@ -1,13 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FaArrowCircleUp } from 'react-icons/fa';
-import { ToastContainer, Slide } from 'react-toastify';
 
-import WebFont from 'webfontloader';
-
-import Root from '../assets/style/Root';
-import { AuthProvider } from '../context/account';
-
-const Providers: React.FC = ({ children }) => {
+const BackToTop: React.FC = () => {
   const [showScroll, setShowScroll] = useState(false);
 
   const scrollTop = useCallback(() => {
@@ -22,25 +16,15 @@ const Providers: React.FC = ({ children }) => {
     }
   }, [showScroll]);
 
-  useEffect(() => {
-    window.addEventListener('scroll', checkScrollTop);
-    WebFont.load({
-      google: {
-        families: ['Noto Sans'],
-      },
-    });
-  }, [checkScrollTop]);
+  window.addEventListener('scroll', checkScrollTop);
 
   return (
     <>
-      <Root />
-      <ToastContainer transition={Slide} />
       {showScroll && (
         <FaArrowCircleUp size={38} fill="var(--secondary-color)" className="scrollTop" onClick={() => scrollTop()} />
       )}
-      <AuthProvider>{children}</AuthProvider>
     </>
   );
 };
 
-export default Providers;
+export default BackToTop;

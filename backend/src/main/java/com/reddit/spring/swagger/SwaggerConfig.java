@@ -37,7 +37,7 @@ public class SwaggerConfig {
                 .title("API Reddit")
                 .description("documentação da API Reddit")
                 .version("0.0.1")
-                .contact(new Contact("Contact name", "https://github.com/igorcossta", "email@something.com"))
+                .contact(new Contact("igorcossta", "https://github.com/igorcossta", "igorcossta21@gmail.com"))
                 .build();
     }
 

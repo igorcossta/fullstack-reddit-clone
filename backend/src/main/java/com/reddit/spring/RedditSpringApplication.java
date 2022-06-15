@@ -52,24 +52,25 @@ public class RedditSpringApplication {
         user2.setEnabled(true);
         userRepository.saveAll(Arrays.asList(user, user2));
 
-        Subreddit subreddit = new Subreddit();
-        subreddit.setUser(user);
-        subreddit.setDescription("Description");
-        subreddit.setName("SubredditName");
-        subreddit.setCreatedDate(Instant.now());
-        subreddit.setPosts(null);
-        subredditRepository.save(subreddit);
+        for (int i = 1; i <= 24; i++) {
+            Subreddit subreddit = new Subreddit();
+            subreddit.setUser(user);
+            subreddit.setDescription("Description " + i);
+            subreddit.setName("SubredditName" + i);
+            subreddit.setCreatedDate(Instant.now().minusSeconds(8382 * i));
+            subreddit.setPosts(null);
+            subredditRepository.save(subreddit);
 
-        Post post = new Post();
-        post.setSubreddit(subreddit);
-        post.setUser(user2);
-        post.setPostName("Namaste");
-        post.setDescription("Description Post");
-        post.setCreatedDate(Instant.now());
-        post.setVoteCount(0);
-        post.setUrl("RENDERIZAR CONTEUDO");
-
-        postRepository.save(post);
+            Post post = new Post();
+            post.setSubreddit(subreddit);
+            post.setUser(user2);
+            post.setPostName("PostName" + i);
+            post.setDescription("Description Post " + i);
+            post.setCreatedDate(Instant.now().minusSeconds(12343 * i));
+            post.setVoteCount(0);
+            post.setUrl("RENDERIZAR CONTEUDO " + i);
+            postRepository.save(post);
+        }
         return args -> {
         };
     }

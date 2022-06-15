@@ -21,7 +21,7 @@ public class CommentController {
     private final static Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
     private final CommentService commentService;
 
-    @ApiOperation(value = "create post", notes = "this endpoint create a new post", nickname = "createNewPost")
+    @ApiOperation(value = "create comment", notes = "this endpoint create a new comment", nickname = "createComment")
     @PostMapping
     public ResponseEntity<Void> createComment(@RequestBody @Valid CommentRequest comment) {
         commentService.save(comment);
@@ -29,7 +29,7 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "find all post", notes = "this endpoint find all post of whole subreddit", nickname = "findAllPost")
+    @ApiOperation(value = "find all comment by post", notes = "this endpoint find all comment by post id", nickname = "findAllCommentByPostId")
     @GetMapping("/by-post/{id}")
     public ResponseEntity<List<CommentResponse>> findAllCommentByPostId(@PathVariable Long id) {
         List<CommentResponse> comment = commentService.findAllCommentByPostId(id);
@@ -37,7 +37,7 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "find post by id", notes = "this endpoint find post by id", nickname = "findByIdPost")
+    @ApiOperation(value = "find comment by username", notes = "this endpoint find all comment by username", nickname = "findAllCommentByUsername")
     @GetMapping("/by-user/{username}")
     public ResponseEntity<List<CommentResponse>> findAllCommentByUsername(@PathVariable String username) {
         List<CommentResponse> comment = commentService.findAllCommentByUsername(username);

@@ -1,17 +1,17 @@
 import React from 'react';
 
 import { Header, Layout } from './component';
+import Provider from './context';
 import Routes from './routes';
-import Providers from './utils/provider';
 
 const App: React.FC = () => {
   return (
-    <Providers>
+    <Provider>
       <Header />
       <Layout>
         <Routes />
       </Layout>
-    </Providers>
+    </Provider>
   );
 };
 

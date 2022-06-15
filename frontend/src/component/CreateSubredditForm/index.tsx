@@ -7,7 +7,7 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
 import { SubredditPayLoad } from '../../@types/subreddit.type';
-import { RedditAPI } from '../../axios/reddit.api';
+import { axios as RedditAPI } from '../../axios/axios.config';
 
 import { Input, Toastr } from '..';
 

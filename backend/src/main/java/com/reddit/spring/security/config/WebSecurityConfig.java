@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -54,8 +55,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(POST, "/api/signin/**").permitAll()
                 .antMatchers("/api/register/**").permitAll()
+                // subreddit endpoint
                 .antMatchers(GET, "/api/subreddit/**").permitAll()
+                // post endpoint
                 .antMatchers(GET, "/api/post/**").permitAll()
+                // comment endpoint
                 .antMatchers(GET, "/api/comment/**").permitAll();
 
         // user endpoints
@@ -85,5 +89,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/swagger-ui/**").antMatchers("/swagger-resources/**").antMatchers("/v2/api-docs/**");
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static org.springframework.data.domain.PageRequest.of;
 
 @Service
 @AllArgsConstructor
@@ -32,8 +33,8 @@ public class SubredditService {
     }
 
     @Transactional(readOnly = true)
-    public List<SubredditResponse> findAll() {
-        return subredditRepository.findAll()
+    public List<SubredditResponse> findAll(Integer page) {
+        return subredditRepository.findAll(of(page, 10))
                 .stream().map(subredditMapper::mapSubredditToDto)
                 .collect(toList());
     }
@@ -51,8 +52,8 @@ public class SubredditService {
     }
 
     @Transactional(readOnly = true)
-    public List<SubredditResponse> findByUser(String username) {
+    public List<SubredditResponse> findByUser(String username, Integer page) {
         User user = userService.findByUsername(username);
-        return subredditRepository.findAllByUser(user).stream().map(subredditMapper::mapSubredditToDto).collect(toList());
+        return subredditRepository.findAllByUser(of(page, 10), user).stream().map(subredditMapper::mapSubredditToDto).collect(toList());
     }
 }

@@ -14,7 +14,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...re
     <Route
       {...rest}
       render={(props) => {
-        return signed ? (
+        return !signed ? (
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: '/account', state: { from: props.location } }} />

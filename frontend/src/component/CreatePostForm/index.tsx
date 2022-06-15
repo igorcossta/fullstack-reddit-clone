@@ -6,8 +6,8 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { PostPayLoad, SubredditPayLoad } from '../../@types/subreddit.type';
-import { RedditAPI } from '../../axios/reddit.api';
+import { PostPayLoad } from '../../@types/post.type';
+import { axios as RedditAPI } from '../../axios/axios.config';
 
 import { Input, Toastr } from '..';
 

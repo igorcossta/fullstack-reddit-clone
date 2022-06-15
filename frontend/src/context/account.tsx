@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useContext, useState, useEffect } fr
 import { useHistory } from 'react-router-dom';
 
 import { ContextProps, SigninPayload, SignupPayload, UserProps } from '../@types/account.type';
-import { AuthAPI } from '../axios/auth.api';
+import { axios as AuthAPI } from '../axios/axios.config';
 import { handleError, handleSuccess } from '../service/account.service';
 import { storage } from '../service/storage.manager';
 
