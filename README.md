@@ -49,7 +49,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Home Page][product-screenshot]](https://github.com/igorcossta/reddit-clone/)
 
 Reddit Clone is a web application developed using Java and Spring for the backend, and ReactJS for the frontend. It aims to provide users with a familiar and intuitive interface for creating and participating in online discussions, sharing links and media, and building communities around their interests.
 
