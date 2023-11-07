@@ -6,6 +6,7 @@
 <img src="https://i.imgur.com/7wlnLSi.png" align="right" />
 
 # Reddit Clone
+
 > A simple reddit clone made with Java/Spring and ReactJS
 
 <p align="right">
