@@ -9,6 +9,8 @@
 
 > A simple reddit clone made with Java/Spring and ReactJS
 
+<br>
+
 <p align="right">
     <a href="https://example.com">View Demo</a>
     ·
